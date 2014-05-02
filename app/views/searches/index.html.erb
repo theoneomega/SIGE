@@ -1,0 +1,481 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li>Busquedas<span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
+<%end%>
+
+<div style="background-image: url(assets/black-Linen.png); box-shadow: 5px10px 10px 5px #888888; " class="well-large inline">
+  <div class="search form-inline" style="margin: 0px auto; padding: 0px; width: 100%; "  >
+    <%= form_tag searches_path, :method => :get do %>
+
+
+      <div style="float: left; margin: 10px; "  >
+        <div class="input-append" >
+          <label style="color: white"> Que contenga la(s) palabra(s): </label> <br >
+          <%= text_field_tag :search1, params[:search1]%>
+          <span class="add-on"><i class="icon-search"></i></span>
+        </div> 
+      </div>
+
+      <div style="float: left; margin: 10px;">
+
+        <div id="datetimepicker" class="input-append date">
+          <label style="color: white" >Inicio</label><br > 
+          <%= text_field_tag :date %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+        <br>
+        <div id="datetimepicker" class="input-append date">
+          <label style="color: white" >Fecha fin</label><br >
+          <%= text_field_tag :date_end %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+      </div>
+      <br>
+      <div style="clear: both;">
+        <%= button_tag( :class => "btn btn-success") do %>
+          <i class="icon-search icon-white"> </i> <%="Buscar"%>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+  <div class="well-large" style="background-image: url(assets/furley_bg.png);box-shadow: 5px 10px 10px 5px #888888; margin-top:  30px;" >
+    <ul class="nav nav-tabs">
+      <%if can? :index, Event%>
+        <li class="active"><a  href="#eventos" data-toggle="tab">Eventos <span class="label label-info"><%=  @search_events.results.count%></span>  </a></li>
+      <%end%>
+      <%if can? :index,Colaboration%>
+        <li ><a  href="#colaboraciones" data-toggle="tab">Colaboraciones <span class="label label-info"><%=  @colaborationsearch.count%></span></a></li>
+      <%end%>
+      <%if can? :index, Office%>
+        <li><a href="#oficios" data-toggle="tab">Oficios <span class="label label-info"><%=  @officessearch.count %> </span> </a></li>
+      <%end%>
+      <%if can? :index, Iph%>
+        <li><a href="#iph" data-toggle="tab">IPH <span class="label label-info"><%=  @iphs.count %> </span> </a></li>
+      <%end%>
+      <%if can? :index, JusticeNet%>
+        <li><a href="#justicianet" data-toggle="tab">Solicitudes Electronicas<span class="label label-info"><%=  @justicia_net.count %> </span> </a></li>
+      <%end%>
+    </ul>
+
+
+    <div id="myTabContent" class="tab-content">
+      <%if can? :index, Event%>
+        <div class="tab-pane active in" id="eventos">
+          <form id="tab">
+            <table class="table table-hover table-condensed">
+              <thead>
+                <tr>
+                  <th><%= "Prioridad" %></th>
+                  <th><%= "Fecha" %></th>
+                  <th><%="Descripcion" %></th>
+                  <th><%= "Delito" %></th>
+                  <th> Fecha de registro</th>
+                  <th><%= "Acciones" %></th>
+                </tr>
+              </thead>
+              <% @searches.each do |collection| %>
+                <tbody>
+                  <tr>
+                    <%if collection.priority_id==10000%>
+                      <td><span class="label label-important"><%= collection.priority.description %></span></td>
+                    <%elsif collection.priority_id==10001%>
+                      <td><span class="label label-warning"><%= collection.priority.description %></span></td>
+                    <%else%>
+                      <td><span class="label label-inverse"><%= collection.priority.description %></span></td>
+                    <%end%>
+
+                    <td><%= I18n.l collection.event_date, :format => "%d de %B del %Y a las %H:%M hrs"%></td>
+                    <%if collection.description%>
+                      <td><%= collection.description.truncate(25, :omission => "...")%> <%= link_to '(continua)', collection %></td>
+                    <%else%>
+                      <td>N/A</td>
+                    <%end%>
+                    <%if collection.crime%>
+                      <td><%= collection.crime.crime %></td>
+                    <%else%>
+                      <td>no especificado</td>
+                    <%end%>
+                    <td><%=  I18n.l collection.created_at, :format => "%d/%m/%Y"%></td>
+                    <td>
+                      <ul class="nav nav-pills">
+                        <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                          <ul class="dropdown-menu">
+                            <%if can? :show, Event%>
+                              <li><%= link_to 'Mostrar', collection %></li>
+                            <%end%>
+                          </ul>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+            <div class="pagination">
+
+              <div class="digg_pagination">
+                <div class="page_info">
+                  <%= page_entries_info @searches %>
+                </div>
+                <%= will_paginate @searches, :container => false %>
+              </div>
+  <%#= will_paginate @searches, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+
+  <%#= will_paginate @searches, :container => false, :params => { :search_text => params[:search_text] } %>
+            </div>
+            <%= gmaps({
+                "map_options" => {"auto_zoom" => true},
+                "markers" => {"data" => @json , "options" => {"rich_marker" => true }}
+              })%> 
+          </form>
+        </div>
+      <%end%>
+
+      <%if can? :index, Colaboration %>
+        <div class="tab-pane fade" id="colaboraciones">
+          <form id="tab2">
+            <table class="table table-hover carousel">
+              <thead>
+                <tr>
+                  <th>Fecha de colaboración</th>
+                  <th>Recibido via</th>
+                  <th>Area que solicita</th>
+                  <th>Estatus</th>
+                  <th>Fecha de contestacion</th>
+                  <th>Se contesto via</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead >
+
+              <tbody>
+                <% @colaborationsearch.each do |colaboration| %>
+                  <tr>
+                    <td><%= link_to (I18n.l colaboration.colaboration_date, :format => "%d de %B del %Y"), colaboration%></td>
+                    <td><%= colaboration.received_for %></td>
+                    <td><%= colaboration.requesting_area %></td>
+                    <td><%= colaboration.status.description %></td>
+                    <%if colaboration.reply_date %>
+                      <td><%= I18n.l colaboration.reply_date, :format => " %d/%m/%Y" %></td>
+                    <%else%>
+                      <td> </td>
+                    <%end%>
+                    <td><%= colaboration.replied_for %></td>
+                    <td>
+                      <ul class="nav nav-pills">
+                        <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                          <ul class="dropdown-menu">
+                            <%if current_user.role.supervisor==true ||current_user.role.super_admin==true || current_user.role.ie_supervisor==true %>
+                              <li><%= link_to 'Asignar', edit_colaboration_path(colaboration) %></li>
+                            <%end%>
+                            <%if can? :show, Colaboration%>
+                              <li><%= link_to 'Mostrar', colaboration %></li>
+                            <%end%>
+                            <%if current_user.role.supervisor==false%>
+                              <%if can? :update, Colaboration%>
+                                <li><%= link_to 'Editar', edit_colaboration_path(colaboration) %></li>
+                              <%end%>
+                            <%end%>
+                            <%if can? :destroy, Colaboration%>
+                              <li><%= link_to 'Eliminar', colaboration, method: :delete, data: { confirm: '¿Estas Seguro?' } %></li>
+                            <%end%>
+                          </ul>
+                        </li>
+                      </ul>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <%= will_paginate @colaborationsearch, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+            </div>
+          </form>
+        </div>
+      <%end%>
+
+
+      <%if can? :index, Office %>
+        <div class="tab-pane fade" id="oficios">
+          <form id="tab2">
+            <table class="table table-hover carousel">
+              <thead>
+                <tr>
+                  <th>Fecha de recibido</th>
+                  <th>Area que solicita</th>
+                  <th>Quien solicita</th>
+                  <th>Asunto</th>
+                  <th>Zona</th>
+                  <th>Estatus</th>
+                  <th>Asingado a</th>
+                  <th>Fecha de contestacion</th>
+                  <th>Oficio de contestación</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead >
+
+              <tbody>
+                <% @officessearch.each do |office| %>
+                  <tr>
+                    <td><%= I18n.l office.received_date, :format => " %d/%m/%Y" %></td>
+                    <td><%= office.requesting_area %></td>
+                    <td><%= office.claimant %></td>
+                    <td><%= office.subject %></td>
+                    <td><%= office.area.description %></td>
+                    <td><%= office.status.description %></td>
+                    <%if office.analyst%>
+                      <td><%= office.analyst.analyst %></td>
+                    <%else%>
+                      <td>Sin asignar</td>
+                    <%end%>
+                    <%if office.replied_date%>
+                      <td><%= I18n.l office.replied_date, :format => " %d/%m/%Y"  %></td>
+                    <%else%>
+                      <td> Sin responder</td>
+                    <%end%>
+                    <td><%= office.office_number %></td>
+                    <td>
+                      <ul class="nav nav-pills">
+                        <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                          <ul class="dropdown-menu">
+                            <%if current_user.role.supervisor==true ||current_user.role.super_admin==true %>
+                              <li><%= link_to 'Asignar', edit_office_path(office) %></li>
+                            <%end%>
+                            <%if can? :show, Office%>
+                              <li><%= link_to 'Mostrar', office %></li>
+                            <%end%>
+                            <%if current_user.role.supervisor==false%>
+                              <%if can? :edit, Office%>
+                                <%if current_user.analyst.area_id == 10001%>
+                                  <li><%= link_to 'Editar', edit_office_path(office) %></li>
+                                <%end%>
+                              <%end%>
+                            <%end%>
+                            <%if can? :destroy, Office%>
+                              <li><%= link_to 'Eliminar', office, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                            <%end%>
+                          </ul>
+                        </li>
+                      </ul>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <%= will_paginate @officessearch, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+            </div>
+          </form>
+        </div>
+      <%end%>
+
+      <%if can? :index, Iph %>
+        <div class="tab-pane fade" id="iph">
+          <form id="tab2">
+            <table class="table table-hover carousel">
+              <thead>
+                <tr>
+                  <th><%= t'.iph_date' %></th>
+                  <th><%= t'.folio' %></th>
+                  <th><%= t'.office_number' %></th>
+                  <th>Corporación</th>
+                  <th><%= t'.description' %></th>
+                  <th><%= t'.observations' %></th>
+                  <th><%= t(:actions) %></th>
+                </tr>
+              </thead >
+
+              <tbody>
+                <% @iphs.each do |iph| %>
+                  <tr>
+                    <td><%= I18n.l  iph.iph_date, :format => "%d de %B del %Y a las %H:%M hrs" %></td>
+                    <td><%= iph.folio %></td>
+                    <td><%= iph.office_number %></td>
+                    <td>
+                      <% if iph.vialidad %>
+                        Vialidad
+                      <% elsif iph.investigadora %>
+                        Investigadora
+                      <% elsif iph.peup %>
+                        Policia Estatal Unica Preventiva      
+                      <%end%>
+                    </td>
+                    <td> 
+                      <% if !iph.description.nil? %>
+                        <%= iph.description.truncate(25, :omission => "...") %>
+                        <%= link_to '(continua)',iph %> 
+                      <%end%>
+                    </td>
+                    <td>
+                      <%if !iph.observations.nil?%>
+                        <%= iph.observations.truncate(30, :omission => "...(continua)" ) %>
+                      <%end%>
+                    </td>
+                    <td>         
+                      <ul class="nav nav-pills">
+                        <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <%= link_to iph do %>
+                                <i class="icon-eye-open"></i>&nbsp;&nbsp;<%=t(:show, :default => t("helpers.links.show"))%>
+                              </li>
+                            <%end%>
+                            <li>
+                              <%= link_to edit_iph_path(iph) do %>
+                                <i class="icon-pencil"></i>&nbsp;&nbsp;<%=t(:edit, :default => t("helpers.links.edit"))%>
+                              <%end%>
+                            </li>
+                            <li>
+                              <%= link_to  iph, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } do %>
+                                <i class="icon-trash"></i>&nbsp;&nbsp;<%=t(:destroy, :default => t("helpers.links.destroy"))%>
+                              <%end%>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <%= will_paginate @officessearch, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+            </div>
+          </form>
+        </div>
+      <%end%>
+
+
+      <%if can? :index, JusticeNet %>
+        <div class="tab-pane fade" id="justicianet">
+          <form id="tab2">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th><%= t'.justicia_net_folio' %></th>
+                  <th><%= t'.received_date' %></th>
+                  <th><%= t'.replied_date' %></th>
+                  <th><%= t(:actions) %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @justicia_net.each do |justice_net| %>
+                  <tr>
+                    <td><%= justice_net.justicia_net_folio %></td>
+                    <td><%= justice_net.received_date %></td>
+                    <td><%= justice_net.replied_date %></td>
+                    <td>         
+                      <ul class="nav nav-pills">
+                        <li class="dropdown">
+                          <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <%if can? :show, JusticeNet %>
+                                <%= link_to justice_net do %>
+                                  <i class="icon-eye-open"></i>&nbsp;&nbsp;<%=t(:show, :default => t("helpers.links.show"))%> 
+                                <%end%>
+                              </li>
+                            <%end%>
+
+                          </ul>
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+          </form>
+        <%end%>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(function() {
+
+      window.prettyPrint && prettyPrint();
+      $('#date').datepicker({
+        language: 'es',
+        format: 'dd-mm-yyyy',
+        todayBtn: 'linked'
+
+      });
+      $('#datetimepicker4').datetimepicker({
+        pickTime: false
+      });
+
+
+      $('#dp2').datepicker({
+        language: 'es',
+        format: 'yyyy-mm-dd',
+        todayBtn: 'linked'
+
+      });
+      $('#date_end').datepicker({
+        language: 'es',
+        format: 'yyyy-mm-dd',
+        todayBtn: 'linked'
+
+      });
+
+
+      $('#btn2').click(function(e) {
+        e.stopPropagation();
+        $('#dp2').datepicker('update', '03/17/12');
+      });
+
+
+
+
+      var startDate = new Date(2012, 1, 20);
+      var endDate = new Date(2012, 1, 25);
+      $('#dp4').datepicker()
+              .on('changeDate', function(ev) {
+                if (ev.date.valueOf() > endDate.valueOf()) {
+                  $('#alert').show().find('strong').text('The start date can not be greater then the end date');
+                } else {
+                  $('#alert').hide();
+                  startDate = new Date(ev.date);
+                  $('#startDate').text($('#dp4').data('date'));
+                }
+                $('#dp4').datepicker('hide');
+              });
+      $('#dp5').datepicker()
+              .on('changeDate', function(ev) {
+                if (ev.date.valueOf() < startDate.valueOf()) {
+                  $('#alert').show().find('strong').text('The end date can not be less then the start date');
+                } else {
+                  $('#alert').hide();
+                  endDate = new Date(ev.date);
+                  $('#endDate').text($('#dp5').data('date'));
+                }
+                $('#dp5').datepicker('hide');
+              });
+
+      //inline    
+      $('#dp6').datepicker({
+        todayBtn: 'linked'
+      });
+
+      $('#btn6').click(function() {
+        $('#dp6').datepicker('update', '15-05-1984');
+      });
+
+      $('#btn7').click(function() {
+        $('#dp6').data('datepicker').date = null;
+        $('#dp6').find('.active').removeClass('active');
+      });
+    });
+    $(document).ready(function() {
+
+      //alert("<%= current_user.analyst.department %>");
+      //alert("Documento cargado");
+    });
+  </script>

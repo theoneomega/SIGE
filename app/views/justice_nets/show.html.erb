@@ -1,0 +1,143 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, JusticeNet %>
+      <li class="active"><%=link_to t(:index), justice_nets_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, JusticeNet %>
+      <li class="active"><%=link_to t(:new), new_justice_net_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %> ID: <%= @justice_net.id %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+
+      <p>
+        <b>Folio:</b>
+        <%= @justice_net.justicia_net_folio %>
+      </p>
+      <p>
+        <b>Fecha de recibido:</b>
+        <%=I18n.l @justice_net.received_date, :format => :long %>
+      </p>
+      <p>
+        <b>Asignado a:</b>
+        <%= @justice_net.analyst.analyst if @justice_net.analyst_id %>
+      </p>
+      <p>
+        <b>Zona:</b>
+        <%= @justice_net.area.description %>
+      </p>
+      <p>
+        <b>Estatus:</b>
+        <%= @justice_net.status.description %>
+      </p>
+      <p>
+        <% @justice_net.person.each do |person|  %>
+        <div class="block">
+          <a href="#victims<%=person.id%>" class="block-heading" data-toggle="collapse"><%= person.status.description %></a>
+          <div id="victims<%=person.id%>" class="block-body collapse">
+            <div class="control-group">
+              <ul class="inline">
+                <% if person.genre=="MASCULINO" %> 
+                  <li><i class="icon-male">
+                    <%else%>
+                      <li><i class="icon-female">
+                        <%end%>
+                      </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                    <ul>
+                      <% if person.observations?%>
+                        <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                      <%end%>
+                      <% if person.ci?%>
+                        <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                      <%end%>
+                      <% if person.alias?%>
+                        <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                      <%end%>
+                      <% if person.birth_date%>
+                        <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                      <%end%>
+                      <% if person.genre?%>
+                        <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                      <%end%>
+                      <% if person.status_id%>
+                        <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                      <%end%>
+                    </ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <%end%>
+      </p>
+      <p>
+        <%@justice_net.justice_net_files.each do |file|%>
+
+        <div class="block">
+          <a href="#archivos<%=file.id%>" class="block-heading" data-toggle="collapse">Archivo <%= file.description %></a>
+          <div id="archivos<%=file.id%>" class="block-body collapse">
+            <div class="control-group">
+              <ul class="inline">
+                <li><span class="add-on"><i class="icon icon-download-alt"></i> <%=link_to file.description, file.name.to_s, target: "_blank"%></span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <%end%>
+      </p>
+      <p>
+        <b>Observaciones:</b>
+        <%= @justice_net.observations %>
+      </p>
+      <p>
+        <b>Fecha de contestación:</b>
+        <%=I18n.l @justice_net.replied_date, :format => :long if @justice_net.replied_date %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, JusticeNet %>
+    <%= link_to t(:back, :default => t('helpers.links.back')), justice_nets_path, :class => 'btn btn-danger' %>
+  <%end%>
+  <% if can? :approve, JusticeNet %>
+    <% if @justice_net.status.description == "TERMINADO" %>
+      <%= link_to 'Aprobar', approve_net_path(@justice_net), :class => 'btn btn-success' %> | 
+    <% end %>
+  <% end %>
+
+  <%if can? :modify, JusticeNet %>
+    <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_justice_net_path(@justice_net), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, JusticeNet %>
+    <%= link_to t(:destroy, :default => t("helpers.links.destroy")), justice_net_path(@justice_net),
+      :method => 'delete',
+      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+      :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :assign_net, JusticeNet %>
+    <% if @justice_net.status.description == "RECIBIDO" %>
+      <%= link_to assign_net_path(@justice_net), :class => "btn btn-primary" do %>
+        <i class="icon-ok-sign"></i>&nbsp;&nbsp;Asignar
+      <%end%>
+    <%elsif @justice_net.status.description != "RECIBIDO"%>
+      <%= link_to assign_net_path(@justice_net), :class => "btn btn-primary" do %>
+        <i class="icon-ok-sign"></i>&nbsp;&nbsp;Reasignar
+      <%end%>
+    <%end%>
+  <%end%>
+  <%if can? :new, JusticeNet %>
+    <%= link_to t(:new, :default => t('helpers.links.edit')), new_justice_net_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+  <% if can? :finish, JusticeNet %>
+    <%= link_to '<i class="icon icon-ok-sign"></i> Finalizar'.html_safe, finish_justice_net_path, :class => "btn btn-success", :title => "Finalizar" %>
+
+  <% end %>
+
+</div>

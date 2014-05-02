@@ -1,0 +1,59 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @vehicle.id %>
+</p>
+
+<p>
+  <b>Brand:</b>
+  <%= @vehicle.brand %>
+</p>
+
+<p>
+  <b>Line:</b>
+  <%= @vehicle.line %>
+</p>
+
+<p>
+  <b>Model:</b>
+  <%= @vehicle.model %>
+</p>
+
+<p>
+  <b>Serial number:</b>
+  <%= @vehicle.serial_number %>
+</p>
+
+<p>
+  <b>Color:</b>
+  <%= @vehicle.color %>
+</p>
+
+<p>
+  <b>Stolen:</b>
+  <%= @vehicle.stolen %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @vehicle.status %>
+</p>
+
+<p>
+  <b>Details:</b>
+  <%= @vehicle.details %>
+</p>
+
+<p>
+  <b>Person:</b>
+  <%if defined? @vehicle.person_id %>
+    <%= @vehicle.person_id %>
+  <%else%>
+    <%= @vehicle.person.fullname %>
+  <%end%>
+</p>
+
+
+<%= link_to 'Edit', edit_vehicle_path(@vehicle), :class => "btn btn-primary" %> |
+<%= link_to 'Back', vehicles_path , :class => "btn btn-danger"%>

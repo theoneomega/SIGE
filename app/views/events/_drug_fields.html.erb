@@ -1,0 +1,24 @@
+<div class="block">
+  <a href="#drug" class="block-heading" data-toggle="collapse">Nueva Droga</a>
+  <div id="drug" class="block-body-interior collapse in interior">
+    <div class="control-group">
+      <div class="control-group">
+        
+        <div class="field">
+          <%= f.label :Tipo %><br />
+          <%= f.text_field :kind %>
+        </div>
+        <div class="field">
+          <%= f.label :Cantidad %><br />
+          <%= f.number_field :quantity %>
+        </div>
+        <div class="field">
+          <%= f.label :Observaciones %><br />
+          <%= f.text_area :observations %>
+        </div>
+         <%=f.link_to_remove "Eliminar Droga",:class => 'btn btn-danger'%>
+
+      </div>
+    </div>
+  </div>
+</div>

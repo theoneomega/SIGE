@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  criminal_group_id: 1
+  drug_id: 1
+
+two:
+  criminal_group_id: 1
+  drug_id: 1

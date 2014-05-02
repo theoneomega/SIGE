@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @crime.id %>
+</p>
+
+<p>
+  <b>Crime:</b>
+  <%= @crime.crime %>
+</p>
+
+
+<%= link_to 'Edit', edit_crime_path(@crime) %> |
+<%= link_to 'Back', crimes_path %>

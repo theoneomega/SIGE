@@ -1,0 +1,43 @@
+<%= form_for(@analyst) do |f| %>
+  <% if @analyst.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@analyst.errors.count, "error") %> prohibited this analyst from being saved:</h2>
+
+      <ul>
+        <% @analyst.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field">
+    <%= f.label "Analista" %><br />
+    <%= f.text_field :analyst %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Paterno" %><br />
+    <%= f.text_field :last_name1 %>
+  </div>
+  <div class="field">
+    <%= f.label "Materno" %><br />
+    <%= f.text_field :last_name2 %>
+  </div>
+  <div class="field">
+    <%= f.label "Nombre(s)" %><br />
+    <%= f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= f.label "Zona" %><br />
+    <%= f.collection_select(:area_id, Area.all, :id, :description, {:prompt => "seleccione area"}) %>
+  </div>
+<div class="field">
+    <%= f.label "Supervisor" %><br />
+    <%= f.check_box :zone_supervisor %>
+  </div>
+  <div class="actions">
+    <%= f.submit%>
+  </div>
+<% end %>

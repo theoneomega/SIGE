@@ -1,0 +1,2 @@
+module FulleventHelper
+end

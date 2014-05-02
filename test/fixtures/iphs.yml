@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  priority_id: 1
+  iph_date: 2013-11-25
+  folio: MyString
+  office_number: MyString
+  description: MyText
+  address: MyString
+  suburb: MyString
+  locality_id: 1
+  state_id: 1
+  tramo_carretero: MyString
+  observations: MyText
+  searchable: MyText
+  user_id: 1
+
+two:
+  id: 1
+  priority_id: 1
+  iph_date: 2013-11-25
+  folio: MyString
+  office_number: MyString
+  description: MyText
+  address: MyString
+  suburb: MyString
+  locality_id: 1
+  state_id: 1
+  tramo_carretero: MyString
+  observations: MyText
+  searchable: MyText
+  user_id: 1

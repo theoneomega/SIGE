@@ -1,0 +1,90 @@
+
+<% if flash[:notice] %>
+  <div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">×</button>
+    <%= flash[:notice] %>
+  <% end %>
+  <% if flash[:error] %>
+    <h3 class="error_box"><%= flash[:error] %></h3>
+  <% end %> 
+</div>
+<div class="block">
+  <p class="block-heading">Grupos criminales</p>
+  <div class="block-body">
+    <p>
+      <b>Id:</b>
+      <%= @criminal_group.id %>
+    </p>
+
+    <p>
+      <b>Description:</b>
+      <%= @criminal_group.description %>
+    </p>
+    <p>
+      <%if @criminal_group.vehicles.count > 1 %>
+        <b><%= @criminal_group.vehicles.count %> <%= t(:wvehicles) %>:</b>
+        <% @criminal_group.vehicles.each do |vehicle| %>
+        <ul class="inline">
+          <li><i class="icon-paper-clip"> </i><%= vehicle.fulldescription %></li>
+        </ul>
+      <%end%>
+    <%elsif @criminal_group.vehicles.count==0 %>
+      <b> <%= t(:wvehicles) %>:</b>
+      <%=@criminal_group.vehicles.count %> vehicles found
+    <%else%>
+      <b> <%= t(:wvehicles) %>:</b>
+      <% @criminal_group.vehicles.each do |vehicle| %>
+        <li><i class="icon-paper-clip"> </i><%= vehicle.fulldescription %></li>
+      <%end%>
+    <%end%>
+    </p>
+
+    <p>
+      <%if @criminal_group.weapons.count > 1 %>
+        <b><%= @criminal_group.weapons.count %> <%= t(:wweapons) %>:</b>
+        <% @criminal_group.weapons.each do |weapon| %>
+        <ul class="inline">
+          <li><i class="icon-paper-clip"> </i><%= weapon.fulldescription %></li>
+        </ul>
+      <%end%>
+    <%elsif @criminal_group.weapons.count==0 %>
+      <b><%= t(:wweapons) %>:</b>
+      <%=@criminal_group.weapons.count %> weapons found
+    <%else%>
+      <b><%= t(:wweapons) %>:</b>
+      <% @criminal_group.weapons.each do |weapon| %>
+        <li><i class="icon-paper-clip"> </i><%= weapon.fulldescription %></li>
+      <%end%>
+    <%end%>
+    </p>
+
+
+    <p>
+      <%if @criminal_group.weapons.count > 1 %>
+        <b><%= @criminal_group.weapons.count %> <%= t(:wdrugs) %>:</b>
+        <% @criminal_group.weapons.each do |weapon| %>
+        <ul class="inline">
+          <li><i class="icon-paper-clip"> </i><%= weapon.fulldescription %></li>
+        </ul>
+      <%end%>
+    <%elsif @criminal_group.drugs.count==0 %>
+      <b><%= t(:wdrugs) %>:</b>
+      <%=@criminal_group.drugs.count %> drugs found
+    <%else%>
+      <b><%= t(:wdrugs) %>:</b>
+      <% @criminal_group.drugs.each do |drugs| %>
+        <li><i class="icon-paper-clip"> </i><%= drugs.kind %></li>
+        <%end%>
+      <%end%>
+    </p>
+
+
+    <p>
+      <b>Area:</b>
+      <%= @criminal_group.area.description %>
+    </p>
+  </div>
+  <p>
+    <%= link_to 'Edit', edit_criminal_group_path(@criminal_group), :class => "btn btn-primary" %> |
+    <%= link_to 'Back', criminal_groups_path, :class=>"btn btn-danger" %>
+  </p>
+</div>

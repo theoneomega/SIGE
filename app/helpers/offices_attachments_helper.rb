@@ -1,0 +1,2 @@
+module OfficesAttachmentsHelper
+end

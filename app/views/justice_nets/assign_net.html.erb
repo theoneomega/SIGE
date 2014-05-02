@@ -1,0 +1,42 @@
+<%= form_for (@justice_net) do |f|  %>
+
+
+  <div class="block">
+    <a href="#asignar" class="block-heading" data-toggle="collapse">Asignar <%= @justice_net.id %></a>
+    <div id="asignar" class="block-body collapse in">
+
+      <div class="show-details">
+        <div class="field">
+          <%= f.label "Analista" %><br />
+          <%if current_user.analyst.area_id == 10000%>
+            <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id  = ? AND analyst LIKE  ?", 10000,"A0%"]), :id, :analyst, {:prompt => "Seleccione Analista"}) %>
+          <%elsif current_user.analyst.area_id == 10001%>
+            <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id BETWEEN ? AND ? AND analyst LIKE  ?", 10001,10003,"A0%"]), :id, :analyst, {:prompt => "Seleccione Analista"}) %>
+          <%end%>
+        </div>
+
+
+<%= f.hidden_field :status_id, :id => "estatus" %>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="form-actions">
+    <%if can? :assign_net, JusticeNet%>
+      <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "asignar();") do %>
+        <i class="fa fa-check fa-lg"> </i> Asignar 
+      <% end %>
+    <%end%>
+  </div>
+<%end%>
+
+<script>
+  
+  function asignar()
+  {
+    $('#estatus').val(<%=Status.find_by_status_type_and_description("Justici@.NET","ASIGNADO").id %>);
+    $("#edit_justice_net_<%=@justice_net.id%>").submit();
+    $("button").attr("disabled",true);
+  }
+</script>

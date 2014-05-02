@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @colaboration_file.id %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%= @colaboration_file.file %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @colaboration_file.description %>
+</p>
+
+<p>
+  <b>Colaboration:</b>
+  <%= @colaboration_file.colaboration_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_colaboration_file_path(@colaboration_file) %> |
+<%= link_to 'Back', colaboration_files_path %>

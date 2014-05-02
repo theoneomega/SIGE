@@ -1,0 +1,47 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li><%=link_to t(:wevents), events_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
+<%end%>
+<div class="well">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Analista</th>
+        <th>Nombre</th>
+        <th>Zona</th>
+        <th>Acciones</th>
+      </tr>
+
+      <% @analysts.each do |analyst| %>
+        <tr>
+          <td><%= analyst.analyst %></td>
+          <td><%= analyst.first_name %> <%= analyst.last_name1 %> <%= analyst.last_name2 %></td>
+          <td> <%if analyst.area %>
+              <%= analyst.area.description %>
+            <%end%></td>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Mostrar', analyst %></li>
+                  <li><%= link_to 'Editar', edit_analyst_path(analyst) %></li>
+                  <li><%= link_to 'Eliminar', analyst, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+  </table>
+  <div class="pagination">
+    <%= will_paginate @analysts, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+  </div>
+</div>
+
+<br />
+
+<%= link_to 'New Analyst', new_analyst_path %>

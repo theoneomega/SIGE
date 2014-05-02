@@ -1,0 +1,10 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home) , root_path%><span class="divider">/</span></li>
+    <%if can? :index, Justice Net File %>
+      <li><%= link_to t(:index), justice_net_files_path %><span class="divider">/</span></li>
+    <%end%>
+    <li class="active"><%=link_to t(:show), @justice_net_file %></li>
+  </ul>
+<%end%>
+<%= render 'form' %>

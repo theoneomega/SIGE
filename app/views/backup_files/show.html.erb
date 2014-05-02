@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @backup_file.id %>
+</p>
+
+<p>
+  <b>File:</b>
+  <%= @backup_file.file %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%= @backup_file.event_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_backup_file_path(@backup_file) %> |
+<%= link_to 'Back', backup_files_path %>

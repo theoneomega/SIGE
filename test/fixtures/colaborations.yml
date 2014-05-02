@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  colaboration_date: 2013-10-13
+  received_for: MyString
+  requesting_area: MyString
+  claimant: MyString
+  status_id: 1
+  area_id: 1
+  analyst_id: 1
+  reply_date: 2013-10-13
+  replied_for: MyString
+  observations: MyText
+
+two:
+  id: 1
+  colaboration_date: 2013-10-13
+  received_for: MyString
+  requesting_area: MyString
+  claimant: MyString
+  status_id: 1
+  area_id: 1
+  analyst_id: 1
+  reply_date: 2013-10-13
+  replied_for: MyString
+  observations: MyText

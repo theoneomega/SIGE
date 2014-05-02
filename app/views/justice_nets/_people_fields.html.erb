@@ -1,0 +1,88 @@
+<div class="block">
+
+  <a href="#person" class="block-heading" data-toggle="collapse">Persona(s)</a>
+  <div id="person" class="block-body-interior collapse in interior">
+    <div class="control-group">
+      <div class="control-group">
+        <div class="field">
+          <%= f.label t(:ci) %><br />
+          <%= f.text_field :ci %>
+        </div>
+        <div class="field">
+          <%= f.label :Nombre %><br />
+          <%= f.text_field :first_name%>
+        </div>
+        <div class="field">
+          <%= f.label :Paterno %><br />
+          <%= f.text_field :last_name1 %>
+        </div>
+        <div class="field">
+          <%= f.label :Materno %><br />
+          <%= f.text_field :last_name2 %>
+        </div>
+        <div class="field">
+          <%= f.label :Alias %><br />
+          <%= f.text_field :alias %>
+        </div>
+
+        <div class="field input-append date">
+          <%= f.label :Fecha_Nacimiento %><br />
+          <%= f.text_field :birth_date, :placeholder => "DD/MM/AAAA", :class => "datepicker"%> 
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+
+        <div class="field">
+          <%= f.label :Originario %><br />
+          <%= f.text_field :originative %>
+        </div>
+        <div class="field">
+          <%= f.label :Genero %><br />
+          <%= f.select :genre, ["MASCULINO","FEMENINO"] %>
+        </div>
+        <div class="field">
+          <%= f.label :Profesion %><br />
+          <%= f.text_field :profession %>
+        </div>
+        <div class="field">
+          <%= f.label :Observaciones %><br />
+          <%= f.text_area :observations %>
+        </div>
+        <div class="field">
+          <%= f.label "Estatus" %><br />
+          <%= f.collection_select(:status_id, Status.where(:status_type => "persona"), :id, :description, {:prompt => "seleccione el estatus de la persona"}) %>
+        </div>
+
+        <div class="field">
+          <%=f.hidden_field :registered_from, :value => "JUSTICI@ NET"%>
+          <div class="form-actions">
+            <%=f.link_to_remove "Remover Persona",:class => 'btn btn-danger'%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    $('.datepicker').each(function() {
+      $(this).datepicker({
+        language: 'es',
+        format: 'dd/mm/yyyy',
+        todayBtn: 'linked'
+
+      });
+    });
+  });
+
+  (function($) {
+    $.fn.datepicker.dates['es'] = {
+      days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+      daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+      daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+      today: "Hoy"
+    };
+  }(jQuery));
+</script>

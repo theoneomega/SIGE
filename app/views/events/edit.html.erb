@@ -1,0 +1,287 @@
+<%= nested_form_for @event, :html => {:multipart => true} do |f| %>
+  <% if @event.errors.any? %>
+    <div class="isa_error">
+      Ah ocurrido un problema inesperado, favor de verificar los campos marcados.
+    </div>
+    <% @event.errors.full_messages.each do |msg| %>
+      <div class="isa_info">
+        <%= msg %>
+      </div>
+    <% end %>
+  <% end %>
+  <%if current_user.role.supervisor==true or current_user.role.super_admin==true || current_user.role.ie_supervisor == true %>
+    <div class="block">
+      <a href="#asignar" class="block-heading" data-toggle="collapse">Asignar</a>
+      <div id="asignar" class="block-body collapse in">
+        <div class="field">
+          <%if current_user.role.supervisor == true && current_user.analyst.area_id == 10000%>
+            <%= f.label "Analista" %><br />
+            <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id = ? AND analyst LIKE  ?", 10000,"A0%"]), :id, :analyst, {:prompt => @event.analyst.analyst, :value => @event.analyst.analyst}) %>
+          <%elsif (current_user.role.supervisor == true || current_user.role.ie_supervisor == true )&& current_user.analyst.area_id == 10001%>
+            <%= f.label "Analista" %><br />
+            <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id BETWEEN ? AND ? AND analyst LIKE  ?", 10001,10003,"A0%"]), :id, :analyst, {:prompt => @event.analyst.analyst, :value => @event.analyst.analyst}) %>
+          <%end%>
+        </div>
+        <div class="field">
+          <%= f.label :Prioridad %><br />
+          <%= f.collection_select(:priority_id, Priority.all, :id, :description, {:prompt => "seleccione prioridad"}) %>
+        </div>
+        <div class="field">
+          <%= f.label "Estatus" %><br />
+          <%= f.collection_select(:status_id, Status.where(:status_type => "evento"), :id, :description, {:prompt => @event.status.description}) %>
+        </div>
+      </div> 
+    </div>
+
+  <%end%>
+  <%if current_user.role.supervisor==false%>
+    <div class="block">
+
+      <a href="#page-stats" class="block-heading" data-toggle="collapse"><%=t(:edit)%> <%= eval("t(:C" + controller_name + ")").singularize %></a>
+
+      <div id="page-stats" class="block-body collapse in"> 
+        <%if current_user.role.analyst==true%>
+          <div class="field">
+            <%= f.label "Estatus" %><br />
+            <%= f.collection_select(:status_id, Status.find(:all, :conditions => ["id BETWEEN ? AND ?", 10021,10023]), :id, :description, {:prompt => @event.status.description}) %>
+          </div>
+        <%elsif current_user.role.medios and @event.status.description != "TERMINADO" %>
+          <%= f.label "Estatus" %><br />
+          <%= f.select :status_id, [["PRELIMINAR",10020],["HEMEROTECA",10024]] %> <br>
+        <%end%>
+        <div id="datetimepicker" class="input-append date">
+          <%= f.label :Fecha_de_Evento %><br />
+          <%= f.text_field :event_date%>
+          <span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+        </div>
+
+        <div class="field">
+          <%= f.label :Descripcion %><br />
+          <%= f.text_area :description %>
+        </div>
+        <div class="field">
+          <%= f.label :Zona_id %><br />
+          <%= f.collection_select(:area_id, Area.all, :id, :description, {:prompt => "seleccione area"}) %>
+        </div>
+
+        <label>Via publica</label><input type="checkbox" name="toggle" onclick="toggleTB(this);"/> <br>
+
+
+        <div id="publica">
+          <div class="field" id="forma">
+            <%= f.label :Lugar , :id => "lugar2" %><br />
+            <%= f.collection_select(:place_id, Place.all, :id, :place, {:prompt => "seleccione lugar"} , :name => "lugar", :id=>"from_address")%>
+          </div>
+          <div class="field">
+            <%= f.label :Municipio, :id => "municipio2" %><br />
+            <%= f.collection_select(:township_id, Township.all, :id, :township, {:prompt => "Seleccione Municipio"}, :id => "municipio") %>
+          </div>
+          <div class="field">
+            <label for="event_locality_id" id="localidad2">Localidad</label>
+            <%= f.collection_select(:locality_id, Locality.order('township_id ASC').all, :id, :localidad, {:prompt => "Seleccione Localidad"}, :id =>"localidad") %>
+          </div>
+          <div class="field">
+            <%= f.label :Colonia , :id => "colonia2"%><br />
+            <%= f.text_field :suburb , :id => "colonia"%>
+          </div>
+
+
+          <div class="field">
+            <%= f.label "Direccion", :id => "dir2" %><br />
+            <%= f.text_field :address, :id => "dir"%>
+          </div>
+        </div>
+
+
+        <div class="field" id="tramo" style="visibility: hidden">
+          <%= f.label "Tramo carretero" , :id => "tramo2"%><br />
+          <%= f.text_field :tramo_carretero, :id => "tramo"%>
+        </div>
+
+
+
+        <%= f.link_to_add " Telefono", :phones, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :phones do |builder| %>
+            <%= render 'phones_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Persona", :person, :class => "btn btn-primary icon-plus " %>
+        <p>
+          <%=f.fields_for :person do |builder| %>
+            <%= render 'people_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Armas", :weapons, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :weapons do |builder| %>
+            <%= render 'weapons_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Vehiculos", :vehicles, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :vehicles do |builder| %>
+            <%= render 'vehicles_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Drogas", :drug, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :drug do |builder| %>
+            <%= render 'drug_fields', :f => builder %>
+          <%end%>
+
+        <div class="field">
+          <%= f.label :Observaciones %><br />
+          <%= f.text_area :observations %>
+        </div>
+
+        <%= f.link_to_add " Agregar Archivo Nuevo", :backup_files, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :backup_files do |builder| %>
+            <%= render 'backup_files_fields', :f => builder %>
+          <%end%>
+        </p>
+
+        <div class="field">
+          <%= f.label "Fuente digital" %> <br><li>(link de noticia)</li><br />
+          <%= f.text_field :source %>
+        </div>
+
+        <%if controller.action_name == "new" or controller.action_name == "create"%>
+          <div class="field">
+            <%= f.hidden_field :analyst_id, :value => current_user.analyst_id %>
+          </div>
+        <%end%>
+
+
+        <div class="field">
+          <%= f.label :Delito %><br />
+          <%= f.collection_select(:crime_id, Crime.all, :id, :crime, {:prompt => "seleccione crimen"}) %>
+        </div>
+
+
+        <%=f.hidden_field :latitude, :id =>"centre_latitude"%>
+        <%=f.hidden_field :longitude, :id =>"centre_longitude"%>
+
+      </div>
+    </div>
+
+
+
+    <%#= gmaps4rails(@json) %>
+
+    <%= gmaps({
+        "map_options" => {"auto_zoom" => false, "zoom" => 17},
+        "markers" => {"data" => @json }
+      })%> 
+
+  <%end%>
+  <br><br>
+  <div class="actions">
+    <% if current_user.role.medios == true %>
+      <%= f.submit nil, :class => "btn btn-danger" %>
+    <%end%>
+
+    <%if current_user.role.supervisor==true%>
+      <%= button_tag( :class => "btn btn-primary") do %>
+        <i class="icon-save icon-white"> </i> <%="Asignar Evento"%>
+      <% end %>
+    <%else%>
+
+      <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ) do %>
+        <i class="icon-save icon-white"> </i> <%=t(:save)+" Evento"%>
+      <% end %>
+    <%end%>
+  <% end %>   <%= link_to 'Mostrar', @event , :class => 'btn btn-primary'%> 
+  <%= link_to 'Regresar', events_path, :class => 'btn btn-danger' %>
+</div>
+
+<%= content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    var markersArray = [];
+    Gmaps.map.callback = function() {
+      var marker = Gmaps.map.markers[0];
+      if (marker) {
+        // Move existing marker when editing a previously stored location
+        google.maps.event.addListener(marker.serviceObject, 'dragend', function() {
+          updateFormLocation(this.getPosition());
+        });
+      }
+
+      // On click, clear markers, place a new one, update coordinates in the form
+      google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event) {
+        clearOverlays();
+        placeMarker(event.latLng);
+        updateFormLocation(event.latLng);
+      });
+    };
+    // Update form attributes with given coordinates
+    function updateFormLocation(latLng) {
+      $('#centre_latitude').val(latLng.lat());
+      $('#centre_longitude').val(latLng.lng());
+      $('#centre_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
+    }
+    // Add a marker with an open infowindow
+    function placeMarker(latLng) {
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: Gmaps.map.serviceObject,
+        draggable: true
+      });
+      markersArray.push(marker);
+      // Set and open infowindow
+      var infowindow = new google.maps.InfoWindow({
+        content: '<div class="popup"><h2>Ajustando!</h2><p>Arrastra el marcador a la nueva ubicacion.</p>'
+      });
+      infowindow.open(Gmaps.map.serviceObject, marker);
+      // Listen to drag & drop
+      google.maps.event.addListener(marker, 'dragend', function() {
+        updateFormLocation(this.getPosition());
+      });
+    }
+    // Removes the overlays from the map, including the ones loaded with the map itself
+    function clearOverlays() {
+      for (var i = 0; i < markersArray.length; i++) {
+        markersArray[i].setMap(null);
+      }
+      markersArray.length = 0;
+
+      for (var i = 0; i < Gmaps.map.markers.length; i++) {
+        Gmaps.map.clearMarker(Gmaps.map.markers[i]);
+      }
+    }
+    function toggleTB(what) {
+      if (what.checked) {
+        $("#tramo").fadeOut(100);
+        $("#publica").fadeIn(100);
+        document.getElementById('tramo').style.visibility = "hidden";
+      } else {
+        $("#tramo").fadeIn(100);
+        $("#publica").fadeOut(100);
+        document.getElementById('tramo').style.visibility = 'visible';
+      }
+    }
+  </script>
+<%end%>
+<script type="text/javascript"
+        src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script> 
+<script type="text/javascript"
+        src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+</script>
+<script type="text/javascript"
+        src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+</script>
+
+<script type="text/javascript">
+  $('#datetimepicker').datetimepicker({
+    format: 'dd/MM/yyyy hh:mm:ss',
+    language: 'es-ES'
+  });
+  $(document).ready(function() {
+    /* Activating Best In Place */
+    jQuery("#new_file").fileupload();
+  });
+
+</script>
+

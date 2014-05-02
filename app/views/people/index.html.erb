@@ -1,0 +1,70 @@
+<h1>Lista de Personas</h1>
+<div  class="well ">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th><%=t(:ci)%> </th>
+        <th><%=t'.name'%> </th>
+        <th>Alias</th>
+        <th><%=t'.Birth date'%></th>
+        <th><%=t'.Originative'%></th>
+        <th><%=t'.Genre'%></th>
+        <th><%=t'.Profession'%></th>
+        <th><%=t'.Observations'%></th>
+        <th><%=t'.Status'%></th>
+        <th> Registrado Vía </th>
+        <th><%=  "Acciones"%></th>
+
+      </tr>
+    </thead>
+    <% @people.each do |person| %>
+      <tbody>
+        <tr>
+          <td><%= person.ci %></td>
+          <%if person.first_name && person.last_name1 &&person.last_name2 %>
+            <td><%= person.fullname %></td>
+          <%else%>
+            <td><%= person.first_name %></td>
+          <%end%>
+          <td><%= person.alias %></td>
+          <%if person.birth_date%>
+            <td><%= person.birth_date.strftime('%d/%m/%Y') %></td>
+          <%else%>
+            <td></td>
+          <%end%>
+          <td><%= person.originative %></td>
+          <td><%= person.genre %></td>
+          <td><%= person.profession %></td>
+          <td><%= person.observations %></td>
+          <%if person.status_id%>
+            <td><%= person.status.description  %></td>
+          <%else%>
+            <td><%= person.status_id  %></td>
+          <%end%>
+          <td><%=person.registered_from%></td>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Show', person %></li>
+                  <li><%= link_to 'Edit', edit_person_path(person) %></li>
+                  <li><%= link_to 'Destroy', person, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+
+
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <%= will_paginate @people, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+  </div>
+</div>
+<br />
+
+<%= link_to 'New Person', new_person_path, :class=>"btn btn-primary" %>

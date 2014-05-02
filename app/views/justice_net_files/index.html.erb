@@ -1,0 +1,72 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, JusticeNetFile %>
+      <li class="active"><%=link_to t(:index), justice_net_files_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, JusticeNetFile %>
+      <li class="active"><%=link_to t(:new), new_justice_net_file_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="well">
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= t'.id' %></th>
+        <th><%= t'.justice_net' %></th>
+        <th><%= t'.name' %></th>
+        <th><%= t(:actions) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @justice_net_files.each do |justice_net_file| %>
+        <tr>
+          <td><%= justice_net_file.id %></td>
+          <td><%= justice_net_file.justice_net_id %></td>
+          <td><%= justice_net_file.name %></td>
+          <td>         
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <%if can? :show, JusticeNetFile %>
+                      <%= link_to justice_net_file do %>
+                        <i class="icon-eye-open"></i>&nbsp;&nbsp;<%=t(:show, :default => t("helpers.links.show"))%> 
+                      <%end%>
+                    </li>
+                  <%end%>
+
+  
+
+
+
+                  <%if can? :edit, JusticeNetFile %>
+                    <li>
+                      <%= link_to edit_justice_net_file_path(justice_net_file) do %>
+                        <i class="icon-pencil"></i>&nbsp;&nbsp;<%=t(:edit, :default => t("helpers.links.edit"))%>
+                      <%end%>
+                    </li>
+                  <%end%>
+                  <%if can? :destroy, JusticeNetFile %>
+                    <li>
+                      <%= link_to  justice_net_file, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } do %>
+                        <i class="icon-trash"></i>&nbsp;&nbsp;<%=t(:destroy, :default => t("helpers.links.destroy"))%>
+                      <%end%>
+                    </li>
+                  <%end%>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+<%=link_to t(:new)+" justice_net_file", new_justice_net_file_path, :class => "btn btn-primary"%>
+

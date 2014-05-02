@@ -1,0 +1,22 @@
+<% if flash[:notice] %>
+  <div class="alert alert-info"><button type="button" class="close" data-dismiss="alert">×</button>
+    <%= flash[:notice] %>
+  <% end %>
+  <% if flash[:error] %>
+    <h3 class="error_box"><%= flash[:error] %></h3>
+  <% end %> 
+</div>
+
+<p>
+  <b>Id:</b>
+  <%= @priority.id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @priority.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_priority_path(@priority), :class => "btn btn-primary" %> |
+<%= link_to 'Back', priorities_path, :class => "btn btn-danger"%>

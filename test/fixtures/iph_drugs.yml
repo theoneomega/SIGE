@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  kind: MyString
+  quantity: 1
+  observations: MyText
+
+two:
+  id: 1
+  kind: MyString
+  quantity: 1
+  observations: MyText

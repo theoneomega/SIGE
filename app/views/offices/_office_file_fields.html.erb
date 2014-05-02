@@ -1,0 +1,18 @@
+<div class="block">
+
+  <a href="#person" class="block-heading" data-toggle="collapse">Archivo(s)</a>
+
+  <div id="person" class="block-body-interior collapse in interior">
+    <div class="control-group">
+      <div class="control-group">
+        <div class="field">
+          <%= f.label :file %><br />
+          <%= f.file_field :file %><br />
+          <%= f.text_area :description %>
+        </div>
+        <br> <br>
+        <%=f.link_to_remove "Eliminar Archivo",:class => 'btn btn-danger'%>
+      </div>
+    </div>
+  </div>
+</div>

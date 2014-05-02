@@ -1,0 +1,77 @@
+<%= form_for(@role) do |f| %>
+  <% if @role.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@role.errors.count, "error") %> prohibited this role from being saved:</h2>
+
+      <ul>
+        <% @role.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :role %><br />
+    <%= f.text_field :role %>
+  </div>
+  <div class="field">
+    <%= f.label :protected %><br />
+    <%= f.check_box :protected %>
+  </div>
+  <div class="field">
+    <%= f.label :super_admin %><br />
+    <%= f.check_box :super_admin %>
+  </div>
+  <div class="field">
+    <%= f.label :analyst %><br />
+    <%= f.check_box :analyst %>
+  </div>
+  <div class="field">
+    <%= f.label :iph %><br />
+    <%= f.check_box :iph %>
+  </div>
+  <div class="field">
+    <%= f.label :iph_supervisor %><br />
+    <%= f.check_box :iph_supervisor %>
+  </div>
+  <div class="field">
+    <%= f.label :administrator %><br />
+    <%= f.check_box :administrator %>
+  </div>
+  <div class="field">
+    <%= f.label :supervisor %><br />
+    <%= f.check_box :supervisor %>
+  </div>
+  <div class="field">
+    <%= f.label :medios %><br />
+    <%= f.check_box :medios %>
+  </div>
+  <div class="field">
+    <%= f.label :ie_supervisor %><br />
+    <%= f.check_box :ie_supervisor %>
+  </div>
+  <div class="field">
+    <%= f.label :analysts_supervisor %><br />
+    <%= f.check_box :analysts_supervisor %>
+  </div>
+  <div class="field">
+    <%= f.label :super_supervisor %><br />
+    <%= f.check_box :super_supervisor %>
+  </div>
+  <div class="field">
+    <%= f.label :cibernetico %><br />
+    <%= f.check_box :cibernetico %>
+  </div>
+  <div class="field">
+    <%= f.label :supervisor_cibernetico %><br />
+    <%= f.check_box :supervisor_cibernetico %>
+  </div>
+  <div class="field">
+    <%= f.label :director_cibernetico %><br />
+    <%= f.check_box :director_cibernetico %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

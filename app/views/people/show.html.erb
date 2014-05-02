@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @person.id %>
+</p>
+
+<p>
+  <b>Ci:</b>
+  <%= @person.ci %>
+</p>
+
+<p>
+  <b>First name:</b>
+  <%= @person.first_name %>
+</p>
+
+<p>
+  <b>Last name1:</b>
+  <%= @person.last_name1 %>
+</p>
+
+<p>
+  <b>Last name2:</b>
+  <%= @person.last_name2 %>
+</p>
+
+<p>
+  <b>Alias:</b>
+  <%= @person.alias %>
+</p>
+
+<p>
+  <b>Birth date:</b>
+  <%= @person.birth_date %>
+</p>
+
+<p>
+  <b>Originative:</b>
+  <%= @person.originative %>
+</p>
+
+<p>
+  <b>Genre:</b>
+  <%= @person.genre %>
+</p>
+
+<p>
+  <b>Record:</b>
+  <%= @person.record %>
+</p>
+
+<p>
+  <b>Profession:</b>
+  <%= @person.profession %>
+</p>
+
+<p>
+  <b>Observations:</b>
+  <%= @person.observations %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%if @person.status_id %>
+    <%= @person.status.description %>
+  <%else%>
+    <%= @person.status_id %>
+  <%end%>
+</p>
+
+
+<%= link_to 'Editar', edit_person_path(@person) %> |
+<%= link_to 'Regresar', people_path %>

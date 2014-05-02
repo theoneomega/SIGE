@@ -1,0 +1,221 @@
+<%= nested_form_for(@office) do |f| %>
+  <% if @office.errors.any? %>
+    <div id="error_explanation">
+      <%if @office.errors.count ==1%>
+        <h2><%= pluralize(@office.errors.count, "error") %> no dejo que se guardara este registro:</h2>
+      <%else%>
+        <h2><%= pluralize(@office.errors.count, "errores") %> no dejaron que se guardara este registro:</h2>
+      <%end%>
+      <ul>
+        <% @office.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row-fluid">
+    <div class="block">
+      <a href="#oficio-info" class="block-heading" data-toggle="collapse">Oficio</a>
+      <div id="oficio-info" class="block-body collapse in">
+        <br />
+
+        <div class="well-small">
+
+          <div class="field" onclick="check();">
+            <%= f.label :kind, "Tipo de registro" %><br />
+            <%= f.label :kind, "Solicitud de información" %>
+            <%= f.radio_button :kind, "S", :checked => true%>
+            <%= f.label :kind, "Registro"  %>
+            <%= f.radio_button :kind, "R" %> <br />
+
+          </div>
+
+          <div class="field">
+            <%= f.label :priority_id, "Prioridad" %><br />
+            <%= f.collection_select(:priority_id, Priority.all, :id, :description, {:prompt => "seleccione prioridad"}) %>
+          </div>
+
+          <div id="datetimepicker" class="input-append date">
+            <%= f.label "Fecha de oficio" %><br />
+            <%= f.text_field :office_date , :id => "dp1", :readonly=> true%>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+          </div>
+          <br>
+          <div id="datetimepicker" class="input-append date">
+            <%= f.label "Fecha de recibido" %><br />
+            <%= f.text_field :received_date , :id => "dp3", :readonly => true%>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+          </div>
+          <div class="field">
+            <%= f.label "Numero de oficio" %><br />
+            <%= f.text_field :received_office_number %>
+          </div>
+          <div class="field">
+            <%= f.label "Unidad o area" %><br />
+            <%= f.text_field :requesting_area %>
+          </div>
+          <div class="field">
+            <%= f.label :claimant, "Quien solicita" %><br />
+            <%= f.text_field :claimant %>
+          </div>
+          <div class="field">
+            <%= f.label "Asunto" %><br />
+            <%= f.text_field :subject %>
+          </div>
+          <div class="field">
+            <% if current_user.analyst.area_id == 10000  %>
+              <%= f.hidden_field :area_id, :value => 10000 %>
+            <% else %>
+              <%= f.label "Zona" %><br />
+              <%= f.collection_select(:area_id, Area.find(:all, :conditions => ["id BETWEEN ? AND ? ", 10000,10003]), :id, :description, {:prompt => "seleccione area"}) %>
+            <% end %>
+
+          </div>
+          <div id="no_registro">
+            <%= f.link_to_add "Persona", :person, :class => "btn btn-primary icon-plus " %> <br> <br>
+            <%= f.link_to_add "Armas", :weapons, :class => "btn btn-primary icon-plus" %> <br> <br>
+            <%= f.link_to_add "Vehiculos", :vehicles, :class => "btn btn-primary icon-plus" %> <br> <br>
+            <%= f.link_to_add " Telefono", :phones, :class => "btn btn-primary icon-plus" %>
+          </div>
+          <p>
+            <%=f.fields_for :person do |builder| %>
+              <%= render 'people_fields', :f => builder %>
+            <%end%>
+          </p>
+          <p>
+            <%=f.fields_for :vehicles do |builder| %>
+              <%= render 'vehicles_fields', :f => builder %>
+            <%end%>
+          </p>
+          <p>
+            <%=f.fields_for :weapons do |builder| %>
+              <%= render 'weapons_fields', :f => builder %>
+            <%end%>
+          </p>
+
+          <p>
+            <%=f.fields_for :phones do |builder| %>
+              <%= render 'phones_fields', :f => builder %>
+            <%end%>
+          </p>
+
+          <div class="field" id="no_registro">
+  <%#= f.label "Estatus" %><br />
+            <%= f.hidden_field  :status_id, :id=> "estatus" %>
+          </div>
+
+
+          <div id="no_registro">
+            <div id="datetimepicker" class="input-append date">
+              <%= f.label "Fecha de contestación" %><br />
+              <%= f.text_field :replied_date , :id => "dp2", :readonly => true%>
+              <span class="add-on"><i class="icon-calendar"></i></span>
+            </div>
+          </div>
+          <div class="field" id="no_registro">
+            <%= f.label "Numero de oficio de contestacion" %><br />
+            <%= f.text_field :office_number %>
+          </div>
+          <div class="field">
+            <%= f.label "Observaciones" %><br />
+            <%= f.text_area :observations %>
+          </div>
+          <div class="field">
+
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+          </div>
+
+          <div class="form-actions">
+
+            <% if controller.action_name == "new" or controller.action_name == "create" %>
+              <div id="normal1">
+
+                <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "submitformregistrar();") do %>
+                  <i class="fa fa-save fa-lg"> </i> Enviar a  Recibidos
+                <% end %> 
+              </div>
+
+              <br>
+              <div id="no_normal">
+                <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "registrararchivo();") do %>
+                  <i class="fa fa-folder-open-o fa-lg"> </i> Enviar a archivo
+                <% end %>
+              </div>
+              <%= link_to 'Regresar', offices_path, :class => "btn btn-danger"%>
+            <% elsif controller.action_name == "update" or controller.action_name == "edit" %>
+
+              <%if can? :nofinish, Office%>
+                <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "guardarsinterminar();") do %>
+                  <i class="fa fa-save fa-lg"> </i> Guardar sin terminar
+                <% end %>
+              <%end%>
+              <%if can? :save, Office%>
+                <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "submitformregistrar();") do %>
+                  <i class="fa fa-save fa-lg"> </i> Enviar a recibidos
+                <% end %>
+              <%end%>
+              <%if can? :finish, Office%>
+                <%= button_tag( :class => "btn btn-success", :id=>"guardar" ,:onclick=> "submitformguardarterminado();") do %>
+                  <i class="fa fa-check fa-lg"> </i> Terminar oficio
+                <% end %>
+              <%end%>
+              <%if can? :reply, Office%>
+                <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "submitformcontestado();") do %>
+                  <i class="fa fa-reply fa-lg"> </i> Enviar a contestados
+                <% end %>
+              <%end%>
+              <%if can? :send, Office%>
+                <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "submitformenviado();") do %>
+                  <i class="fa fa-envelope fa-lg"> </i> Oficio enviado
+                <% end %>
+              <%end%>
+              <%= link_to 'Regresar', offices_path, :class => "btn btn-danger"%>
+
+            <% end %>
+          </div>
+
+        </div>
+
+      <%end%>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(function() {
+
+    window.prettyPrint && prettyPrint();
+    $('#dp1').datepicker({
+      language: 'es',
+      format: 'yyyy-mm-dd',
+      todayBtn: 'linked'
+
+    });
+
+    $('#dp2').datepicker({
+      language: 'es',
+      format: 'yyyy-mm-dd',
+      todayBtn: 'linked'
+
+    });
+    $('#dp3').datepicker({
+      language: 'es',
+      format: 'yyyy-mm-dd',
+      todayBtn: 'linked'
+
+    });
+
+  });
+
+  (function($) {
+    $.fn.datepicker.dates['es'] = {
+      days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+      daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+      daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+      today: "Hoy"
+    };
+  }(jQuery));
+</script>

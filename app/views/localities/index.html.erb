@@ -1,0 +1,27 @@
+<h1>Listing localities</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Township</th>
+    <th>Locality</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @localities.each do |locality| %>
+  <tr>
+    <td><%= locality.id %></td>
+    <td><%= locality.township_id %></td>
+    <td><%= locality.locality %></td>
+    <td><%= link_to 'Show', locality %></td>
+    <td><%= link_to 'Edit', edit_locality_path(locality) %></td>
+    <td><%= link_to 'Destroy', locality, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Locality', new_locality_path %>

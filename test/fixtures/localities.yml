@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  township_id: 1
+  locality: MyString
+
+two:
+  id: 1
+  township_id: 1
+  locality: MyString

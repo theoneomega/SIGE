@@ -1,0 +1,50 @@
+<div class="row-fluid">
+    <div class="block">
+    <a href="#persona-info" class="block-heading" data-toggle="collapse">Registro de persona</a>
+    <div id="persona-info" class="block-body-interior collapse in interior">
+      <br />
+ 
+      <div class="field">
+        <%= f.label "Nombre(s)" %><br />
+        <%= f.text_field :first_name %>
+      </div>
+      <div class="field">
+        <%= f.label "Paterno" %><br />
+        <%= f.text_field :last_name1 %>
+      </div>
+      <div class="field">
+        <%= f.label "Materno" %><br />
+        <%= f.text_field :last_name2 %>
+      </div>
+
+      <div id="datetimepicker" class="date">
+        <%= f.label "Fecha de nacimiento" %><br />
+        <%= f.text_field :birth_date, :placeholder => "AAAA-MM-DD"%>
+        <span class="add-on"><i class="icon-calendar"></i></span>
+      </div>
+
+      <div class="field">
+        <%= f.label "Originario" %><br />
+        <%= f.text_field :originative %>
+      </div>
+      <div class="field">
+        <%= f.label "Genero" %><br />
+        <%= f.select :genre, ["MASCULINO","FEMENINO"] %>
+      </div>
+
+      <div class="field">
+        <%= f.label "Profesión" %><br />
+        <%= f.text_field :profession %>
+      </div>
+      <div class="field">
+        <%= f.label "Observaciones" %><br />
+        <%= f.text_area :observations %>
+      </div>
+
+      <div class="form-actions">
+        <%=f.link_to_remove "Remover Persona",:class => 'btn btn-danger'%>
+      </div>
+    </div>
+  </div>
+</div>
+

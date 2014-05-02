@@ -1,0 +1,2 @@
+module IphImagesHelper
+end

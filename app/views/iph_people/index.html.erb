@@ -1,0 +1,81 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, IphPerson %>
+      <li class="active"><%=link_to t(:index), iph_people_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, IphPerson %>
+      <li class="active"><%=link_to t(:new), new_iph_person_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="well">
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= t'.id' %></th>
+        <th><%= t'.ci' %></th>
+        <th><%= t'.first_name' %></th>
+        <th><%= t'.last_name1' %></th>
+        <th><%= t'.last_name2' %></th>
+        <th><%= t'.alias' %></th>
+        <th><%= t'.birth_date' %></th>
+        <th><%= t'.originative' %></th>
+        <th><%= t'.genre' %></th>
+        <th><%= t'.record' %></th>
+        <th><%= t'.profession' %></th>
+        <th><%= t'.observations' %></th>
+        <th><%= t'.status' %></th>
+        <th><%= t(:actions) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @iph_people.each do |iph_person| %>
+        <tr>
+          <td><%= iph_person.id %></td>
+          <td><%= iph_person.ci %></td>
+          <td><%= iph_person.first_name %></td>
+          <td><%= iph_person.last_name1 %></td>
+          <td><%= iph_person.last_name2 %></td>
+          <td><%= iph_person.alias %></td>
+          <td><%= iph_person.birth_date %></td>
+          <td><%= iph_person.originative %></td>
+          <td><%= iph_person.genre %></td>
+          <td><%= iph_person.record %></td>
+          <td><%= iph_person.profession %></td>
+          <td><%= iph_person.observations %></td>
+          <td><%= iph_person.status_id %></td>
+          <td>         
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <%= link_to iph_person do %>
+                      <i class="icon-eye-open"></i>&nbsp;&nbsp;<%=t(:show, :default => t("helpers.links.show"))%>
+                    </li>
+                  <%end%>
+                  <li>
+                    <%= link_to edit_iph_person_path(iph_person) do %>
+                      <i class="icon-pencil"></i>&nbsp;&nbsp;<%=t(:edit, :default => t("helpers.links.edit"))%>
+                    <%end%>
+                  </li>
+                  <li>
+                    <%= link_to  iph_person, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } do %>
+                      <i class="icon-trash"></i>&nbsp;&nbsp;<%=t(:destroy, :default => t("helpers.links.destroy"))%>
+                    <%end%>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+<%=link_to t(:new)+" iph_person", new_iph_person_path, :class => "btn btn-primary"%>
+

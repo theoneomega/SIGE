@@ -1,0 +1,132 @@
+<%= nested_form_for(@justice_net) do |f| %>
+  <% if @justice_net.errors.any? %>
+    <div id="error_explanation">
+      <h2>Ah ocurrido un problema inesperado, favor de verificar los campos marcados:</h2>
+
+      <ul>
+        <% @justice_net.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row-fluid">
+    <div class="block">
+      <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+      <div id="general-info" class="block-body collapse in">
+        <br />
+        <%= f.hidden_field :status_id, :id => "estatus"  %>
+
+
+        <%if controller.action_name == "new" or controller.action_name == "create"%>
+          <%= f.hidden_field :analyst_id, :value => current_user.analyst_id %>
+          <%= f.hidden_field :area_id, :value => current_user.analyst.area.id%>
+        <% end %>
+        
+        <% if controller.action_name== "update"  || controller.action_name == "edit" %>
+         <%= f.hidden_field :area_id, :value => @justice_net.analyst.area.id%>
+        <% end %>
+        
+        <div class="field">
+          <%= f.label :consecutivo %><br />
+          <%= f.text_field :consecutivo %>
+        </div>
+
+        <div class="field">
+          <%= f.label :justicia_net_folio %><br />
+          <%= f.text_field :justicia_net_folio, :placeholder => "MUNICIPIO-No.CARPETA-AÑO" %>
+        </div>
+
+        <div class="input-append date field">
+          <%= f.label :received_date %><br />
+          <%= f.text_field :received_date , :readonly => true, :class => "datepicker" %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div> 
+        <p>
+          <%= f.link_to_add " Persona", :person, :class => "btn btn-primary icon-plus " %>
+        </p>
+        <p>
+          <%=f.fields_for :person do |builder| %>
+            <%= render 'people_fields', :f => builder %>
+          <%end%>
+        </p>
+
+        <%= f.link_to_add " Agregar Archivo", :justice_net_files, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :justice_net_files do |builder| %>
+            <%= render 'justice_net_files_fields', :f => builder %>
+          <%end%>
+        </p>
+
+
+        <div class="field">
+          <%= f.label :observations %><br />
+          <%= f.text_area :observations %>
+        </div>
+        <div class="input-append date field">
+          <%= f.label :replied_date, "Fecha de contestación" %><br />
+          <%= f.text_field :replied_date, :readonly => true, :class => "datepicker" %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+
+    <% if controller.action_name == "edit" || controller.action_name == "update" %>
+      <% if can? :finish, JusticeNet %>
+        <%= button_tag( :class => "btn btn-success", :id=>"guardar" ,:onclick=> "terminado();") do %>
+          <i class="fa fa-check fa-lg"> </i> Terminar
+        <% end %>
+      <% end %>
+    <% end  %>
+
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+
+
+    <%if can? :index, JusticeNet %>
+      <%= link_to t(:back, :default => t('helpers.links.back')), justice_nets_path, :class => 'btn' %>
+    <%end%>
+  </div>
+
+
+
+<% end %>
+<script>
+
+<%if controller.action_name == "new" or controller.action_name == "create"%>
+    $("#estatus").val(<%= Status.find_by_description_and_status_type("ASIGNADO","Justici@.NET").id %>);
+<% end %>
+
+<% if controller.action_name == "edit"  or controller.action_name == "update" %>
+    function terminado() {
+      $('#estatus').val(<%= Status.find_by_description_and_status_type("FINALIZADO","Justici@.NET").id %>);
+      $('form').submit();
+      $('.btn').attr("disabled", true);
+    }
+<% end %>
+
+
+  $(function() {
+    $('.datepicker').each(function() {
+      $(this).datepicker({
+        language: 'es',
+        format: 'yyyy-mm-dd',
+        todayBtn: 'linked'
+
+      });
+    });
+  });
+
+  (function($) {
+    $.fn.datepicker.dates['es'] = {
+      days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+      daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+      daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+      months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+      monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+      today: "Hoy"
+    };
+  }(jQuery));
+</script>

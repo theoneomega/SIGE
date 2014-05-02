@@ -1,0 +1,19 @@
+<div class="block">
+
+  <a href="#phone" class="block-heading" data-toggle="collapse">Telefono</a>
+
+  <div id="phone" class="block-body-interior collapse in interior">
+    <div class="control-group">
+      <div class="control-group">
+        <div class="field">
+          <%= f.label "Numero de telefono" %><br />
+          <%= f.text_field :phone_number %>
+        </div>
+        <div class="field">
+          <%= f.hidden_field :registered_from, :value=> "OFICIO" %>
+        </div>
+        <%=f.link_to_remove "Remover Telefono",:class => 'btn btn-danger'%>
+      </div>
+    </div>
+  </div>
+</div>

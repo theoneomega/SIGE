@@ -1,0 +1,29 @@
+<h1>Listing colaboration_files</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>File</th>
+    <th>Description</th>
+    <th>Colaboration</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @colaboration_files.each do |colaboration_file| %>
+  <tr>
+    <td><%= colaboration_file.id %></td>
+    <td><%= colaboration_file.file %></td>
+    <td><%= colaboration_file.description %></td>
+    <td><%= colaboration_file.colaboration_id %></td>
+    <td><%= link_to 'Show', colaboration_file %></td>
+    <td><%= link_to 'Edit', edit_colaboration_file_path(colaboration_file) %></td>
+    <td><%= link_to 'Destroy', colaboration_file, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Colaboration file', new_colaboration_file_path %>

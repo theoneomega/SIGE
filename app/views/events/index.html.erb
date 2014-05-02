@@ -1,0 +1,91 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li><%=link_to t(:Cevents), events_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
+<%end%>
+<div style="background-image: url(assets/black-Linen.png); box-shadow: 5px10px 10px 5px #888888;" class="well-large inline">
+  <div class="well" style="float">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th><%= "Prioridad" %></th>
+          <th><%= "Estatus" %></th>
+          <th><%= "Fecha" %></th>
+          <th><%="Descripcion" %></th>
+          <th>Zona</th>
+          <th><%= "Delito" %></th>
+          <th><%= "Analista" %></th>
+          <th><%= t(:actions) %></th>
+        </tr>
+      </thead> 
+      <tbody>
+        <% @events.each do |event| %>
+
+          <tr>
+            <%if event.priority_id==10000%>
+              <td><span class="label label-important"><%=  event.priority.description  %></span></td>
+            <%elsif event.priority_id==10001%>
+              <td><span class="label label-warning"><%=  event.priority.description %></span></td>
+            <%else%>
+              <td><span class="label label-inverse"><%=  event.priority.description %></span></td>
+            <%end%>
+            <%if event.status%>
+              <td><%= event.status.description %></td>
+            <%else%>
+              <td>sin estatus</td>
+            <%end%>
+            <td><%= event.event_date.strftime('%d/%m/%Y') %></td>
+            <%if event.description%>
+              <td><%= event.description.truncate(25, :omission => "...") %><%= link_to '(continua)', event %></td>
+            <%else%>
+              <td>N/A</td>
+            <%end%>
+            <td><%=event.area.description%></td>
+            <%if event.crime%>
+              <td><%= event.crime.crime %></td>
+            <%else%>
+              <td>no especificado</td>
+            <%end%>
+            <td><%= event.analyst.analyst %></td>
+            <td>
+              <ul class="nav nav-pills">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                  <ul class="dropdown-menu">
+                    <%if current_user.role.supervisor==true ||current_user.role.super_admin==true %>
+                      <li><%= link_to 'Asignar', edit_event_path(event) %></li>
+                    <%end%>
+                    <%if can? :show, Event%>
+                      <li><%= link_to 'Mostrar', event %></li>
+                    <%end%>
+                    <%if current_user.role.supervisor==false%>
+                      <%if can? :edit, Event, :analyst_id => current_user.analyst_id%>
+
+                        <li><%= link_to 'Editar', edit_event_path(event) %></li>
+                      <%end%>
+                    <%end%>
+                    <%if can? :destroy, Event%>
+                      <li><%= link_to t(:destroy), event, method: :delete, data: { confirm: '¿Estas seguro?' } %></li>
+                    <%end%>
+                  </ul>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+<%#= gmaps4rails(@json) %>
+  </div>
+  <br />
+
+  <%if can? :create, Event%>
+    <%= link_to t(:new)+" "+t(:event).singularize, new_event_path, :class => "btn btn-primary" %>
+  <%end%>
+
+  <div class="page_info">
+<%#= will_paginate @events, 3%>
+  </div>
+</div>

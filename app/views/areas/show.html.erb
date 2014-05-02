@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+<div class="row-fluid">
+  <div class="block">
+    <a href="#general-info" class="block-heading" data-toggle="collapse">[ - ]</a>
+    <div id="general-info" class="block-body collapse in">
+      <p>
+        <b>Id:</b>
+        <%= @area.id %>
+      </p>
+
+      <p>
+        <b>Description:</b>
+        <%= @area.description %>
+      </p>
+
+      <p>
+        <%= link_to 'Edit', edit_area_path(@area), :class => "btn btn-success" %> 
+
+        <%= link_to 'Back', areas_path , :class => "btn btn-danger"%>
+      <p />
+    </div>
+  </div>
+</div>
+
+<%= link_to 'New Area', new_area_path, :class => "btn btn-primary" %>

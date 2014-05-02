@@ -1,0 +1,52 @@
+<%= render "form" %>
+
+
+<script>
+  function submitformregistrar()
+  {
+    $('#estatus').val(10004);
+    document.getElementById('new_office').submit();
+    document.getElementById('guardar').disabled = true;
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val('<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion")%>');
+    }
+  }
+
+  function registrararchivo()
+  {
+    $('#estatus').val(10006);
+    document.getElementById('new_office').submit();
+    document.getElementById('guardar').disabled = true;
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val('<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion")%>');
+    }
+  }
+  $(document).ready(function() {
+    check();
+  });
+
+
+  function check() {
+    if ($('#office_kind_s').is(':checked')) {
+      $('label[for=office_claimant]').text("Quien Solicita");
+      $("div #no_registro").fadeIn(0);
+      $("#no_normal").fadeOut(0);
+      $("#analista").fadeIn(0);
+      $("#normal1").fadeIn(0);
+    }
+    if ($('#office_kind_r').is(':checked')) {
+      $("div #no_registro").fadeOut(0);
+      $('label[for=office_claimant]').text("Quien Firma");
+      $("#normal1").fadeOut(0);
+      $("#no_normal").fadeIn(0);
+      $("#analista").fadeOut(0);
+      $("#estatus").val(10006);
+    }
+  }
+
+
+
+
+
+
+</script>

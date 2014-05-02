@@ -1,0 +1,60 @@
+<h1>Listing vehicles</h1>
+<div class="well">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th><%=t'.Brand'%></th>
+        <th><%=t'.Line'%></th>
+        <th><%=t'.Model'%></th>
+        <th><%=t'.Serial_Number'%></th>
+        <th><%=t'.Color'%></th>
+        <th><%=t'.Stolen'%></th>
+        <th>Status</th>
+        <th><%=t'.Details'%></th>
+        <th><%=t'.Person'%></th>
+        <th><%= t(:actions) %> </th>
+    <thead>
+      </tr>
+
+      <% @vehicles.each do |vehicle| %>
+      <tbody>
+        <tr>
+          <td><%= vehicle.id %></td>
+          <td><%= vehicle.brand %></td>
+          <td><%= vehicle.line %></td>
+          <td><%= vehicle.model %></td>
+          <td><%= vehicle.serial_number %></td>
+          <td><%= vehicle.color %></td>
+          <%if vehicle.stolen==true%>
+            <td><%= "SI" %></td>
+          <%else%>
+            <td><%= "NO" %></td>
+          <%end%>
+          <td><%= vehicle.status %></td>
+          <td><%= vehicle.details %></td>
+          <%if vehicle.person_id %>
+            <td><%= vehicle.person.fullname %></td>
+          <%else%>
+            <td><%= vehicle.person_id %></td>
+          <%end%>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Show', vehicle %></li>
+                  <li><%= link_to 'Edit', edit_vehicle_path(vehicle) %></li>
+                  <li><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+
+<%= link_to 'New Vehicle', new_vehicle_path, :class => "btn btn-primary" %>

@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  brand: MyString
+  line: MyString
+  model: 1
+  serial_number: MyString
+  color: MyString
+  stolen: false
+  status: MyString
+  details: MyText
+  person_id: 1
+
+two:
+  id: 1
+  brand: MyString
+  line: MyString
+  model: 1
+  serial_number: MyString
+  color: MyString
+  stolen: false
+  status: MyString
+  details: MyText
+  person_id: 1

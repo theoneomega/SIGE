@@ -1,0 +1,82 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span></li>
+    <%if can? :index, Colaboration %>
+      <li><%= link_to t(:index), colaborations_path %><span class="divider">/</span></li>
+    <%end%>
+    <li class="active"><%="Asignar colaboracion"%></li>
+  </ul>
+<%end%>
+
+
+<%= nested_form_for(@colaboration) do |f| %>
+
+  <div class="row-fluid">
+    <div class="block">
+      <a href="#asignar" class="block-heading" data-toggle="collapse">Asignar</a>
+      <div id="asignar" class="block-body collapse in show-details">
+
+
+
+        <%if @colaboration.analyst_id == nil%>
+
+          <%if current_user.analyst.area_id != 10000%>
+            <div class="field">
+              <%= f.label "Analista" %><br />
+              <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id BETWEEN ? AND ? AND analyst LIKE  ?", 10001,10003,"A0%"]), :id, :analyst, {:prompt => "Seleccione Analista"}) %>
+            </div>
+          <%elsif current_user.analyst.area_id == 10000%>
+            <div class="field">
+              <%= f.label "Analista" %><br />
+              <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id = ?  AND analyst LIKE  ?", 10000,"A0%"]), :id, :analyst, {:prompt => "Seleccione Analista"}) %>
+            </div>
+          <%end%>
+
+        <%else%>
+
+          <%if current_user.analyst.area_id != 10000 %>
+            <div class="field">
+              <%= f.label "Analista" %><br />
+              <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id BETWEEN ? AND ? AND analyst LIKE  ?", 10001,10003,"A0%"]), :id, :analyst, {:prompt => @colaboration.analyst.analyst}) %>
+            </div>
+          <%elsif current_user.analyst.area_id == 10000 %>
+            <div class="field">
+              <%= f.label "Analista" %><br />
+              <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id = ? AND analyst LIKE  ?", 10000,"A0%"]), :id, :analyst, {:prompt => @colaboration.analyst.analyst}) %>
+            </div>
+          <%end%>
+
+        <%end%>
+
+        <%= f.hidden_field :status_id, :id => "estatus"  %>
+
+      </div> 
+    </div>
+  </div>
+
+  <div class="form-actions">
+
+    <%if can? :assign, Colaboration%>
+
+      <%if @colaboration.status_id != 10004%>
+        <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "asignar();") do %>
+          <i class="fa fa-check fa-lg"> </i> Reasignar 
+        <% end %>
+      <%else%>
+        <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "asignar();") do %>
+          <i class="fa fa-check fa-lg"> </i> Asignar 
+        <% end %>
+      <%end%>
+    <%end%>
+    <%= link_to 'Regresar', colaborations_path, :class => 'btn btn-danger' %>
+  </div>
+<% end %>
+
+<script>
+  function asignar()
+  {
+    $('#estatus').val(10005);
+    document.getElementById('new_office').submit();
+    document.getElementById('guardar').disabled = true;
+  }
+</script>

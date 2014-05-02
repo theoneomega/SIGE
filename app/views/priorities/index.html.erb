@@ -1,0 +1,35 @@
+<h1>Listing priorities</h1>
+<div  class="well ">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Description</th>
+        <th><%=t(:actions)%></th>
+      </tr>
+    </thead>
+    <% @priorities.each do |priority| %>
+      <tbody>
+        <tr>
+          <td><%= priority.id %></td>
+          <td><%= priority.description %></td>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Show', priority %></li>
+                  <li><%= link_to 'Edit', edit_priority_path(priority) %></li>
+                  <li><%= link_to 'Destroy', priority, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Priority', new_priority_path, :class => "btn btn-primary" %>

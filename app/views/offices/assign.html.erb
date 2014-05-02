@@ -1,0 +1,65 @@
+<%= nested_form_for(@office) do |f| %>
+  <% if @office.errors.any? %>
+    <div id="error_explanation">
+      <%if @office.errors.count ==1%>
+        <h2><%= pluralize(@office.errors.count, "error") %> no dejo que se guardara este registro:</h2>
+      <%else%>
+        <h2><%= pluralize(@office.errors.count, "errores") %> no dejaron que se guardara este registro:</h2>
+      <%end%>
+      <ul>
+        <% @office.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div id="no_registro">    
+    <div class="block">
+      <a href="#asignar" class="block-heading" data-toggle="collapse">Asignar</a>
+      <div id="asignar" class="block-body collapse in">
+        <div class="field">
+          <%= f.label "Analista" %><br />
+          <%if current_user.analyst.area_id == 10000%>
+            <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id  = ? AND analyst LIKE  ?", 10000,"A0%"]), :id, :analyst, {:prompt => "Seleccione Analista"}) %>
+          <%elsif current_user.analyst.area_id == 10001%>
+            <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id BETWEEN ? AND ? AND analyst LIKE  ?", 10001,10003,"A0%"]), :id, :analyst, {:prompt => "Seleccione Analista"}) %>
+          <%end%>
+        </div>
+
+        <%= f.hidden_field :status_id, :id => "estatus"  %>
+        <div class="field">
+          <%= f.label :Prioridad %><br />
+          <%= f.collection_select(:priority_id, Priority.all, :id, :description, {:prompt => "seleccione prioridad"}) %>
+        </div>
+
+        <div class="form-actions">
+
+          <%if can? :assign, Office%>
+
+            <%if @office.status_id != 10004%>
+              <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "asignar();") do %>
+                <i class="fa fa-check fa-lg"> </i> Reasignar 
+              <% end %>
+            <%else%>
+              <%= button_tag( :class => "btn btn-primary", :id=>"guardar" ,:onclick=> "asignar();") do %>
+                <i class="fa fa-check fa-lg"> </i> Asignar 
+              <% end %>
+            <%end%>
+          <%end%>
+          <%= link_to 'Regresar', offices_path, :class => 'btn btn-danger' %>
+        </div>
+      </div> 
+    </div>
+  </div>
+<%end%>
+
+
+<script>
+  function asignar()
+  {
+    $('#estatus').val(10005);
+    document.getElementById('new_office').submit();
+    document.getElementById('guardar').disabled = true;
+  }
+</script>

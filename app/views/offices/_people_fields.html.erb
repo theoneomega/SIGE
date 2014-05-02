@@ -1,0 +1,64 @@
+<div class="block">
+
+  <a href="#person" class="block-heading" data-toggle="collapse">Persona(s)</a>
+
+  <div id="person" class="block-body collapse in">
+    <div class="control-group">
+      <div class="control-group">
+
+        <div class="field">
+          <%= f.label t(:ci) %><br />
+          <%= f.text_field :ci %>
+        </div>
+        <div class="field">
+          <%= f.label :Nombre %><br />
+          <%= f.text_field :first_name%>
+        </div>
+        <div class="field">
+          <%= f.label :Paterno %><br />
+          <%= f.text_field :last_name1 %>
+        </div>
+        <div class="field">
+          <%= f.label :Materno %><br />
+          <%= f.text_field :last_name2 %>
+        </div>
+        <div class="field">
+          <%= f.label :Alias %><br />
+          <%= f.text_field :alias %>
+        </div>
+
+        <div class="field">
+          <%= f.label :Fecha_Nacimiento %><br />
+          <%#=f.date_select :birth_date%>
+          <%= f.text_field :birth_date, :id => "dp1", :placeholder => "AAAA-MM-DD"%> <i class="icon-th"></i>
+        </div>
+
+        <div class="field">
+          <%= f.label :Originario %><br />
+          <%= f.text_field :originative %>
+        </div>
+        <div class="field">
+          <%= f.label :Genero %><br />
+          <%= f.select :genre, ["MASCULINO","FEMENINO"] %>
+        </div>
+        <div class="field">
+          <%= f.label :Profesion %><br />
+          <%= f.text_field :profession %>
+        </div>
+        <div class="field">
+          <%= f.label :Observaciones %><br />
+          <%= f.text_area :observations %>
+        </div>
+        <div class="field">
+          <%= f.label "Estatus" %><br />
+          <%= f.collection_select(:status_id, Status.where(:status_type => "persona"), :id, :description, {:prompt => "seleccione el estatus de la persona"}) %>
+        </div>
+        
+        <div class="field">
+          <%=f.hidden_field :registered_from, :value => "OFICIO"%>
+        </div>
+        <%=f.link_to_remove "Remover Persona",:class => 'btn btn-danger'%>
+      </div>
+    </div>
+  </div>
+</div>

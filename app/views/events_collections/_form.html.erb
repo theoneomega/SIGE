@@ -1,0 +1,105 @@
+<%= form_for(@events_collection) do |f| %>
+  <% if @events_collection.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@events_collection.errors.count, "error") %> prohibited this events_collection from being saved:</h2>
+
+      <ul>
+      <% @events_collection.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :id %><br />
+    <%= f.number_field :id %>
+  </div>
+  <div class="field">
+    <%= f.label :priority_id %><br />
+    <%= f.number_field :priority_id %>
+  </div>
+  <div class="field">
+    <%= f.label :event_date %><br />
+    <%= f.date_select :event_date %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="field">
+    <%= f.label :street %><br />
+    <%= f.text_field :street %>
+  </div>
+  <div class="field">
+    <%= f.label :interior_number %><br />
+    <%= f.text_field :interior_number %>
+  </div>
+  <div class="field">
+    <%= f.label :suburb %><br />
+    <%= f.text_field :suburb %>
+  </div>
+  <div class="field">
+    <%= f.label :locality %><br />
+    <%= f.text_field :locality %>
+  </div>
+  <div class="field">
+    <%= f.label :person_id %><br />
+    <%= f.number_field :person_id %>
+  </div>
+  <div class="field">
+    <%= f.label :vehicle_id %><br />
+    <%= f.number_field :vehicle_id %>
+  </div>
+  <div class="field">
+    <%= f.label :drug_id %><br />
+    <%= f.number_field :drug_id %>
+  </div>
+  <div class="field">
+    <%= f.label :weapon_id %><br />
+    <%= f.number_field :weapon_id %>
+  </div>
+  <div class="field">
+    <%= f.label :observations %><br />
+    <%= f.text_area :observations %>
+  </div>
+  <div class="field">
+    <%= f.label :backup_file %><br />
+    <%= f.text_field :backup_file %>
+  </div>
+  <div class="field">
+    <%= f.label :source %><br />
+    <%= f.text_field :source %>
+  </div>
+  <div class="field">
+    <%= f.label :area_id %><br />
+    <%= f.number_field :area_id %>
+  </div>
+  <div class="field">
+    <%= f.label :crime_id %><br />
+    <%= f.number_field :crime_id %>
+  </div>
+  <div class="field">
+    <%= f.label :township_id %><br />
+    <%= f.number_field :township_id %>
+  </div>
+  <div class="field">
+    <%= f.label :locality_id %><br />
+    <%= f.number_field :locality_id %>
+  </div>
+  <div class="field">
+    <%= f.label :place_id %><br />
+    <%= f.number_field :place_id %>
+  </div>
+  <div class="field">
+    <%= f.label :analyst_id %><br />
+    <%= f.number_field :analyst_id %>
+  </div>
+  <div class="field">
+    <%= f.label :status_id %><br />
+    <%= f.number_field :status_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  weapon_id: 1
+  office_id: 1
+
+two:
+  weapon_id: 1
+  office_id: 1

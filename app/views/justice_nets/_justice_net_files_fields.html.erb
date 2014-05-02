@@ -1,0 +1,23 @@
+<div class="row-fluid">
+  <div class="block">
+
+    <%if controller.action_name == "edit" %>
+
+    <%end%>
+    <a href="#archivo" class="block-heading" data-toggle="collapse">Archivo</a>
+    <div id="archivo" class="block-body-interior collapse in interior">
+
+      <div class="field">
+        <%= f.label :name %>
+        <%= f.file_field :name %>
+      </div>
+      <div class="field">
+        <%= f.label :description %>
+        <%= f.text_area :description %>
+      </div>
+      <div class="form-actions">
+        <%=f.link_to_remove "Eliminar Archivo",:class => 'btn btn-danger'%>
+      </div>
+    </div>
+  </div>
+</div>

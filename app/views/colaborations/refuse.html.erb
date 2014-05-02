@@ -1,0 +1,63 @@
+<%= nested_form_for(@colaboration) do |f| %>
+  <% if @colaboration.errors.any? %>
+    <div id="error_explanation">
+      <%if @colaboration.errors.count ==1%>
+        <h2><%= pluralize(@colaboration.errors.count, "error") %> no dejo que se guardara este registro:</h2>
+      <%else%>
+        <h2><%= pluralize(@colaboration.errors.count, "errores") %> no dejaron que se guardara este registro:</h2>
+      <%end%>
+      <ul>
+        <% @colaboration.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <div class="block">
+
+      <a href="#page-stats" class="block-heading" data-toggle="collapse"> Rechazar Colaboración</a>
+
+      <div id="page-stats" class="block-body collapse in"> 
+
+        <%= f.hidden_field  :status_id, :id=> "estatus" %>
+
+        
+        
+        <div class="field">
+          <%= f.label :observations, "Observaciones" %><br />
+          <%= f.text_area :observations %>
+        </div>
+        <div class="field">
+
+          <%#= f.hidden_field :user_id, :value => current_user.id %>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <%= button_tag( :class => "btn btn-warning", :id=>"guardar" ,:onclick=> "rechazar();") do %>
+        <i class="fa fa-exclamation-triangle fa-lg" style="color: red"> </i> <a>Rechazar y guardar</a>
+        <% end %>
+       
+        <%= link_to 'Regresar', offices_path, :class => "btn btn-danger"%>
+      </div>
+
+
+    <%end%>
+</div>
+<script>
+  function rechazar()
+  {
+    $('#estatus').val(10005);
+    document.getElementById('new_office').submit();
+    document.getElementById('guardar').disabled = true;
+  }
+  
+  function submitform()
+  {
+    document.getElementById('new_office').submit();
+    document.getElementById('guardar').disabled = true;
+  }
+
+</script>

@@ -1,0 +1,79 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li><%=link_to "Informacion de usuarios", user_info_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
+<%end%>
+
+<div class="row-fluid show-details">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Analista</th>
+          <th>Eventos asignados</th>
+          <th>Oficios asignados</th>
+          <th>Colaboraciones asignados</th>
+          <th>Ultima actividad</th>
+          <th>Conectado</th>
+          <th>Ultima sesión</th>
+        </tr>
+      </thead >
+
+      <tbody>
+        <% @bitacora.each do |bitacora|%>
+          <% @eventos = Event.where('status_id BETWEEN ? AND ? and analyst_id = ? ', 10020,10022, bitacora.user.analyst.id ) %> 
+          <% @oficios = Office.where('status_id BETWEEN ? AND ? and analyst_id = ? ', 10004,10005, bitacora.user.analyst.id ) %>
+          <% @colaboraciones = Colaboration.where('status_id BETWEEN ? AND ? and analyst_id = ? ', 10004,10005, bitacora.user.analyst.id ) %>
+          <tr>
+            <td> 
+              <%= bitacora.user.username  %>
+            </td>
+            <td>
+              <%= bitacora.user.analyst.analyst %>
+            </td>
+            <td> 
+        <center>
+          <%= @eventos.count %>
+        </center>
+        </td>
+        <td> 
+        <center>
+          <%= @oficios.count %>
+        </center>
+        </td>
+        <td> 
+        <center>
+          <%=@colaboraciones.count%>
+        </center>
+        </td>
+        <td>
+          <%if bitacora.user.activity%>
+            <%= I18n.l bitacora.last_activity,:format => "%A, %d %b %Y %H:%M:%S %p" %>
+          <%end%>
+        </td>
+        <td>
+          <% if bitacora.user.activity %>
+            <%if bitacora.last_activity > 40.minutes.ago%>
+            <center>
+              <i class="icon-check"></i>
+            </center>
+          <%end%>
+        <%end%>
+        </td>
+        <td>
+          <%if !bitacora.user.current_sign_in_at.nil?%>
+            <%= I18n.l bitacora.user.current_sign_in_at, :format => "%A, %d %b %Y %H:%M:%S %p" %>
+          <%end%>
+        </td>
+
+        </tr>
+      <%end%>
+      </tbody>
+    </table>
+  </div>
+
+  <br>
+
+

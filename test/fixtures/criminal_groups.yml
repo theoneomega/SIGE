@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  description: MyText
+  vehicle_id: 1
+  weapon_id: 1
+  drug_id: 1
+  area_id: 1
+
+two:
+  id: 1
+  description: MyText
+  vehicle_id: 1
+  weapon_id: 1
+  drug_id: 1
+  area_id: 1

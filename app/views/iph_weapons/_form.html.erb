@@ -1,0 +1,57 @@
+<%= form_for(@iph_weapon) do |f| %>
+  <% if @iph_weapon.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@iph_weapon.errors.count, "error") %> prohibited this iph_weapon from being saved:</h2>
+
+      <ul>
+        <% @iph_weapon.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row-fluid">
+    <div class="block ">
+      <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+      <div id="general-info" class="block-body collapse in">
+        <br />
+        <div class="field">
+          <%= f.label :id %><br />
+          <%= f.number_field :id %>
+        </div>
+        <div class="field">
+          <%= f.label :brand %><br />
+          <%= f.text_field :brand %>
+        </div>
+        <div class="field">
+          <%= f.label :model %><br />
+          <%= f.text_field :model %>
+        </div>
+        <div class="field">
+          <%= f.label :serial_number %><br />
+          <%= f.text_field :serial_number %>
+        </div>
+        <div class="field">
+          <%= f.label :weapon %><br />
+          <%= f.text_field :weapon %>
+        </div>
+        <div class="field">
+          <%= f.label :caliber %><br />
+          <%= f.text_field :caliber %>
+        </div>
+        <div class="field">
+          <%= f.label :weapon_type_id %><br />
+          <%= f.number_field :weapon_type_id %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%if can? :index, IphWeapon %>
+      <%= link_to t(:back, :default => t('helpers.links.back')), iph_weapons_path, :class => 'btn' %>
+    <%end%>
+  </div>
+
+<% end %>

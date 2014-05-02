@@ -1,0 +1,329 @@
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+
+      <% if !@office.kind.nil? %>
+        <p>
+          <b>Tipo de oficio</b>
+          <% if @office.kind == "S"%>
+            Solicitud de información
+          <% elsif @office.kind == "R" %>
+            Solo Registro
+          <% end %>
+
+        </p>
+      <% end %>
+      <p>
+        <b>Fecha del oficio:</b>
+        <%= @office.office_date.strftime('%d/%m/%Y') %>
+      </p>
+
+      <p>
+        <b>Fecha de recibido:</b>
+        <%= @office.received_date.strftime('%d/%m/%Y') %>
+      </p>
+
+      <p>
+        <b>Numero de oficio:</b>
+        <%= @office.received_office_number %>
+      </p>
+      <p>
+        <b>Unidad o area:</b>
+        <%= @office.requesting_area %>
+      </p>
+
+      <p>
+        <b>Quien firma:</b>
+        <%= @office.claimant %>
+      </p>
+
+      <p>
+        <b>Asunto:</b>
+        <%= @office.subject %>
+      </p>
+
+      <p>
+        <b>Zona:</b>
+        <%= @office.area.description %>
+      </p>
+
+      <p>
+        <b>Estatus:</b>
+        <%= @office.status.description %>
+      </p>
+
+      <p>
+        <b>Asignado a: </b>
+        <%if @office.analyst%>
+          <%= @office.analyst.analyst %>
+        <%end%>
+      </p>
+      <%if @office.person.where(:status_id=>10001).count >0 %>
+        <div class="block">
+          <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@office.person.where(:status_id=>10001).count, "Victima") %></a>
+          <div id="victims" class="block-body collapse">
+            <div class="control-group">
+              <%@office.person.where(:status_id => 10001).each do |person|%>
+                <ul class="inline">
+                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                  <ul>
+                    <% if person.observations?%>
+                      <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                    <%end%>
+                    <% if person.ci?%>
+                      <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                    <%end%>
+                    <% if person.alias?%>
+                      <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                    <%end%>
+                    <% if person.birth_date%>
+                      <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                    <%end%>
+                    <% if person.genre?%>
+                      <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                    <%end%>
+                    <% if person.status_id%>
+                      <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                    <%end%>
+                  </ul>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @office.person.where(:status_id=>10026).count >0 %>
+        <div class="block">
+          <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@office.person.where(:status_id=>10026).count, "Imputado identificado") %></a>
+          <div id="victims" class="block-body collapse">
+            <div class="control-group">
+              <%@office.person.where(:status_id => 10026).each do |person|%>
+                <ul class="inline">
+                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                  <ul>
+                    <% if person.observations?%>
+                      <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                    <%end%>
+                    <% if person.ci?%>
+                      <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                    <%end%>
+                    <% if person.alias?%>
+                      <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                    <%end%>
+                    <% if person.birth_date%>
+                      <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                    <%end%>
+                    <% if person.genre?%>
+                      <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                    <%end%>
+                    <% if person.status_id%>
+                      <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                    <%end%>
+                  </ul>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @office.person.where(:status_id=>10000).count>0%>
+        <div class="block">
+          <a href="#detained" class="block-heading" data-toggle="collapse"><%= pluralize(@office.person.where(:status_id=>10000).count, "Detenido") %></a>
+          <div id="detained" class="block-body collapse">
+            <div class="control-group">
+              <%@office.person.where(:status_id => 10000).each do |person|%>
+                <ul>
+                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                  <%if person.observations%>
+                    <ul>
+                      <% if person.observations?%>
+                        <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                      <%end%>
+                      <% if person.ci?%>
+                        <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                      <%end%>
+                      <% if person.alias?%>
+                        <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                      <%end%>
+                      <% if person.birth_date%>
+                        <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                      <%end%>
+                      <% if person.genre?%>
+                        <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                      <%end%>
+                      <% if person.status_id%>
+                        <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                      <%end%>
+                    </ul>
+                  <%end%>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @office.person.where(:status_id=>10002).count > 0%>
+        <div class="block">
+          <a href="#suspects" class="block-heading" data-toggle="collapse"><%= pluralize(@office.person.where(:status_id=>10002).count, "Sospechoso") %></a>
+          <div id="suspects" class="block-body collapse">
+            <div class="control-group">
+              <%@office.person.where(:status_id => 10002).each do |person|%>
+                <ul class="inline">
+                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                  <ul>
+                    <ul>
+                      <% if person.observations?%>
+                        <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                      <%end%>
+                      <% if person.ci?%>
+                        <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                      <%end%>
+                      <% if person.alias?%>
+                        <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                      <%end%>
+                      <% if person.birth_date%>
+                        <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                      <%end%>
+                      <% if person.genre?%>
+                        <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                      <%end%>
+                      <% if person.status_id%>
+                        <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                      <%end%>
+                    </ul>
+                  </ul>
+                <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @office.person.where(:status_id=>10025).count > 0%>
+        <div class="block">
+          <a href="#suspects" class="block-heading" data-toggle="collapse"><%= pluralize(@office.person.where(:status_id=>10025).count, "Estatus desconocido") %></a>
+          <div id="suspects" class="block-body collapse">
+            <div class="control-group">
+              <%@office.person.where(:status_id => 10025).each do |person|%>
+                <ul class="inline">
+                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                  <ul>
+                    <ul>
+                      <% if person.observations?%>
+                        <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                      <%end%>
+                      <% if person.ci?%>
+                        <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                      <%end%>
+                      <% if person.alias?%>
+                        <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                      <%end%>
+                      <% if person.birth_date%>
+                        <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                      <%end%>
+                      <% if person.genre?%>
+                        <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                      <%end%>
+                      <% if person.status_id%>
+                        <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                      <%end%>
+                    </ul>
+                  </ul>
+                <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @office.vehicles.count > 0%>
+        <div class="block">
+          <a href="#vehicles" class="block-heading" data-toggle="collapse"><%= pluralize(@office.vehicles.count, "Vehiculo")%></a>
+          <div id="vehicles" class="block-body collapse">
+            <div class="control-group">
+              <%@office.vehicles.each do |vehicle|%>
+                <ul>
+                  <li><i class="icon-truck"> </i><%=vehicle.fulldescription %></li>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <%if @office.weapons.count > 0%>
+        <div class="block">
+          <a href="#weapons" class="block-heading" data-toggle="collapse"><%= pluralize(@office.weapons.count, "Arma")%></a>
+          <div id="weapons" class="block-body collapse">
+            <div class="control-group">
+              <%@office.weapons.each do |weapon|%>
+                <ul>
+                  <li><i class="icon-screenshot"> </i><%=weapon.weapontype %></li>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+      <p>
+        <b>Fecha de contestacion:</b>
+        <%= @office.replied_date %>
+      </p>
+
+      <p>
+        <b>Numero de oficio de contestación</b>
+        <%= @office.office_number %>
+      </p>
+
+      <p>
+        <b>Observaciones</b>
+        <%= @office.observations %>
+      </p>
+      <p>
+        <b>Oficio: </b>
+      <ul>
+        <%@office.office_file.each do |file|%>
+
+          <li class="icon-file">  </li><%=link_to file.description, file.file.to_s, target: "_blank"%> <br>
+
+        <%end%>
+      </ul>
+      </p>
+
+      <%= render "file_fields" %>
+
+      <p>
+        <b>Ultima modificacion hecha por:</b>
+        <%= @office.user.username %>
+      </p>
+    </div>
+  </div>
+
+
+
+
+  <div class="form-actions">
+    <%if can? :modify, Office%>
+      <%= link_to 'Editar', edit_office_path(@office), :class => 'btn btn-primary' %> |
+    <%end%>
+    <%if can? :assign, Office%>
+      <%if @office.status_id != 10004%>
+        <%= link_to "Reasignar", assign_path(@office), :class => "btn btn-primary" %> |
+      <%else%>
+        <%= link_to "Asignar", assign_path(@office), :class => "btn btn-primary" %> |
+      <%end%>
+    <%end%>
+    <%if @office.status_id == 10003%>
+      <%if can? :approve, Office%>
+        <%= link_to 'Aprobar', approve_path(@office), :class => 'btn btn-success' %> |
+      <%end%>
+      <%if can? :refuse, Office%>
+        <%= link_to "Rechazar", refuse_path(@office), :class => "btn btn-warning"  %> |
+      <%end%> 
+    <%end%>
+    <%= link_to 'Regresar', offices_path, :class => 'btn btn-danger' %> 
+  </div>
+</div>

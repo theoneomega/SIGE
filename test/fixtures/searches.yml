@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  oficios: false
+  eventos: false
+  colaboraciones: false
+
+two:
+  oficios: false
+  eventos: false
+  colaboraciones: false

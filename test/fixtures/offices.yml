@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  office_date: 2013-10-22
+  received_date: 2013-10-22
+  requesting_area: MyString
+  claimant: MyString
+  subject: MyString
+  area_id: 1
+  status_id: 1
+  analyst_id: 1
+  replied_date: 2013-10-22
+  office_number: MyString
+  observations: MyText
+  user_id: 1
+
+two:
+  id: 1
+  office_date: 2013-10-22
+  received_date: 2013-10-22
+  requesting_area: MyString
+  claimant: MyString
+  subject: MyString
+  area_id: 1
+  status_id: 1
+  analyst_id: 1
+  replied_date: 2013-10-22
+  office_number: MyString
+  observations: MyText
+  user_id: 1

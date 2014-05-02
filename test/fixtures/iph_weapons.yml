@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  brand: MyString
+  model: MyString
+  serial_number: MyString
+  weapon: MyString
+  caliber: MyString
+  weapon_type_id: 1
+
+two:
+  id: 1
+  brand: MyString
+  model: MyString
+  serial_number: MyString
+  weapon: MyString
+  caliber: MyString
+  weapon_type_id: 1

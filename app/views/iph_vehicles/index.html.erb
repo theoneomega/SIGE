@@ -1,0 +1,73 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, IphVehicle %>
+      <li class="active"><%=link_to t(:index), iph_vehicles_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, IphVehicle %>
+      <li class="active"><%=link_to t(:new), new_iph_vehicle_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="well">
+  <table class="table">
+    <thead>
+      <tr>
+        <th><%= t'.id' %></th>
+        <th><%= t'.brand' %></th>
+        <th><%= t'.line' %></th>
+        <th><%= t'.model' %></th>
+        <th><%= t'.plate' %></th>
+        <th><%= t'.serial_number' %></th>
+        <th><%= t'.color' %></th>
+        <th><%= t'.stolen' %></th>
+        <th><%= t'.details' %></th>
+        <th><%= t(:actions) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @iph_vehicles.each do |iph_vehicle| %>
+        <tr>
+          <td><%= iph_vehicle.id %></td>
+          <td><%= iph_vehicle.brand %></td>
+          <td><%= iph_vehicle.line %></td>
+          <td><%= iph_vehicle.model %></td>
+          <td><%= iph_vehicle.plate %></td>
+          <td><%= iph_vehicle.serial_number %></td>
+          <td><%= iph_vehicle.color %></td>
+          <td><%= iph_vehicle.stolen %></td>
+          <td><%= iph_vehicle.details %></td>
+          <td>         
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <%= link_to iph_vehicle do %>
+                      <i class="icon-eye-open"></i>&nbsp;&nbsp;<%=t(:show, :default => t("helpers.links.show"))%>
+                    </li>
+                  <%end%>
+                  <li>
+                    <%= link_to edit_iph_vehicle_path(iph_vehicle) do %>
+                      <i class="icon-pencil"></i>&nbsp;&nbsp;<%=t(:edit, :default => t("helpers.links.edit"))%>
+                    <%end%>
+                  </li>
+                  <li>
+                    <%= link_to  iph_vehicle, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } do %>
+                      <i class="icon-trash"></i>&nbsp;&nbsp;<%=t(:destroy, :default => t("helpers.links.destroy"))%>
+                    <%end%>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+<%=link_to t(:new)+" iph_vehicle", new_iph_vehicle_path, :class => "btn btn-primary"%>
+

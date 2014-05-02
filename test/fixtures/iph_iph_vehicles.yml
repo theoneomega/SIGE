@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  iph_id: 1
+  iph_vehicle_id: 1
+
+two:
+  iph_id: 1
+  iph_vehicle_id: 1

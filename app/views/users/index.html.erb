@@ -1,0 +1,35 @@
+<div class="well">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Analyst</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+
+      </tr>
+    </thead>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><%= user.analyst.analyst %></td>
+        <td><%= user.role.role %></td>
+        <td>
+          <ul class="nav nav-pills">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Show', user %></li>
+                <li><%= link_to 'Edit', edit_user_path(user) %></li>
+                <li><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+              </ul>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+<br />
+
+<%= link_to 'New User', new_user_path %>

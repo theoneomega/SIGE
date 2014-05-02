@@ -1,0 +1,46 @@
+<%content_for :breadcrumb do%>
+<ul class="breadcrumb">
+  <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+  <%if can? :index, Unit %>
+  <li class="active"><%=link_to t(:index), units_path %><span class="divider">/</span></li>
+  <%end%>
+  <%if can? :new, Unit %>
+  <li class="active"><%=link_to t(:new), new_unit_path%></li>
+  <%end%>
+</ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+              <p>
+          <b><%= t'.id' %>:</b>
+          <%= @unit.id %>
+        </p>
+              <p>
+          <b><%= t'.description' %>:</b>
+          <%= @unit.description %>
+        </p>
+          </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, Unit %>
+  <%= link_to t(:back, :default => t('helpers.links.back')), units_path, :class => 'btn' %>
+  <%end%>
+  <%if can? :edit, Unit %>
+  <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_unit_path(@unit), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, Unit %>
+  <%= link_to t(:destroy, :default => t("helpers.links.destroy")), unit_path(@unit),
+  :method => 'delete',
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :new, Unit %>
+  <%= link_to t(:new, :default => t('helpers.links.edit')), new_unit_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+</div>

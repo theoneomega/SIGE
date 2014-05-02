@@ -1,0 +1,41 @@
+<%= form_for(@justice_net_file) do |f| %>
+  <% if @justice_net_file.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@justice_net_file.errors.count, "error") %> prohibited this justice_net_file from being saved:</h2>
+
+      <ul>
+        <% @justice_net_file.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row-fluid">
+    <div class="block">
+      <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+      <div id="general-info" class="block-body collapse in">
+        <br />
+        <div class="field">
+          <%= f.label :id %><br />
+          <%= f.number_field :id %>
+        </div>
+        <div class="field">
+          <%= f.label :justice_net_id %><br />
+          <%= f.number_field :justice_net_id %>
+        </div>
+        <div class="field">
+          <%= f.label :name %><br />
+          <%= f.text_field :name %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%if can? :index, Justice Net File %>
+      <%= link_to t(:back, :default => t('helpers.links.back')), justice_net_files_path, :class => 'btn' %>
+    <%end%>
+  </div>
+
+<% end %>

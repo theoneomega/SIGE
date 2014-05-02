@@ -1,0 +1,37 @@
+<%= form_for(@iph_crime) do |f| %>
+<% if @iph_crime.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@iph_crime.errors.count, "error") %> prohibited this iph_crime from being saved:</h2>
+
+  <ul>
+    <% @iph_crime.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="row-fluid">
+  <div class="block">
+    <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="general-info" class="block-body collapse in">
+      <br />
+              <div class="field">
+          <%= f.label :id %><br />
+          <%= f.number_field :id %>
+        </div>
+              <div class="field">
+          <%= f.label :concept %><br />
+          <%= f.text_field :concept %>
+        </div>
+          </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%if can? :index, Iph Crime %>
+  <%= link_to t(:back, :default => t('helpers.links.back')), iph_crimes_path, :class => 'btn' %>
+  <%end%>
+</div>
+
+<% end %>

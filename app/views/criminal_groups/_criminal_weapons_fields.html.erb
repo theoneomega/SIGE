@@ -1,0 +1,8 @@
+  <div class="control-group">
+    <div class="field">
+      <%= f.label :weapon_id, "Weapon" %><br />
+      <%= f.collection_select(:weapon_id, Weapon.all, :id, :fulldescription, {:prompt => "seleccione arma"}) %>
+      <%=f.link_to_remove "remove weapon",:class => 'btn btn-danger'%>
+    </div>
+    <br />
+  </div>

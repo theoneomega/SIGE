@@ -1,0 +1,47 @@
+<h1>Listing criminal_groups</h1>
+<div  class="well ">
+  <table class="table table-condensed table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th><%=t'.Description'%></th>
+        <th><%=t'.Vehicle'%></th>
+        <th><%=t'.Weapon'%></th>
+        <th><%=t'.Drug'%></th>
+        <th>Area</th>
+        <th><%=t(:actions)%></th>
+      </tr>
+    </thead>
+    <% @criminal_groups.each do |criminal_group| %>
+      <tr>
+        <td><%= criminal_group.id %></td>
+        <td><%= criminal_group.description %></td>
+        <td>
+          <%= link_to criminal_group.vehicles.count,criminal_group, :style=> " color: white;", :class => "label label-info" %>  vehicles
+        </td>
+        <td>
+          <%= link_to criminal_group.weapons.count,criminal_group, :style=> " color: white;", :class => "label label-info" %>  weapons
+        </td>
+        <td>
+          <%= link_to criminal_group.drugs.count,criminal_group, :style=> " color: white;", :class => "label label-info" %>  drugs
+        </td>
+        <td><%= criminal_group.area.description %></td>
+        <td>
+          <ul class="nav nav-pills">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to 'Show', criminal_group %></li>
+                <li><%= link_to 'Edit', edit_criminal_group_path(criminal_group) %></li>
+                <li><%= link_to 'Destroy', criminal_group, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+              </ul>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Criminal group', new_criminal_group_path, :class => "btn btn-primary" %>

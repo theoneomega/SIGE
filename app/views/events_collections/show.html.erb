@@ -1,0 +1,115 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @events_collection.id %>
+</p>
+
+<p>
+  <b>Prioridad</b>
+  <%= @events_collection.priority_id %>
+</p>
+
+<p>
+  <b>Fecha de Evento:</b>
+  <%= @events_collection.event_date %>
+</p>
+
+<p>
+  <b>Descripcion:</b>
+  <%= @events_collection.description %>
+</p>
+
+<p>
+  <b>Calle</b>
+  <%= @events_collection.street %>
+</p>
+
+<p>
+  <b>Numero Interior:</b>
+  <%= @events_collection.interior_number %>
+</p>
+
+<p>
+  <b>Colonia:</b>
+  <%= @events_collection.suburb %>
+</p>
+
+<p>
+  <b>Localidad:</b>
+  <%= @events_collection.locality %>
+</p>
+
+<p>
+  <b>Persona:</b>
+  <%= @events_collection.person_id %>
+</p>
+
+<p>
+  <b>Vehiculo:</b>
+  <%= @events_collection.vehicle_id %>
+</p>
+
+<p>
+  <b>Droga:</b>
+  <%= @events_collection.drug_id %>
+</p>
+
+<p>
+  <b>Arma:</b>
+  <%= @events_collection.weapon_id %>
+</p>
+
+<p>
+  <b>Observaciones:</b>
+  <%= @events_collection.observations %>
+</p>
+
+<p>
+  <b>Archivo de Respaldo:</b>
+  <%= @events_collection.backup_file %>
+</p>
+
+<p>
+  <b>Fuente:</b>
+  <%= @events_collection.source %>
+</p>
+
+<p>
+  <b>Area:</b>
+  <%= @events_collection.area_id %>
+</p>
+
+<p>
+  <b>Delito:</b>
+  <%= @events_collection.crime_id %>
+</p>
+
+<p>
+  <b>Municipio:</b>
+  <%= @events_collection.township_id %>
+</p>
+
+<p>
+  <b>Localidad:</b>
+  <%= @events_collection.locality_id %>
+</p>
+
+<p>
+  <b>Lugar:</b>
+  <%= @events_collection.place_id %>
+</p>
+
+<p>
+  <b>Analista:</b>
+  <%= @events_collection.analyst_id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @events_collection.status_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_events_collection_path(@events_collection) %> |
+<%= link_to 'Back', events_collections_path %>

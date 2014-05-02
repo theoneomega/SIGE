@@ -1,0 +1,67 @@
+<%= nested_form_for(@criminal_group) do |f| %>
+  <% if @criminal_group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@criminal_group.errors.count, "error") %> prohibited this criminal_group from being saved:</h2>
+
+      <ul>
+        <% @criminal_group.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="block">
+    <a href="#page-stats" class="block-heading" data-toggle="collapse">New criminal group</a>
+    <div id="page-stats" class="block-body collapse in">
+      
+      
+      <div class="field">
+        <%= f.label :description %><br />
+        <%= f.text_area :description %>
+      </div>
+
+      <div id="general-info2" class="block-body collapse in">
+        <p>
+          <%=f.fields_for :weapons do |builder| %>
+            <%= render 'weapons_fields', :f => builder %>
+          <%end%>
+          <%= f.link_to_add "add a weapon", :weapons, :class => "btn btn-primary" %>
+        </p>
+      </div>
+
+      <div id="general-info2" class="block-body collapse in">
+        <p>
+          <%=f.fields_for :vehicles do |builder| %>
+            <%= render 'vehicles_fields', :f => builder %>
+          <%end%>
+          <%= f.link_to_add "add a vehicle", :vehicles, :class => "btn btn-primary" %>
+        </p>
+      </div>
+
+      <div id="general-info2" class="block-body collapse in">
+        <p>
+          <%=f.fields_for :drugs do |builder| %>
+            <%= render 'drugs_fields', :f => builder %>
+          <%end%>
+          <%= f.link_to_add "add a drug", :drugs, :class => "btn btn-primary" %>
+        </p>
+      </div>
+
+
+      <div class="field">
+        <%= f.label :area_id %><br />
+        <%= f.collection_select(:area_id, Area.all, :id, :description, {:prompt => "seleccione area"}) %>
+      </div>
+      <div class="actions">
+        <%= button_tag( :class => "btn btn-primary") do %>
+          <i class="icon-save icon-white"> </i>Guardar Grupo criminal
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+
+</div>

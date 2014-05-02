@@ -1,0 +1,54 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, IphDrug %>
+      <li class="active"><%=link_to t(:index), iph_drugs_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, IphDrug %>
+      <li class="active"><%=link_to t(:new), new_iph_drug_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+      <p>
+        <b><%= t'.id' %>:</b>
+        <%= @iph_drug.id %>
+      </p>
+      <p>
+        <b><%= t'.kind' %>:</b>
+        <%= @iph_drug.kind %>
+      </p>
+      <p>
+        <b><%= t'.quantity' %>:</b>
+        <%= @iph_drug.quantity %>
+      </p>
+      <p>
+        <b><%= t'.observations' %>:</b>
+        <%= @iph_drug.observations %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, IphDrug %>
+    <%= link_to t(:back, :default => t('helpers.links.back')), iph_drugs_path, :class => 'btn' %>
+  <%end%>
+  <%if can? :edit, IphDrug %>
+    <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_iph_drug_path(@iph_drug), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, IphDrug %>
+    <%= link_to t(:destroy, :default => t("helpers.links.destroy")), iph_drug_path(@iph_drug),
+      :method => 'delete',
+      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+      :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :new, IphDrug %>
+    <%= link_to t(:new, :default => t('helpers.links.edit')), new_iph_drug_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+</div>

@@ -1,0 +1,35 @@
+<%%= form_for(@<%= singular_table_name %>) do |f| %>
+<%% if @<%= singular_table_name %>.errors.any? %>
+<div id="error_explanation">
+  <h2><%%= pluralize(@<%= singular_table_name %>.errors.count, "error") %> prohibited this <%= singular_table_name %> from being saved:</h2>
+
+  <ul>
+    <%% @<%= singular_table_name %>.errors.full_messages.each do |msg| %>
+    <li><%%= msg %></li>
+    <%% end %>
+  </ul>
+</div>
+<%% end %>
+<div class="row-fluid">
+  <div class="block">
+    <a href="#general-info" class="block-heading" data-toggle="collapse"><%%= t(:general_information) %></a>
+    <div id="general-info" class="block-body collapse in">
+      <br />
+      <% attributes.each do |attribute| -%>
+        <div class="field">
+          <%%= f.label :<%= attribute.name %> %><br />
+          <%%= f.<%= attribute.field_type %> :<%= attribute.name %> %>
+        </div>
+      <% end -%>
+    </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%%= f.submit nil, :class => 'btn btn-primary' %>
+  <%%if can? :index, <%= singular_table_name.titlecase %> %>
+  <%%= link_to t(:back, :default => t('helpers.links.back')), <%= index_helper %>_path, :class => 'btn' %>
+  <%%end%>
+</div>
+
+<%% end %>

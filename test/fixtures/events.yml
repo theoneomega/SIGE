@@ -1,0 +1,61 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  priority_id: 1
+  event_date: 2013-09-27
+  description: MyText
+  street: MyString
+  interior_number: MyString
+  suburb: MyString
+  locality: MyString
+  victims: false
+  detained: false
+  suspects: false
+  person_id: 1
+  vehicles: false
+  vehicle_id: 1
+  drugs: false
+  drug_id: MyString
+  weapons: false
+  weapon_id: 1
+  observations: MyText
+  backup_file: MyString
+  source: MyString
+  area_id: 1
+  crime_id: 1
+  township_id: 1
+  locality_id: 1
+  place_id: 1
+  analyst_id: 1
+  status_id: 1
+
+two:
+  id: 1
+  priority_id: 1
+  event_date: 2013-09-27
+  description: MyText
+  street: MyString
+  interior_number: MyString
+  suburb: MyString
+  locality: MyString
+  victims: false
+  detained: false
+  suspects: false
+  person_id: 1
+  vehicles: false
+  vehicle_id: 1
+  drugs: false
+  drug_id: MyString
+  weapons: false
+  weapon_id: 1
+  observations: MyText
+  backup_file: MyString
+  source: MyString
+  area_id: 1
+  crime_id: 1
+  township_id: 1
+  locality_id: 1
+  place_id: 1
+  analyst_id: 1
+  status_id: 1

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  role: MyString
+  protected: false
+  super_admin: false
+  analyst: false
+  administrator: false
+  supervisor: false
+
+two:
+  id: 1
+  role: MyString
+  protected: false
+  super_admin: false
+  analyst: false
+  administrator: false
+  supervisor: false

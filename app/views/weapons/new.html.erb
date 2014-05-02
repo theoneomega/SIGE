@@ -1,0 +1,11 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li>sieid<span class="divider">/</span></li>
+      <li><%=link_to t(:index), weapons_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:new) + " " + t(:weapon)%></li>
+  </ul>
+<%end%>
+
+<%= render 'form' %>
+
+

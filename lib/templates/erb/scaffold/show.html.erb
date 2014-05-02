@@ -1,0 +1,44 @@
+<%%content_for :breadcrumb do%>
+<ul class="breadcrumb">
+  <li><%%=link_to t(:home), root_path%><span class="divider">/</span></li>
+  <%%if can? :index, <%= singular_table_name.titlecase %> %>
+  <li class="active"><%%=link_to t(:index), <%= index_helper %>_path %><span class="divider">/</span></li>
+  <%%end%>
+  <%%if can? :new, <%= singular_table_name.titlecase %> %>
+  <li class="active"><%%=link_to t(:new), new_<%= singular_table_name %>_path%></li>
+  <%%end%>
+</ul>
+<%%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+      <% attributes.each do |attribute| -%>
+        <p>
+          <b><%%= t'.<%= attribute.human_name.downcase.tr(" ", "_") %>' %>:</b>
+          <%%= @<%= singular_table_name %>.<%= attribute.name %> %>
+        </p>
+      <% end -%>
+    </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%%if can? :index, <%= singular_table_name.titlecase %> %>
+  <%%= link_to t(:back, :default => t('helpers.links.back')), <%= index_helper %>_path, :class => 'btn' %>
+  <%%end%>
+  <%%if can? :edit, <%= singular_table_name.titlecase %> %>
+  <%%= link_to t(:edit, :default => t('helpers.links.edit')), edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), :class => 'btn' %>
+  <%%end%>
+  <%%if can? :destroy, <%= singular_table_name.titlecase %> %>
+  <%%= link_to t(:destroy, :default => t("helpers.links.destroy")), <%= singular_table_name %>_path(@<%= singular_table_name %>),
+  :method => 'delete',
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger' %>
+  <%%end%>
+  <%%if can? :new, <%= singular_table_name.titlecase %> %>
+  <%%= link_to t(:new, :default => t('helpers.links.edit')), new_<%= singular_table_name %>_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%%end%>
+</div>

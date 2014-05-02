@@ -1,0 +1,26 @@
+<%= stylesheet_link_tag    "style_login", :media => "all" %>
+<h1>Catalogos</h1>
+
+<div><p>
+  <ul>
+  <li><%= link_to t(:wevents), events_path%></li>
+
+  <li><%= link_to t(:wpersons), people_path%></li>
+  </ul>
+  </p>
+</div>
+
+<br>
+
+</br>
+<p>
+<li><%= link_to t(:wdrugs), drugs_path %></li>
+<li><%= link_to t(:waddress), addresses_path%></li>
+<li><%= link_to t(:wanalista), analysts_path%></li> 
+<li><%= link_to t(:wcrimes), crimes_path %></li>
+<li><%= link_to t(:wplaces), places_path%></li>
+<li><%= link_to t(:wtowns), townships_path%></li>
+<li><%= link_to t(:wvehicles), vehicles_path%></li>
+<li><%= link_to t(:wstatuses), statuses_path%></li>
+<p><%=link_to_function "back", "history.back()" %> </p>
+</p>

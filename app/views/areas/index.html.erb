@@ -1,0 +1,47 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li><%=link_to t(:wareas),areas_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
+<%end%>
+<%content_for :analyst_counter do%>
+  <div class="header">
+    
+  </div>
+<%end%>
+<div class="well">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th> <%= t'.id' %> </th>
+        <th><%=  t'.description'%></th>
+        <th> <%=t(:actions)%></th>
+      </tr>
+    </thead>
+    <% @areas.each do |area| %>
+      <tbody>
+        <tr>
+          <td><%= area.id %></td>
+          <td><%= area.description %></td>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Show', area %></li>
+                  <li><%= link_to 'Edit', edit_area_path(area) %></li>
+                  <li><%= link_to 'Destroy', area, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+
+<%= link_to 'New Area', new_area_path, :class => "btn btn-primary" %>

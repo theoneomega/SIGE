@@ -1,0 +1,42 @@
+<h1>Registro de Drogas</h1>
+<div  class="well ">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th><%=t'.kind'%></th>
+        <th><%=t'.Quantity'%></th>
+        <th><%=t'.Observations'%></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @drugs.each do |drug| %>
+      <tbody>
+        <tr>
+          <td><%= drug.id %></td>
+          <td><%= drug.kind %></td>
+          <td><%= drug.quantity %></td>
+          <td><%= drug.observations %></td>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li><%= link_to 'Show', drug %></li>
+                  <li><%= link_to 'Edit', edit_drug_path(drug) %></li>
+                  <li><%= link_to 'Destroy', drug, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+
+      <% end %>
+    </tbody>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Drug', new_drug_path %>

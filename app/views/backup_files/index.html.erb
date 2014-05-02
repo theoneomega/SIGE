@@ -1,0 +1,27 @@
+<h1>Listing backup_files</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>File</th>
+    <th>Event</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @backup_files.each do |backup_file| %>
+  <tr>
+    <td><%= backup_file.id %></td>
+    <td><%= backup_file.file %></td>
+    <td><%= backup_file.event_id %></td>
+    <td><%= link_to 'Show', backup_file %></td>
+    <td><%= link_to 'Edit', edit_backup_file_path(backup_file) %></td>
+    <td><%= link_to 'Destroy', backup_file, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Backup file', new_backup_file_path %>

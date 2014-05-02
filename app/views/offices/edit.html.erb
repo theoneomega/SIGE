@@ -1,0 +1,124 @@
+
+<%= render "form" %>
+
+
+
+
+<script>
+  function submitformregistrar()
+  {
+    $('#estatus').val(10004);
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val(<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>);
+    }
+    document.getElementById('edit_office_<%=@office.id%>').submit();
+    document.getElementById('guardar').disabled = true;
+
+  }
+  function guardarsinterminar()
+  {
+    $('#estatus').val(10005);
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val(<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>);
+    }
+    document.getElementById('edit_office_<%=@office.id%>').submit();
+    document.getElementById('guardar').disabled = true;
+
+  }
+  function submitformguardarterminado()
+  {
+
+    $('#estatus').val(10003);
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val(<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>);
+    }
+    document.getElementById('edit_office_<%=@office.id%>').submit();
+    document.getElementById('guardar').disabled = true;
+
+  }
+  function submitformenviado()
+  {
+
+    $('#estatus').val(10006);
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val(<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>);
+    }
+    document.getElementById('edit_office_<%=@office.id%>').submit();
+    document.getElementById('guardar').disabled = true;
+
+  }
+  function submitformcontestado()
+  {
+    $('#estatus').val(10061);
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val(<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>);
+    }
+    document.getElementById('edit_office_<%=@office.id%>').submit();
+    document.getElementById('guardar').disabled = true;
+  }
+  function submitform()
+  {
+    if ($('#office_kind_r').is(':checked')) {
+      $("#estatus").val(<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>);
+    }
+    document.getElementById('edit_office_<%=@office.id%>').submit();
+    document.getElementById('guardar').disabled = true;
+
+  }
+  $(document).ready(function() {
+    check();
+  });
+
+
+  function check() {
+    if ($('#office_kind_s').is(':checked')) {
+      $('label[for=office_claimant]').text("Quien Solicita");
+      $("div #no_registro").fadeIn(0);
+      $("#no_normal").fadeOut(0);
+      $("#analista").fadeIn(0);
+      $("#normal1").fadeIn(0);
+    }
+    if ($('#office_kind_r').is(':checked')) {
+      $("div #no_registro").fadeOut(0);
+      $('label[for=office_claimant]').text("Quien Firma");
+      $("#normal1").fadeOut(0);
+      $("#no_normal").fadeIn(0);
+      $("#analista").fadeOut(0);
+      $("#estatus").val(10006);
+    }
+  }
+</script>
+<script>
+
+<%if !current_user.role.administrator %>
+    $("#numero_oficio").attr('readonly', true);
+    $("#area").attr('readonly', true);
+    $("#solicita").attr('readonly', true);
+
+    $("#asunto").attr('readonly', true);
+    $("#contestacion").attr('readonly', true);
+    $("#dp1").attr('disabled', true);
+    $("#dp2").attr('disabled', true);
+    $("#dp3").attr('disabled', true);
+    $("#zona").attr('disabled', true);
+<%else%>
+    $("#dp1").attr('disabled', false);
+    $("#dp2").attr('disabled', false);
+    $("#dp3").attr('disabled', false);
+    $("#zona").attr('disabled', false);
+
+<%end%>
+
+<% if current_user.role.super_admin  %>
+    $("#dp1").attr('disabled', false);
+    $("#dp2").attr('disabled', false);
+    $("#dp3").attr('disabled', false);
+    $("#zona").attr('disabled', false);
+    $("#numero_oficio").attr('readonly', false);
+    $("#area").attr('readonly', false);
+    $("#solicita").attr('readonly', false);
+
+    $("#asunto").attr('readonly', false);
+    $("#contestacion").attr('readonly', false);
+<%end%>
+</script>

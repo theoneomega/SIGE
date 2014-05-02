@@ -1,0 +1,89 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li><%=link_to t(:Ccolaborations), colaborations_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
+<%end%>
+
+<div class="show-details">
+
+<%# if current_user.role.super_admin == true %>
+<%#flash[:notice] = @colaborations.count %> 
+<%# flash[:alert] = current_user.analyst.department + " "+ current_user.role.supervisor.to_s + " "+ current_user.analyst.area.description %>
+<%#end%>
+
+  <table class="table table-condensed table-hover ">
+    <thead>
+      <tr>
+        <th>Fecha de colaboración</th>
+        <th>Recibido via</th>
+        <th>Area que solicita</th>
+        <th>Estatus</th>
+        <th>Fecha de contestacion</th>
+        <th>Se contesto via</th>
+        <th>Asignado a</th>
+        <th>Acciones</th>
+      </tr>
+    </thead >
+
+    <tbody>
+      <% @colaborations.each do |colaboration| %>
+        <tr>
+          <td><%= colaboration.colaboration_date.strftime('%d/%m/%Y') %></td>
+          <td><%= colaboration.received_for %></td>
+          <td><%= colaboration.requesting_area %></td>
+          <td><%= colaboration.status.description %></td>
+          <%if colaboration.reply_date %>
+            <td><%= colaboration.reply_date.strftime('%d/%m/%Y') %></td>
+          <%else%>
+            <td> </td>
+          <%end%>
+          <td><%= colaboration.replied_for %></td>
+          <%if colaboration.analyst_id%>
+            <td><%= colaboration.analyst.analyst %></td>
+          <%else%>
+            <td>Sin asignar</td>
+          <%end%>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <%if can? :assign, Colaboration %>
+                    <%if colaboration.status_id == 10004 %>
+                      <li><%= link_to 'Asignar', assign_colaboration_path(colaboration) %></li>
+                    <%else %>
+                      <li><%= link_to 'Reasignar', assign_colaboration_path(colaboration) %></li>
+                    <%end%>
+                  <%end%>
+                  <%if can? :show, Colaboration%>
+                    <li><%= link_to 'Mostrar', colaboration %></li>
+                  <%end%>
+                  <%if current_user.role.supervisor==false%>
+                    <%if can? :update, Colaboration%>
+                      <li><%= link_to 'Editar', edit_colaboration_path(colaboration) %></li>
+                    <%end%>
+                  <%end%>
+                  <%if can? :destroy, Colaboration%>
+                    <li><%= link_to 'Eliminar', colaboration, method: :delete, data: { confirm: '¿Estas Seguro?' } %></li>
+                  <%end%>
+                </ul>
+              </li>
+            </ul>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<% if can? :register, Colaboration %>
+  <div class="form-actions">
+    <%= link_to new_colaboration_path, :class => 'btn btn-primary' do %>
+      <i class="icon-pencil fa-lg"> </i>Registrar Colaboración
+    <%end %>
+  </div>
+<% end %>
+
+

@@ -1,0 +1,71 @@
+<div class="well">
+  <%= form_tag events_collections_path, :method => :get do %>
+    <p>
+      <%= text_field_tag :search, params[:search] %>
+      <%= submit_tag "Buscar", :name => nil %>
+    </p>
+  <% end %>
+</div>
+<div class="well">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th><%= "Prioridad" %></th>
+        <th><%= "Estatus" %></th>
+        <th><%= "Fecha" %></th>
+        <th><%="Descripcion" %></th>
+        <th><%= "Delito" %></th>
+        <th> Fecha de registro</th>
+        <th><%= "Analista" %></th>
+        <th><%= "Acciones" %></th>
+      </tr>
+    </thead>
+    <% @events_collection.each do |collection| %>
+      <tbody>
+        <tr>
+          <%if collection.priority_id==10000%>
+            <td><span class="label label-important"><%= collection.priority.description %></span></td>
+          <%elsif collection.priority_id==10001%>
+            <td><span class="label label-warning"><%= collection.priority.description %></span></td>
+          <%else%>
+            <td><span class="label label-inverse"><%= collection.priority.description %></span></td>
+          <%end%>
+          <%if collection.status%>
+            <td><%= collection.status.description %></td>
+          <%else%>
+            <td>sin estatus</td>
+          <%end%>
+          <td><%= collection.event_date %></td>
+          <%if collection.description%>
+            <td><%= collection.description.truncate(25, :omission => "...") %><%= link_to '(continua)', collection %></td>
+          <%else%>
+            <td>N/A</td>
+          <%end%>
+          <%if collection.crime%>
+            <td><%= collection.crime.crime %></td>
+          <%else%>
+            <td>no especificado</td>
+          <%end%>
+            <td><%=collection.created_at.strftime('%d/%m/%Y')%></td>
+          <td><%= collection.analyst.analyst %></td>
+          <td>
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <%if can? :show, Event%>
+                    <li><%= link_to 'Mostrar', collection %></li>
+                  <%end%>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+  <%= gmaps({
+        "map_options" => {"auto_zoom" => true},
+        "markers" => {"data" => @json , "options" => {"rich_marker" => true }}
+      })%> 
+</div>

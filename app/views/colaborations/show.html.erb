@@ -1,0 +1,186 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to "Inicio", root_path %><span class="divider">/</span></li>
+    <li><%=link_to t(:Ccolaborations), colaborations_path%><span class="divider">/</span></li>
+    <%if can? :new, Colaboration %>
+      <li class="active"><%=link_to t(:new), new_colaboration_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse">Colaboración <%= @colaboration.id %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+      <p>
+        <b>Fecha de colaboracion:</b>
+        <%= @colaboration.colaboration_date.strftime('%d/%m/%Y')  %>
+      </p>
+
+      <p>
+        <b>Recibido vía:</b>
+        <%= @colaboration.received_for %>
+      </p>
+      <%if current_user.role.ie_supervisor==true or current_user.role.super_admin==true%>
+        <p>
+          <b>Correo:</b>
+          <%= @colaboration.email %>
+        </p>
+
+      <%end%>
+      <p>
+        <b>Area que lo solicita:</b>
+        <%= @colaboration.requesting_area %>
+      </p>
+
+      <p>
+        <b>Quién lo solicita:</b>
+        <%= @colaboration.claimant %>
+      </p>
+
+      <p>
+        <b>Estatus:</b>
+        <%= @colaboration.status.description %>
+      </p>
+
+      <p>
+        <b>Area:</b>
+        <%= @colaboration.area.description %>
+      </p>
+
+      <p>
+        <b>Analista:</b>
+        <%if @colaboration.analyst_id%>
+          <%= @colaboration.analyst.analyst %>
+        <%end%>
+      </p>
+
+      <p>
+        <b>Fecha en que se contesto:</b>
+        <%= @colaboration.reply_date %>
+      </p>
+
+      <p>
+        <b>Archivos: </b> 
+        <%@colaboration.colaboration_file.each do |file|%>
+        <li class="icon-file">  </li><%=link_to file.description, file.file.to_s, target: "_blank"%> <br> 
+      <%end%>
+      </p>
+
+      <p>
+        <b>Se contestó via:</b>
+        <%= @colaboration.replied_for %>
+      </p>
+
+      <p>
+        <b>Observaciones</b>
+        <%= @colaboration.observations %>
+      </p>
+      <p>
+        <b>Ultima modificacion hecha por:</b>
+        <%=@colaboration.user.username%>
+      </p>
+
+      <%if @colaboration.person.count >0 %>
+        <div class="block">
+          <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@colaboration.person.count, "Persona") %></a>
+          <div id="victims" class="block-body collapse">
+            <div class="control-group">
+              <%@colaboration.person.each do |person|%>
+                <ul class="inline">
+                  <li><i class="icon-male"> </i> Nombre:  <%=person.fullname.upcase %></li> <%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                  <ul>
+                    <% if person.observations?%>
+                      <li><i> </i> Obervaciones: <%=  person.observations %></li>
+                    <%end%>
+                    <% if person.ci?%>
+                      <li><i> </i> Carpeta de investigación:  <%=  person.ci %></li>
+                    <%end%>
+                    <% if person.alias?%>
+                      <li><i> </i> Alias:  <%=  person.alias %></li>
+                    <%end%>
+                    <% if person.birth_date%>
+                      <li><i> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                    <%end%>
+                    <% if person.genre?%>
+                      <li><i> </i>  Genero: <%=  person.genre %></li>
+                    <%end%>
+                    <% if person.status_id%>
+                      <li><i> </i> Estatus:  <%=  person.status.description %></li>
+                    <%end%>
+                  </ul>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+      <%if @colaboration.vehicles.count > 0%>
+        <div class="block">
+          <a href="#vehicles" class="block-heading" data-toggle="collapse"><%= pluralize(@colaboration.vehicles.count, "Vehiculo")%></a>
+          <div id="vehicles" class="block-body collapse">
+            <div class="control-group">
+              <%@colaboration.vehicles.each do |vehicle|%>
+                <ul class="fa-ul">
+                  <li><i class="icon-truck"> </i> <%=vehicle.fulldescription %></li>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+      <%if @colaboration.phones.count > 0%>
+        <div class="block">
+          <a href="#phones" class="block-heading" data-toggle="collapse"><%= pluralize(@colaboration.phones.count, "Telefono")%></a>
+          <div id="phones" class="block-body collapse">
+            <div class="control-group">
+              <%@colaboration.phones.each do |phone|%>
+                <ul>
+                  <li><i class="icon-phone"> </i><%=  phone.phone_number %></li>
+                </ul>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      <%end%>
+
+    </div>
+  </div>
+<%#*<div class="form-actions">%>
+<%#= link_to 'Editar', edit_colaboration_path(@colaboration), :class => 'btn btn-primary' %> 
+<%#= link_to 'Regresar', colaborations_path, :class => 'btn btn-danger' %>
+<%#*</div>%>
+  <div class="form-actions">
+    <% if @colaboration.status_id != 10006 %>
+      <%if can? :modify, Colaboration %>
+        <%= link_to 'Editar', edit_colaboration_path(@colaboration), :class => 'btn btn-primary' %> |
+      <%end%>
+      <%if can? :assign, Colaboration%>
+        <%if @colaboration.status_id != 10004%>
+          <%= link_to "Reasignar", assign_colaboration_path(@colaboration), :class => "btn btn-primary" %> |
+        <%else%>
+          <%= link_to "Asignar", assign_colaboration_path(@colaboration), :class => "btn btn-primary" %> |
+        <%end%>
+      <%end%>
+      <%if @colaboration.status_id == 10003%>
+        <%if can? :approve, Colaboration%>
+          <%= link_to 'Aprobar', approve_colaboration_path(@colaboration), :class => 'btn btn-success' %> 
+      <%#= link_to 'Aprobar', :controller => "colaboration", :action => "approve", :class => 'btn btn-success' %> |
+        <%end%>
+        <%if can? :refuse, Colaboration%>
+          <%= link_to "Rechazar", refuse_colaboration_path(@colaboration), :class => "btn btn-warning"  %> |
+        <%end%> 
+      <%end%>
+
+      <% if @colaboration.status_id == 10007 %>
+        <%if can? :send, Colaboration%>
+          <%= link_to  send_colaboration_path(@colaboration), :class => "btn btn-success" do  %>
+            <i class="icon-envelope-alt"></i> Enivar
+          <%end%> |
+        <%end%>
+      <% end %>
+    <%end%>
+    <%= link_to 'Regresar', colaborations_path, :class => 'btn btn-danger' %> 
+  </div>
+
+</div>

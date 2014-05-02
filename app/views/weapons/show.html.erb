@@ -1,0 +1,47 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @weapon.id %>
+</p>
+
+<p>
+  <b>Brand:</b>
+  <%= @weapon.brand %>
+</p>
+
+<p>
+  <b>Model:</b>
+  <%= @weapon.model %>
+</p>
+
+<p>
+  <b>Serial number:</b>
+  <%= @weapon.serial_number %>
+</p>
+
+<p>
+  <b>Weapon:</b>
+  <%= @weapon.weapon %>
+</p>
+
+<p>
+  <b>Caliber:</b>
+  <%= @weapon.caliber %>
+</p>
+
+<p>
+  <b>Person:</b>
+  <%if @weapon.person_id%>
+    <%= @weapon.person.fullname %>
+  <%end%>
+</p>
+
+<p>
+  <b>Weapon type:</b>
+  <%= @weapon.weapon_type.desc %>
+</p>
+
+
+<%= link_to 'Edit', edit_weapon_path(@weapon), :class => "btn btn-primary" %> |
+<%= link_to 'Back', weapons_path, :class => "btn btn-danger" %>

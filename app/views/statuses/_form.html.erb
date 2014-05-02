@@ -1,0 +1,32 @@
+<%= form_for(@status) do |f| %>
+  <% if @status.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@status.errors.count, "error") %> prohibited this status from being saved:</h2>
+
+      <ul>
+        <% @status.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label "Descripción" %><br />
+    <%= f.text_field :description %>
+  </div>
+
+<div class="field">
+    <%= f.label "Detalle" %><br />
+    <%= f.text_area :detail %>
+  </div>
+  <% status_type={"Persona"=>"persona","Evento"=>"evento", "Colaboracion"=>"Colaboracion", "JUSTICI@.NET" => "Justici@.NET"} %>
+  <div class="field">
+    <%= f.label :status_type %><br />
+    <%= f.select :status_type,status_type,selected: "persona" %>
+  </div>
+  <div class="actions">
+        <%= button_tag( :class => "btn btn-primary") do %>
+          <i class="icon-save icon-white"> </i> <%=t(:save)+" Estatus"%>
+        <% end %>
+      </div>
+<% end %>

@@ -1,0 +1,10 @@
+<%%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%%=link_to t(:home) , root_path%><span class="divider">/</span></li>
+    <%%if can? :index, <%= singular_table_name.titlecase %> %>
+      <li><%%= link_to t(:index), <%= index_helper %>_path %><span class="divider">/</span></li>
+    <%%end%>
+    <li class="active"><%%=link_to t(:show), @<%= singular_table_name %> %></li>
+  </ul>
+<%%end%>
+<%%= render 'form' %>

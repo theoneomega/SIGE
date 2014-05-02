@@ -1,0 +1,22 @@
+<p>
+  <b>Id:</b>
+  <%= @analyst.id %>
+</p>
+
+<p>
+  <b>Analyst:</b>
+  <%= @analyst.analyst %>
+</p>
+<p>
+  <b>Nombre:</b>
+  <%= @analyst.first_name %> <%=@analyst.last_name1 %> <%=@analyst.last_name2 %>
+</p>
+<p>
+  <b>Zona:</b>
+  <%= @analyst.area.description %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_analyst_path(@analyst) %> |
+<%= link_to 'Back', analysts_path %>

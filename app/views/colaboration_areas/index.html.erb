@@ -1,0 +1,25 @@
+<h1>Listing colaboration_areas</h1>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Area</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @colaboration_areas.each do |colaboration_area| %>
+  <tr>
+    <td><%= colaboration_area.id %></td>
+    <td><%= colaboration_area.area %></td>
+    <td><%= link_to 'Show', colaboration_area %></td>
+    <td><%= link_to 'Edit', edit_colaboration_area_path(colaboration_area) %></td>
+    <td><%= link_to 'Destroy', colaboration_area, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Colaboration area', new_colaboration_area_path %>

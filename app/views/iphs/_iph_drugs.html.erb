@@ -1,0 +1,24 @@
+<div class="row-fluid">
+    <div class="block">
+      <a href="#drugs-info" class="block-heading" data-toggle="collapse">Registrar Droga</a>
+      <div id="drugs-info" class="block-body-interior collapse in interior">
+        <br />
+        <div class="field">
+          <%= f.label "Tipo" %><br />
+          <%= f.text_field :kind %>
+        </div>
+        <div class="field">
+          <%= f.label "Cantidad" %><br />
+          <%= f.number_field :quantity %>
+        </div>
+        <div class="field">
+          <%= f.label "Observaciones" %><br />
+          <%= f.text_area :observations %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="form-actions">
+  <%=f.link_to_remove "Remover Droga",:class => 'btn btn-danger'%>
+</div>

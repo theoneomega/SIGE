@@ -1,0 +1,65 @@
+<%= form_for(@iph_vehicle) do |f| %>
+<% if @iph_vehicle.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@iph_vehicle.errors.count, "error") %> prohibited this iph_vehicle from being saved:</h2>
+
+  <ul>
+    <% @iph_vehicle.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="general-info" class="block-body collapse in">
+      <br />
+              <div class="field">
+          <%= f.label :id %><br />
+          <%= f.number_field :id %>
+        </div>
+              <div class="field">
+          <%= f.label :brand %><br />
+          <%= f.text_field :brand %>
+        </div>
+              <div class="field">
+          <%= f.label :line %><br />
+          <%= f.text_field :line %>
+        </div>
+              <div class="field">
+          <%= f.label :model %><br />
+          <%= f.number_field :model %>
+        </div>
+              <div class="field">
+          <%= f.label :plate %><br />
+          <%= f.text_field :plate %>
+        </div>
+              <div class="field">
+          <%= f.label :serial_number %><br />
+          <%= f.text_field :serial_number %>
+        </div>
+              <div class="field">
+          <%= f.label :color %><br />
+          <%= f.text_field :color %>
+        </div>
+              <div class="field">
+          <%= f.label :stolen %><br />
+          <%= f.check_box :stolen %>
+        </div>
+              <div class="field">
+          <%= f.label :details %><br />
+          <%= f.text_area :details %>
+        </div>
+          </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%if can? :index, IphVehicle %>
+  <%= link_to t(:back, :default => t('helpers.links.back')), iph_vehicles_path, :class => 'btn' %>
+  <%end%>
+</div>
+
+<% end %>

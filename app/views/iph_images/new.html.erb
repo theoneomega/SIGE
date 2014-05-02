@@ -1,0 +1,10 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span></li>
+    <%if can? :index, IphImage %>
+      <li><%= link_to t(:index), iph_images_path %><span class="divider">/</span></li>
+    <%end%>
+    <li class="active"><%=t(:new) + " " + t(:wiph_image)%></li>
+  </ul>
+<%end%>
+<%= render 'form' %>

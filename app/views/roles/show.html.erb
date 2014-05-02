@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Id:</b>
+  <%= @role.id %>
+</p>
+
+<p>
+  <b>Role:</b>
+  <%= @role.role %>
+</p>
+
+<p>
+  <b>Protected:</b>
+  <%= @role.protected %>
+</p>
+
+<p>
+  <b>Super admin:</b>
+  <%= @role.super_admin %>
+</p>
+
+<p>
+  <b>Analyst:</b>
+  <%= @role.analyst %>
+</p>
+
+<p>
+  <b>Administrator:</b>
+  <%= @role.administrator %>
+</p>
+
+<p>
+  <b>Supervisor:</b>
+  <%= @role.supervisor %>
+</p>
+<p>
+  <b>Supervisor IE</b>
+  <%= @role.ie_supervisor %>
+</p>
+<p>
+  <b>Supervisor de analistas</b>
+  <%= @role.analysts_supervisor %>
+</p>
+
+
+<%= link_to 'Edit', edit_role_path(@role) %> |
+<%= link_to 'Back', roles_path %>

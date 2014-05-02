@@ -1,0 +1,95 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, JusticeNet %>
+      <li class="active"><%=link_to t(:index), justice_nets_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, JusticeNet %>
+      <li class="active"><%=link_to t(:new), new_justice_net_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="well">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Consecutivo</th>
+        <th>Fecha de solicitud</th>
+        <th>Asignado a</th>
+        <th>Zona</th>
+        <th>Estatus</th>
+        <th>Fecha de contestación</th>
+        <th><%= t(:actions) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @justice_nets.each do |justice_net| %>
+        <tr>
+          <td><%= justice_net.justicia_net_folio %></td>
+          <td><%=I18n.l justice_net.received_date, :format => :long %></td>
+          <td><%= justice_net.analyst.analyst if justice_net.analyst %></td>
+          <td> <%= justice_net.analyst.area.description %> </td>
+          <td><%= justice_net.status.description %></td>
+          <td><%= I18n.l justice_net.replied_date, :format => :long if justice_net.replied_date %></td>
+          <td>         
+            <ul class="nav nav-pills">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <%if can? :show, JusticeNet %>
+                      <%= link_to justice_net do %>
+                        <i class="icon-eye-open"></i>&nbsp;&nbsp;<%=t(:show, :default => t("helpers.links.show"))%> 
+                      <%end%>
+                    </li>
+                  <%end%>
+
+                  <%if can? :assign_net, JusticeNet %>
+                    <% if justice_net.status.description == "RECIBIDO" %>
+                      <li>
+                        <%= link_to assign_net_path(justice_net) do %>
+                          <i class="icon-ok-sign"></i>&nbsp;&nbsp;Asignar
+                        <%end%>
+                      </li>
+                    <%elsif justice_net.status.description != "RECIBIDO"%>
+                      <li>
+                        <%= link_to assign_net_path(justice_net) do %>
+                          <i class="icon-ok-sign"></i>&nbsp;&nbsp;Reasignar
+                        <%end%>
+                      </li>
+                    <%end%>
+                  <%end%>
+
+
+                  <%if can? :edit, JusticeNet %>
+                    <li>
+                      <%= link_to edit_justice_net_path(justice_net) do %>
+                        <i class="icon-pencil"></i>&nbsp;&nbsp;<%=t(:edit, :default => t("helpers.links.edit"))%>
+                      <%end%>
+                    </li>
+                  <%end%>
+                  <%if can? :destroy, JusticeNet %>
+                    <li>
+                      <%= link_to  justice_net, :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } do %>
+                        <i class="icon-trash"></i>&nbsp;&nbsp;<%=t(:destroy, :default => t("helpers.links.destroy"))%>
+                      <%end%>
+                    </li>
+                  <%end%>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <%= will_paginate @people, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+  </div>
+</div>
+<br />
+<%=link_to  new_justice_net_path, :class => "btn btn-primary" do%>
+  <i class="icon icon-plus"></i> Agregar
+<% end %>

@@ -1,0 +1,74 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+    <%if can? :index, IphVehicle %>
+      <li class="active"><%=link_to t(:index), iph_vehicles_path %><span class="divider">/</span></li>
+    <%end%>
+    <%if can? :new, IphVehicle %>
+      <li class="active"><%=link_to t(:new), new_iph_vehicle_path%></li>
+    <%end%>
+  </ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+      <p>
+        <b><%= t'.id' %>:</b>
+        <%= @iph_vehicle.id %>
+      </p>
+      <p>
+        <b><%= t'.brand' %>:</b>
+        <%= @iph_vehicle.brand %>
+      </p>
+      <p>
+        <b><%= t'.line' %>:</b>
+        <%= @iph_vehicle.line %>
+      </p>
+      <p>
+        <b><%= t'.model' %>:</b>
+        <%= @iph_vehicle.model %>
+      </p>
+      <p>
+        <b><%= t'.plate' %>:</b>
+        <%= @iph_vehicle.plate %>
+      </p>
+      <p>
+        <b><%= t'.serial_number' %>:</b>
+        <%= @iph_vehicle.serial_number %>
+      </p>
+      <p>
+        <b><%= t'.color' %>:</b>
+        <%= @iph_vehicle.color %>
+      </p>
+      <p>
+        <b><%= t'.stolen' %>:</b>
+        <%= @iph_vehicle.stolen %>
+      </p>
+      <p>
+        <b><%= t'.details' %>:</b>
+        <%= @iph_vehicle.details %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, IphVehicle %>
+    <%= link_to t(:back, :default => t('helpers.links.back')), iph_vehicles_path, :class => 'btn' %>
+  <%end%>
+  <%if can? :edit, IphVehicle %>
+    <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_iph_vehicle_path(@iph_vehicle), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, IphVehicle %>
+    <%= link_to t(:destroy, :default => t("helpers.links.destroy")), iph_vehicle_path(@iph_vehicle),
+      :method => 'delete',
+      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+      :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :new, IphVehicle %>
+    <%= link_to t(:new, :default => t('helpers.links.edit')), new_iph_vehicle_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+</div>
