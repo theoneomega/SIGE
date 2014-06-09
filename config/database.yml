@@ -47,7 +47,7 @@ development:
 #  password: DIEID.2013
 #  port: 1521
 #  
-produccion:
+production:
   adapter: oracle_enhanced
   database: orcl
   host: 10.18.114.94

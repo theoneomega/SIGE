@@ -49,15 +49,16 @@ class OfficesController < ApplicationController
     zona = current_user.analyst.area_id 
     recibido = Status.find_by_description_and_status_type("RECIBIDO", "Colaboracion").id
     terminado = Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id
-    area = Area.find_by_description("NORTE").id
+    norte = Area.find_by_description("NORTE").id
     
     if current_user.role.supervisor or current_user.role.administrator
         if current_user.analyst.area.description == 'CENTRO' 
-         @offices = Office.where("status_id = ? AND area_id != ?", recibido ,area).order('received_date DESC')
+         @offices = Office.where("status_id = ? AND area_id != ?", recibido ,norte).order('received_date DESC')
         else
-          @offices = Office.where("status_id = ? AND area_id = ?", recibido, area).order('received_date DESC')
+          @offices = Office.where("status_id = ? AND area_id = ?", recibido, norte).order('received_date DESC')
         end
-    elsif current_user.role.super_admin
+    elsif current_user.role.super_admin or current_user.role.ie_supervisor
+      flash[:error] = "im on!"
       @offices = Office.where("analyst_id is NULL AND status_id != ?",terminado).order('received_date DESC')
     end
     respond_to do |format|
