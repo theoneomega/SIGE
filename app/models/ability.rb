@@ -5,23 +5,45 @@ class Ability
     user ||= User.new # guest user (not logged in)
     @user = User.find_by_id(user.id)
     unless @user.blank?
-      
+
       if @user.role.super_admin == true
         can :manage, :all
       elsif @user.role.administrator == true
         can [:index, :show, :edit, :create, :update, :read, :modify, :not_assigned, :working, :standby, :waiting, :replied], Office
         can [:read, :show], Search
         can [:finish, :send, :reply, :save, :assign], Office
+      elsif @user.role.iph_supervisor == true
+        can :index, HistoricalArchive
+        can [:index, :show, :create], Investigation
+        can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
+        can [:show, :create, :modify, :finish], JusticeNet
+        can [:index, :edit, :read, :update], JusticeNet, :analyst_id => @user.analyst_id
+        can [:index, :show, :edit, :create, :update, :read,:modify, :finish,  :nofinish, :send, :waiting, :replied], Office
+        can :show, Colaboration
+        can [:read, :show], Search
+        can [:index, :show, :create], Event
+        can [:edit, :read, :update], Event, :analyst_id => @user.analyst_id
+        can [:index, :edit, :read, :update], Colaboration, :analyst_id => @user.analyst_id
+        can [:index, :edit, :read, :update], Office, :analyst_id => @user.analyst_id
       elsif @user.role.supervisor == true
+        can :index, HistoricalArchive
+        can :index, Statistic
+        can [:index, :show, :create], Investigation
+        can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
         can [:read, :update, :show], Event
         can [:read, :update, :show, :index, :refuse, :assign, :approve, :standby, :working, :not_assigned], Office
         can [:read, :show], EventsCollection
         can [:read, :show], Search
-        can [:read, :update, :show, :index, :assign, :approve, :refuse, :edit], Colaboration
+        can [:index, :read, :create, :approve, :update, :assign, :save, :finish, :send, :send_colaboration, :sendit, :register], Colaboration
+        can :send, Colaboration if @user.analyst.area.description == "NORTE"
         can [:index, :show, :update, :assign_net, :approve_net], JusticeNet
         can :create, Colaboration
         can [:machin], Colaboration
       elsif (@user.role.super_supervisor)
+        can :index, HistoricalArchive
+        can :index, Statistic
+        can [:index, :show, :create], Investigation
+        can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
         can [:read, :show], Search
         can [:read, :update, :index, :show, :create], Event
         can [:read, :create, :update, :index], Office
@@ -29,25 +51,14 @@ class Ability
         can :observe, Activity
         can [:read, :create, :update, :index], Iph
         can [:machin, :read, :show, :update], Colaboration
-      elsif @user.role.supervisor_cibernetico == true
-        can [:read, :show, :edit, :update], Colaboration, :cibernetica => true
-        can [:read, :show, :edit, :update, :create], Colaboration
-        can [:read, :show], Search
-      elsif @user.role.iph_supervisor == true and @user.role.analyst == true
-        can [:read, :update, :index, :edit, :show], Iph
-#        can [:show, :create, :modify, :finish,:assign_net, :approve_net], JusticeNet
-        can [:index, :show, :edit, :create, :update, :read,:modify, :finish,  :nofinish, :send, :waiting, :replied], Office
-        can :show, Colaboration
-        can [:read, :show], Search
-        can [:show, :create], Event
-        can [:index, :edit, :read, :update], Event, :analyst_id => @user.analyst_id
-        can [:index, :edit, :read, :update], Colaboration, :analyst_id => @user.analyst_id
-        can [:index, :edit, :read, :update], Office, :analyst_id => @user.analyst_id
-      elsif @user.role.iph_supervisor == true
-        can [:read, :update, :index, :edit, :show], Iph
+
       elsif @user.role.ie_supervisor==true
+        can :index, HistoricalArchive
+        can :index, Statistic
+        can [:index, :show, :create], Investigation
+        can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
         can :manage, JusticeNet
-        cannot :delete, JusticeNet        
+        cannot :delete, JusticeNet
         can [:read, :create, :update, :index, :assign, :approve, :working, :standby, :waiting, :replied, :not_assigned], Office
         can [:read, :show], Search
         can [:read, :show, :edit, :update, :approve], Event
@@ -56,11 +67,15 @@ class Ability
         can [:index, :read, :create, :approve, :update, :assign, :save, :finish, :send, :send_colaboration, :sendit, :register], Colaboration
         can :manage, Iph
       elsif @user.role.medios == true
+        can :index, HistoricalArchive
         can [:read, :show], Search
         can [:read, :update], Event, :analyst_id => @user.analyst_id
         can [:read,:create,:edit,:update], Event
         can [:read, :show], EventsCollection
       elsif @user.role.analyst == true
+        can :index, HistoricalArchive
+        can [:index, :show, :create], Investigation
+        can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
         can [:show, :create, :modify, :finish], JusticeNet
         can [:index, :edit, :read, :update], JusticeNet, :analyst_id => @user.analyst_id
         can [:finish,  :nofinish, :modify], Office
@@ -72,10 +87,6 @@ class Ability
         can [:index, :edit, :read, :update], Office, :analyst_id => @user.analyst_id
         can [:update], OfficeFile, :user_id => @user.id
         can [:read, :show], EventsCollection
-      elsif @user.role.iph == true
-        can [:index, :edit, :read, :update], Iph
-        can [:edit, :update], Iph => @user.analyst_id
-        can [:read, :show], Search
       end
 
     end

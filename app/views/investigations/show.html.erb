@@ -1,0 +1,66 @@
+<%content_for :breadcrumb do%>
+    <ul class="breadcrumb">
+      <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+      <%if can? :index, Investigation %>
+          <li class="active"><%=link_to t(:index), investigations_path %><span class="divider">/</span></li>
+      <%end%>
+      <%if can? :new, Investigation %>
+          <li class="active"><%=link_to t(:new), new_investigation_path%></li>
+      <%end%>
+    </ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+      <p>
+        <b><%= t'.folio' %>:</b>
+        <%= @investigation.folio %>
+      </p>
+      <p>
+        <b><%= t'.ci' %>:</b>
+        <%= @investigation.ci %>
+      </p>
+      <p>
+        <b><%= t'.penal_cause' %>:</b>
+        <%= @investigation.penal_cause %>
+      </p>
+      <p>
+        <b><%= t'.title' %>:</b>
+        <%= @investigation.title %>
+      </p>
+      <p>
+        <b><%= t'.start_date' %>:</b>
+        <%=I18n.l @investigation.start_date, :format => :long %>
+      </p>
+      <p>
+        <b><%= t'.last_update' %>:</b>
+        <%=I18n.l @investigation.updated_at, :format => :long %>
+      </p>
+
+
+      <%= render 'anb_fields' %>
+      <%= render 'pdf_fields' %>
+    </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, Investigation %>
+      <%= link_to t(:back, :default => t('helpers.links.back')), investigations_path, :class => 'btn' %>
+  <%end%>
+  <%if can? :edit, Investigation %>
+      <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_investigation_path(@investigation), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, Investigation %>
+      <%= link_to t(:destroy, :default => t("helpers.links.destroy")), investigation_path(@investigation),
+                  :method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                  :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :new, Investigation %>
+      <%= link_to t(:new, :default => t('helpers.links.edit')), new_investigation_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+</div>

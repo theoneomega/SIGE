@@ -1,4 +1,19 @@
-Sied::Application.routes.draw do 
+Sied::Application.routes.draw do
+
+
+  resources :helpdesks
+
+
+  resources :historical_archives, :only => [:index, :show]
+
+
+  get "statistics/index", :as => :statistics
+
+  resources :pdf_investigations
+
+  resources :anb_investigations
+
+  resources :investigations
 
 
   resources :offices_attachments
@@ -14,9 +29,11 @@ Sied::Application.routes.draw do
 
 
   get "users_information/index"
-  
+  get "searchs/colaboraciones"
+
   match 'users_information/index' => 'users_information#index', :as => :user_info
-  
+
+
   match 'offices/refuse/:id' => 'offices#refuse', :as => :refuse
   match 'offices/assign/:id' => 'offices#assign', :as => :assign
   get 'offices/approve/:id' => 'offices#approve', :as => :approve
@@ -28,9 +45,9 @@ Sied::Application.routes.draw do
   match 'colaborations/approve/:id' => 'colaborations#approve', :as => :approve_colaboration
   match 'colaborations/sendit/:id' => 'colaborations#sendit', :as => :sendit_colaboration
   match 'colaborations/send_colaboration/:id' => 'colaborations#send_colaboration', :as => :send_colaboration
-  
+
   match "justice_nets/approve_net/:id" => "justice_nets#approve", :as => :approve_net
-  
+
   resources :iph_images
 
 
@@ -38,8 +55,8 @@ Sied::Application.routes.draw do
 
 
   resources :office_files
-  
-  
+
+
   resources :iph_objects
 
 
@@ -92,14 +109,17 @@ Sied::Application.routes.draw do
 
   resources :backup_files
 
-
-  resources :events_collections
-  resources :events
+  match 'events/assign/:id' => 'events#assign', :as => :assign_event
+  resources :events do
+    collection do
+      get :person
+    end
+  end
 
 
   #  get "testfullevents/index"
 
-  
+
 
 
   #  get "fullevents/index"
@@ -115,8 +135,6 @@ Sied::Application.routes.draw do
 
   resources :users
 
-
-  resources :events
 
 
   resources :localities
@@ -143,7 +161,6 @@ Sied::Application.routes.draw do
   resources :people
 
 
-  resources :events
 
 
   get "catalogs/index"
@@ -154,6 +171,7 @@ Sied::Application.routes.draw do
   get "welcome/index"
 
   resources :areas
+
 
 
   resources :drugs
@@ -173,6 +191,7 @@ Sied::Application.routes.draw do
 
   resources :places
 
+  get 'townships/get_localities'
 
   resources :townships
 
@@ -233,8 +252,8 @@ Sied::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => 'welcome#index'
-  
-  match "/colaboration_collection/index" => "colaboration_collectionr#index", :as => :colaboration_collection 
+
+  match "/colaboration_collection/index" => "colaboration_collectionr#index", :as => :colaboration_collection
 
   match "/welcome/index" => "welcome#index", :as => :welcome
   # See how all your routes lay out with "rake routes"

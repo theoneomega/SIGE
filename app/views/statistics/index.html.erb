@@ -1,0 +1,106 @@
+<div style="background-image: url('/assets/black-Linen.png'); box-shadow: 5px 10px 10px 5px #888888; " class="well-large inline">
+  <div class="search form-inline" style="margin: 0px auto; padding: 0px; width: 100%; "  >
+    <%= form_tag '', :id => "myForm",  :method => :get do %>
+
+        <div class="field input-append date">
+          <%= text_field_tag 'start_date', nil, placeholder: 'Fecha de inicio a consultar', :class => 'datepicker',  :readonly => true, :required => true %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+        <div class="field input-append date">
+          <%= text_field_tag 'end_date', nil, placeholder: 'Fecha final a consultar', :class => 'datepicker', :readonly => true, :required => true %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+
+        <p style="color: #ffffff">
+          <%= check_box_tag :norte, "norte", false, :class => "zonas" , :onchange => "check()" %>
+          <%= label_tag :norte, "Zona norte"%>
+
+          <%= check_box_tag :centro, "centro", false, :class => "zonas", :onchange => "check()"   %>
+          <%= label_tag :centro, "Zona centro"%>
+
+          <%= check_box_tag :sur, "sur", false, :class => "zonas", :onchange => "check()"   %>
+          <%= label_tag :sur, "Zona sur"%>
+
+          <%= check_box_tag :occidente, "occidente", false, :class => "zonas", :onchange => "check()" %>
+          <%= label_tag :occidente, "Zona occidente"%>
+        </p>
+
+        <div id="detalles" style="color: #ffffff" class="box detalles" >
+
+          <%= check_box_tag :ppersonas %>
+          <%= label_tag :ppersonas, "Personas" %>
+
+          <%= check_box_tag :peventos %>
+          <%= label_tag :peventos, "Eventos" %>
+
+          <%= check_box_tag :poficios %>
+          <%= label_tag :poficios, "Oficios" %>
+
+          <%= check_box_tag :pcolaboraciones %>
+          <%= label_tag :pcolaboraciones, "Colaboraciones" %>
+          <input id="pjusticias" type="checkbox" value="1" name="pjusticias">
+          <label for="pjusticias">Solicitudes electronicas</label>
+          <input id="buscar" type="hidden" value="true" name="buscar">
+        </div>
+
+        <!--<button id="myBtn" class="btn btn-primary">Accept Checked</button>-->
+        <%= button_tag "Buscar  <i class='icon-search'></i>".html_safe,
+                       data: { disable_with: "<i class='icon-spinner icon-spin icon-large'></i>  Buscando...".html_safe },
+                       :class => "btn btn-success"
+        %>
+    <% end %>
+
+  </div>
+
+  <%= render 'person' %>
+</div>
+<script>
+    function check(){
+        if ( $("#norte").is(":checked") || $("#centro").is(":checked") || $("#sur").is(":checked") || $("#occidente").is(":checked")){
+            $(".detalles").css("display","block");
+        }else{
+            $(".detalles").css("display","none");
+            $("#poficios").attr("checked",false);
+            $("#pcolaboraciones").attr("checked",false);
+            $("#peventos").attr("checked",false);
+            $("#pjusticias").attr("checked",false);
+            $("#ppersonas").attr("checked",false);
+        }
+
+    }
+
+    $(function() {
+        $('.datepicker').each(function() {
+            $(this).datepicker({
+                language: 'es',
+                format: "dd/mm/yyyy"
+            });
+        });
+    });
+
+    (function($) {
+        $.fn.datepicker.dates['es'] = {
+            days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+            daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+            daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+            months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+            today: "Hoy"
+        };
+//        check();
+
+    }(jQuery));
+    $(document).ready(function() {
+        $('#myBtn').on('click', function () {
+            $('#myForm').submit();
+        });
+
+    });
+</script>
+
+<style>
+
+    .box{
+        display: none;
+    }
+</style>

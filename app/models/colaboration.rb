@@ -29,7 +29,11 @@ class Colaboration < ActiveRecord::Base
   accepts_nested_attributes_for :colaboration_file, :allow_destroy => true, :reject_if => :all_blank
   
   self.per_page =10
-  
+
+  def analista
+    self.analyst.analyst if self.analyst
+  end
+
   def publish_month
     I18n.l colaboration_date, :format => "%B %Y"
   end
@@ -40,9 +44,11 @@ class Colaboration < ActiveRecord::Base
   def vehicle_details
     vehicles.map(&:details)
   end
-  
+
+
   searchable do
-    text :searchable, :claimant, :observations, :replied_for, :received_for, :email, :requesting_area, :publish_month, :vehicle_details, :vehicle_brand
+    text :searchable, :claimant, :observations, :replied_for, :received_for,
+         :email, :requesting_area, :publish_month, :vehicle_details, :vehicle_brand, :analista
     time :colaboration_date
     
     text :person do

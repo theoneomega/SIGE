@@ -1,242 +1,221 @@
 <%= nested_form_for @event, :html => {:multipart => true} do |f| %>
-  <% if @event.errors.any? %>
-    <div class="isa_error">
-      Ah ocurrido un problema inesperado, favor de verificar los campos marcados.
-    </div>
-    <% @event.errors.full_messages.each do |msg| %>
-      <div class="isa_info">
-        <%= msg %>
-      </div>
-    <% end %>
-  <% end %>
-
-  <div class="block">
-
-    <a href="#page-stats" class="block-heading" data-toggle="collapse"><%=t(:new)%> <%= eval("t(:C" + controller_name + ")").singularize %></a>
-
-    <div id="page-stats" class="block-body collapse in"> 
-
-      <div class="field">
-        <%= f.label :Prioridad %><br />
-        <%= f.collection_select(:priority_id, Priority.all, :id, :description, {:prompt => "seleccione prioridad"}) %>
-      </div>
-
-      <%if current_user.role.supervisor==true || current_user.role.super_admin==true%>
-        <div class="field">
-          <%= f.label "Estatus" %><br />
-          <%= f.collection_select(:status_id, Status.where(:status_type => "evento"), :id, :description, {:prompt => "seleccione el estatus"}) %>
+    <% if @event.errors.any? %>
+        <div class="isa_error">
+          Ah ocurrido un problema inesperado, favor de verificar los campos marcados.
         </div>
-      <%elsif current_user.role.medios == true%>
-        <%= f.label "Estatus" %><br />
-        <%= f.select :status_id, [["PRELIMINAR",10020],["HEMEROTECA",10024]] %>
-      <%end%>
-      <br>
-      <div id="datetimepicker" class="input-append date">
-        <%= f.label :Fecha_de_Evento %><br />
-        <%= f.text_field :event_date, :readonly => true%>
-        <span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
-      </div>
-
-      <div class="field">
-        <%= f.label :Descripcion %><br />
-        <%= f.text_area :description %>
-      </div>
-      <div class="field">
-        <%= f.label "Zona" %><br />
-        <%= f.collection_select(:area_id, Area.find(:all, :conditions => ["id BETWEEN ? AND ? ", 10000,10003]), :id, :description, {:prompt => "seleccione area"}) %>
-      </div>
-
-      <label>Via publica</label><input type="checkbox" name="toggle" onclick="toggleTB(this);" checked/> <br>
-
-      <div id="publica">
-        <div class="field" id="forma">
-          <%= f.label :Lugar , :id => "lugar2" %><br />
-          <%= f.collection_select(:place_id, Place.all, :id, :place, {:prompt => "seleccione lugar"} , :name => "lugar", :id=>"from_address")%>
-        </div>
-        <div class="field">
-          <%= f.label :Municipio, :id => "municipio2" %><br />
-          <%= f.collection_select(:township_id, Township.all, :id, :township, {:prompt => "Seleccione Municipio"}, :id => "municipio") %>
-        </div>
-        <div class="field">
-          <label for="event_locality_id" id="localidad2">Localidad</label>
-          <%= f.collection_select(:locality_id, Locality.order('township_id ASC').all, :id, :localidad, {:prompt => "Seleccione Localidad"}, :id =>"localidad") %>
-        </div>
-        <div class="field">
-          <%= f.label :Colonia , :id => "colonia2"%><br />
-          <%= f.text_field :suburb , :id => "colonia"%>
-        </div>
-
-
-        <div class="field">
-          <%= f.label "Direccion", :id => "dir2" %><br />
-          <%= f.text_field :address, :id => "dir"%>
-        </div>
-      </div>
-      <div class="field" id="tramo" style="visibility: hidden">
-        <%= f.label "Tramo carretero" , :id => "tramo2"%><br />
-        <%= f.text_field :tramo_carretero, :id => "tramo"%>
-      </div>
-
-
-      <%= f.link_to_add " Telefono", :phones, :class => "btn btn-primary icon-plus" %>
-      <p>
-        <%=f.fields_for :phones do |builder| %>
-          <%= render 'phones_fields', :f => builder %>
-        <%end%>
-      </p>
-      <%= f.link_to_add " Persona", :person, :class => "btn btn-primary icon-plus " %>
-      <p>
-        <%=f.fields_for :person do |builder| %>
-          <%= render 'people_fields', :f => builder %>
-        <%end%>
-      </p>
-      <%= f.link_to_add " Armas", :weapons, :class => "btn btn-primary icon-plus" %>
-      <p>
-        <%=f.fields_for :weapons do |builder| %>
-          <%= render 'weapons_fields', :f => builder %>
-        <%end%>
-      </p>
-      <%= f.link_to_add " Vehiculos", :vehicles, :class => "btn btn-primary icon-plus" %>
-      <p>
-        <%=f.fields_for :vehicles do |builder| %>
-          <%= render 'vehicles_fields', :f => builder %>
-        <%end%>
-      </p>
-      <%= f.link_to_add " Drogas", :drug, :class => "btn btn-primary icon-plus" %>
-      <p>
-        <%=f.fields_for :drug do |builder| %>
-          <%= render 'drug_fields', :f => builder %>
-        <%end%>
-
-      <div class="field">
-        <%= f.label :Observaciones %><br />
-        <%= f.text_area :observations %>
-      </div>
-
-      <%= f.link_to_add " Agregar Archivo", :backup_files, :class => "btn btn-primary icon-plus" %>
-      <p>
-        <%=f.fields_for :backup_files do |builder| %>
-          <%= render 'backup_files_fields', :f => builder %>
-        <%end%>
-      </p>
-      <br>
-      <div class="field">
-        <label> Fuente Digital <li><i>(link de noticia)</i></li></label><br />
-        <%= f.text_field :source %>
-      </div>
-
-      <%if controller.action_name == "new" or controller.action_name == "create"%>
-        <div class="field">
-          <%= f.hidden_field :analyst_id, :value => current_user.analyst_id %>
-        </div>
-      <%end%>
-
-
-      <div class="field">
-        <%= f.label :Delito %><br />
-        <%= f.collection_select(:crime_id, Crime.all, :id, :crime, {:prompt => "seleccione crimen"}) %>
-      </div>
-
-
-
-
-
-
-      <%=f.hidden_field :latitude, :id =>"centre_latitude"%>
-      <%=f.hidden_field :longitude, :id =>"centre_longitude"%>
-
-    </div>
-  </div>
-
-  <%= gmaps({"map_options" => {"auto_zoom" => false, "zoom" => 10 },"markers" => {"data" => @json }})%>
-
-
-  <br><br>
-  <div class="actions">
-    <%= button_tag( :class => "btn btn-primary", :id=>"guardar" , :onclick=> "submitform();")  do %>
-      <i class="icon-save icon-white"> </i> <%=t(:save)+" Evento"%>
-
+        <% @event.errors.full_messages.each do |msg| %>
+            <div class="isa_info">
+              <%= msg %>
+            </div>
+        <% end %>
     <% end %>
 
-  <% end %> <%= link_to 'Regresar', events_path, :class => "btn btn-danger"%>
+    <div class="block">
+
+      <a href="#page-stats" class="block-heading" data-toggle="collapse"><%=t(:new)%> <%= eval("t(:C" + controller_name + ")").singularize %></a>
+
+      <div id="page-stats" class="block-body collapse in">
+        <div class="field">
+          <%= f.label :Prioridad %><br />
+          <%= f.collection_select(:priority_id, Priority.all, :id, :description, {:prompt => "seleccione prioridad"}) %>
+        </div>
+        <%if current_user.role.supervisor==true || current_user.role.super_admin==true%>
+            <div class="field">
+              <%= f.label "Estatus" %><br />
+              <%= f.collection_select(:status_id, Status.where(:status_type => "evento"), :id, :description, {:prompt => "seleccione el estatus"}) %>
+            </div>
+        <%elsif current_user.role.medios == true%>
+            <%= f.label "Estatus" %><br />
+            <%= f.select :status_id, [["PRELIMINAR",10020],["HEMEROTECA",10024]] %>
+        <%end%>
+        <br>
+        <div id="datetimepicker" class="input-append date">
+          <%= f.label :Fecha_de_Evento %><br />
+          <%= f.text_field :event_date, :readonly => true%>
+          <span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+        </div>
+        <div class="field">
+          <%= f.label :Descripcion %><br />
+          <%= f.text_area :description %>
+        </div>
+        <div class="field">
+          <%= f.label "Zona" %><br />
+          <%= f.collection_select(:area_id, Area.find(:all, :conditions => ["id BETWEEN ? AND ? ", 10000,10003]), :id, :description, {:prompt => "seleccione area"}) %>
+        </div>
+        <label>Via publica</label><input type="checkbox" name="toggle" onclick="toggleTB(this);" checked/> <br>
+        <div id="publica">
+          <div class="field" id="forma">
+            <%= f.label :Lugar , :id => "lugar2" %><br />
+            <%= f.collection_select(:place_id, Place.all, :id, :place, {:prompt => "seleccione lugar"} , :name => "lugar", :id=>"from_address")%>
+          </div>
+          <div class="field">
+            <%= f.label :Municipio, :id => "municipio2" %><br />
+            <%= f.collection_select(:township_id, Township.all, :id, :township, {:prompt => "Seleccione Municipio"}, :id => "municipio") %>
+          </div>
+          <div class="field">
+            <label for="event_locality_id" id="localidad2">Localidad</label>
+            <%= f.select(:locality_id, []) %>
+          </div>
+          <div class="field">
+            <%= f.label :Colonia , :id => "colonia2"%><br />
+            <%= f.text_field :suburb , :id => "colonia"%>
+          </div>
+          <div class="field">
+            <%= f.label "Direccion", :id => "dir2" %><br />
+            <%= f.text_field :address, :id => "dir"%>
+          </div>
+        </div>
+        <div class="field" id="tramo" style="visibility: hidden">
+          <%= f.label "Tramo carretero" , :id => "tramo2"%><br />
+          <%= f.text_field :tramo_carretero, :id => "tramo"%>
+        </div>
+        <%= f.link_to_add " Telefono", :phones, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :phones do |builder| %>
+              <%= render 'phones_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Persona", :person, :class => "btn btn-primary icon-plus " %>
+        <p>
+          <%=f.fields_for :person do |builder| %>
+              <%= render 'people_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Armas", :weapons, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :weapons do |builder| %>
+              <%= render 'weapons_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Vehiculos", :vehicles, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :vehicles do |builder| %>
+              <%= render 'vehicles_fields', :f => builder %>
+          <%end%>
+        </p>
+        <%= f.link_to_add " Drogas", :drug, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :drug do |builder| %>
+              <%= render 'drug_fields', :f => builder %>
+          <%end%>
+
+        <div class="field">
+          <%= f.label :Observaciones %><br />
+          <%= f.text_area :observations %>
+        </div>
+
+        <%= f.link_to_add " Agregar Archivo", :backup_files, :class => "btn btn-primary icon-plus" %>
+        <p>
+          <%=f.fields_for :backup_files do |builder| %>
+              <%= render 'backup_files_fields', :f => builder %>
+          <%end%>
+        </p>
+        <br>
+        <div class="field">
+          <label> Fuente Digital <li><i>(link de noticia)</i></li></label><br />
+          <%= f.text_field :source %>
+        </div>
+        <%if controller.action_name == "new" or controller.action_name == "create"%>
+            <div class="field">
+              <%= f.hidden_field :analyst_id, :value => current_user.analyst_id %>
+            </div>
+        <%end%>
+        <div class="field">
+          <%= f.label :Delito %><br />
+          <%= f.collection_select(:crime_id, Crime.all, :id, :crime, {:prompt => "seleccione crimen"}) %>
+        </div>
+        <%=f.hidden_field :latitude, :id =>"centre_latitude"%>
+        <%=f.hidden_field :longitude, :id =>"centre_longitude"%>
+      </div>
+    </div>
+    <%= gmaps({"map_options" => {"auto_zoom" => false, "zoom" => 10 },"markers" => {"data" => @json }})%>
+    <br><br>
+    <div class="actions">
+      <%= button_tag( :class => "btn btn-primary", :id=>"guardar" , :onclick=> "submitform();")  do %>
+          <i class="icon-save icon-white"> </i> <%=t(:save)+" Evento"%>
+
+      <% end %>
+
+<% end %>
+<%= link_to 'Regresar', events_path, :class => "btn btn-danger"%>
 </div>
 
 <%= content_for :scripts do %>
-  <script type="text/javascript" charset="utf-8">
+    <script type="text/javascript" charset="utf-8">
         function submitform()
         {
-          document.getElementById('new_event').submit();
-          document.getElementById('guardar').disabled = true;
+            document.getElementById('new_event').submit();
+            document.getElementById('guardar').disabled = true;
         }
 
         var markersArray = [];
         Gmaps.map.callback = function() {
-          var marker = Gmaps.map.markers[0];
-          if (marker) {
-            // Move existing marker when editing a previously stored location
-            google.maps.event.addListener(marker.serviceObject, 'dragend', function() {
-              updateFormLocation(this.getPosition());
-            });
-          }
+            var marker = Gmaps.map.markers[0];
+            if (marker) {
+                // Move existing marker when editing a previously stored location
+                google.maps.event.addListener(marker.serviceObject, 'dragend', function() {
+                    updateFormLocation(this.getPosition());
+                });
+            }
 
-          // On click, clear markers, place a new one, update coordinates in the form
-          google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event) {
-            clearOverlays();
-            placeMarker(event.latLng);
-            updateFormLocation(event.latLng);
-          });
+            // On click, clear markers, place a new one, update coordinates in the form
+            google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event) {
+                clearOverlays();
+                placeMarker(event.latLng);
+                updateFormLocation(event.latLng);
+            });
         };
         // Update form attributes with given coordinates
         function updateFormLocation(latLng) {
-          $('#centre_latitude').val(latLng.lat());
-          $('#centre_longitude').val(latLng.lng());
-          $('#centre_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
+            $('#centre_latitude').val(latLng.lat());
+            $('#centre_longitude').val(latLng.lng());
+            $('#centre_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
         }
         // Add a marker with an open infowindow
         function placeMarker(latLng) {
-          var marker = new google.maps.Marker({
-            position: latLng,
-            map: Gmaps.map.serviceObject,
-            draggable: true
-          });
-          markersArray.push(marker);
-          // Set and open infowindow
-          var infowindow = new google.maps.InfoWindow({
-            content: '<div class="popup"><h2>Ajustando!</h2><p>Arrastra el marcador a la nueva ubicacion.</p>'
-          });
-          infowindow.open(Gmaps.map.serviceObject, marker);
-          // Listen to drag & drop
-          google.maps.event.addListener(marker, 'dragend', function() {
-            updateFormLocation(this.getPosition());
-          });
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: Gmaps.map.serviceObject,
+                draggable: true
+            });
+            markersArray.push(marker);
+            // Set and open infowindow
+            var infowindow = new google.maps.InfoWindow({
+                content: '<div class="popup"><h2>Ajustando!</h2><p>Arrastra el marcador a la nueva ubicacion.</p>'
+            });
+            infowindow.open(Gmaps.map.serviceObject, marker);
+            // Listen to drag & drop
+            google.maps.event.addListener(marker, 'dragend', function() {
+                updateFormLocation(this.getPosition());
+            });
         }
         // Removes the overlays from the map, including the ones loaded with the map itself
         function clearOverlays() {
-          for (var i = 0; i < markersArray.length; i++) {
-            markersArray[i].setMap(null);
-          }
-          markersArray.length = 0;
+            for (var i = 0; i < markersArray.length; i++) {
+                markersArray[i].setMap(null);
+            }
+            markersArray.length = 0;
 
-          for (var i = 0; i < Gmaps.map.markers.length; i++) {
-            Gmaps.map.clearMarker(Gmaps.map.markers[i]);
-          }
+            for (var i = 0; i < Gmaps.map.markers.length; i++) {
+                Gmaps.map.clearMarker(Gmaps.map.markers[i]);
+            }
         }
         function toggleTB(what) {
-          if (what.checked) {
-            $("#tramo").fadeOut(100);
-            $("#publica").fadeIn(100);
-            document.getElementById('tramo').style.visibility = "hidden";
-          } else {
-            $("#tramo").fadeIn(100);
-            $("#publica").fadeOut(100);
-            document.getElementById('tramo').style.visibility = 'visible';
-          }
+            if (what.checked) {
+                $("#tramo").fadeOut(100);
+                $("#publica").fadeIn(100);
+                document.getElementById('tramo').style.visibility = "hidden";
+            } else {
+                $("#tramo").fadeIn(100);
+                $("#publica").fadeOut(100);
+                document.getElementById('tramo').style.visibility = 'visible';
+            }
         }
-  </script>
+    </script>
 <%end%>
 <script type="text/javascript"
         src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
-</script> 
+</script>
 <script type="text/javascript"
         src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
 </script>
@@ -245,23 +224,49 @@
 </script>
 
 <script type="text/javascript">
-  (function($) {
-    $.fn.datetimepicker.dates['es'] = {
-      days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-      daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
-      daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
-      months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-      monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-      today: "Hoy"
-    };
-  }(jQuery));
+    (function($) {
+        $.fn.datetimepicker.dates['es'] = {
+            days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+            daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+            daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+            months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+            today: "Hoy"
+        };
+    }(jQuery));
+    $('#datetimepicker').datetimepicker({
+        format: 'dd/MM/yyyy hh:mm:ss',
+        language: 'es'
+    });
 
-  $('#datetimepicker').datetimepicker({
-    format: 'dd/MM/yyyy hh:mm:ss',
-    language: 'es'
-  });
-  $(document).ready(function() {
-    /* Activating Best In Place */
-    jQuery("#new_file").fileupload();
-  });
+    $('#municipio').change(function() {
+        $('#event_locality_id').empty();
+        $.ajax({
+            url: "/townships/get_localities?id=" + this.value,
+            dataType: 'json',
+            error: function(xhr, status, error) {
+                alert(status);
+            },
+            success: setModels
+        });
+
+        function setModels(models) {
+            var dropdown = document.getElementById("event_locality_id");
+            if (dropdown) {
+                for (var i = 0; i < models.length; ++i) {
+                    createOption(dropdown, models[i].locality, models[i].id);
+                }
+            }
+        }
+
+        function createOption(dropdown, text, value) {
+            var opt = document.createElement('option');
+            opt.value = value;
+            opt.text = text;
+            dropdown.options.add(opt);
+        }
+    });
+
+
+
 </script>

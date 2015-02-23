@@ -3,20 +3,15 @@ class Event < ActiveRecord::Base
   attr_accessible :locality, :locality_id, :observations, :person_id, :place_id, :priority_id, :source, :status_id, :address
   attr_accessible :suburb, :suspects, :township_id, :vehicle_id, :vehicles, :victims, :weapon_id, :weapons
   attr_accessible :person_attributes,:weapons_attributes, :backup_files_attributes, :vehicles_attributes, :phones_attributes
-  attr_accessible :latitude, :longitude, :gmaps, :tramo_carretero, :searchable, :created_at
+  attr_accessible :latitude, :longitude, :gmaps, :tramo_carretero, :searchable, :created_at, :person_count
   acts_as_gmappable :process_geocoding => false
   
   def gmaps4rails_address
     "#{self.address}, chihuahua"
   end
+
   audited
-  #  def gmaps4rails_marker_picture
-  #    {
-  #      "rich_marker" =>  "<img height='20' width='20' src='assets/#{self.priority.description}.png' class='btn' btn-mini/>"
-  #    }
-  #  end
-  
-  
+
   belongs_to :priority
   belongs_to :crime
   has_many :event_person, :dependent => :destroy
@@ -42,7 +37,7 @@ class Event < ActiveRecord::Base
   validates :area_id, :presence =>  true#{ :message => "Debes seleccionar el area del evento" }
   validates :crime_id, :presence =>true# { :message => "Debes seleccionar el delito" } 
   validates :event_date, :presence => true
-  validates :status_id, :presence => true
+  # validates :status_id, :presence => true
   
   accepts_nested_attributes_for :person, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :vehicles, :allow_destroy => true, :reject_if => :all_blank
@@ -81,10 +76,14 @@ class Event < ActiveRecord::Base
   def vehicle_plate
     vehicles.map(&:plate)
   end
+
+  def analista
+    self.analyst.analyst if self.analyst
+  end
   
   searchable do
     text :searchable, :observations, :vehicle_id, :publish_month, :vehicle_brand, :vehicle_details
-    text :vehicle_plate, :vehicle_line, :vehicle_serial, :estatus
+    text :vehicle_plate, :vehicle_line, :vehicle_serial, :estatus, :analista
     time :event_date
     
     text :person do

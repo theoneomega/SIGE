@@ -2,28 +2,21 @@ class ColaborationsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
   def index
-    
-    
-    if current_user.analyst.department == 'DIEID' or current_user.analyst.department == 'INFORMACION ESTATAL'
-      #administradores, ie supervisor, super superviosr
-      if current_user.role.super_admin == true || current_user.role.ie_supervisor == true || current_user.role.super_supervisor == true 
-        @colaborations = Colaboration.where('status_id != ? AND dieid = ?', 10006, true).order('id ASC')
-      elsif current_user.role.supervisor == true and current_user.analyst.area.description == "CENTRO"
-        @colaborations = Colaboration.where('status_id BETWEEN ? AND ?  AND area_id BETWEEN ? AND ?  AND dieid = ?',10003,10005, 10001, 10003, true).order('status_id ASC')
-      elsif current_user.role.supervisor == true and current_user.analyst.area.description == "NORTE"
-        @colaborations = Colaboration.where('status_id BETWEEN ? AND ?  AND area_id = ?  AND dieid = ?',10003,10005, 10000, true).order('status_id ASC')
-      elsif current_user.role.analyst == true 
-        @colaborations = Colaboration.where("analyst_id = ? AND status_id = ?  AND dieid = ?", current_user.analyst_id, 10005, true).order('status_id ASC')
-      end
-      
-      
-    elsif current_user.analyst.department == 'CIBERNETICA'
-      if current_user.role.super_admin == true || current_user.role.supervisor_cibernetico == true || current_user.role.director_cibernetico == true 
-        @colaborations = Colaboration.where('status_id != ? AND cibernetica = ?', 10006, true).order('id ASC')
-      elsif current_user.role.cibernetico == true
-        @colaborations = Colaboration.where("analyst_id = ? AND status_id = ? AND cibernetica = ?", current_user.analyst_id, 10005, true).order('status_id ASC')
-      end
+
+
+
+    if current_user.role.super_admin  || current_user.role.ie_supervisor  || current_user.role.super_supervisor
+      @colaborations = Colaboration.where('status_id != ? AND dieid = ?', 10006, true).order('id ASC')
+    elsif current_user.role.supervisor and current_user.analyst.area.description == "CENTRO"
+      @colaborations = Colaboration .where('status_id BETWEEN ? AND ?  AND area_id != ?  AND dieid = ?',10003,10005, 10000, true).order('status_id ASC')
+    elsif current_user.role.supervisor and current_user.analyst.area.description == "NORTE"
+      @colaborations = Colaboration.where('status_id != ?  AND area_id = ?  AND dieid = ?',10006, 10000, true).order('status_id ASC')
+    elsif current_user.role.analyst
+      @colaborations = Colaboration.where("analyst_id = ? AND status_id = ?  AND dieid = ?", current_user.analyst_id, 10005, true).order('status_id ASC')
     end
+
+
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @colaborations }
@@ -61,7 +54,7 @@ class ColaborationsController < ApplicationController
   # POST /colaborations
   # POST /colaborations.json
   def create
-    
+
     if current_user.analyst.department == "DIEID" or current_user.analyst.department == "INFORMACION ESTATAL"
       @colaboration.dieid = true
       @colaboration.cibernetica= false
@@ -70,7 +63,7 @@ class ColaborationsController < ApplicationController
       @colaboration.cibernetica = true
       @colaboration.dieid = false
     end
-    
+
     @colaboration = Colaboration.new(params[:colaboration])
     @colaboration.requesting_area = @colaboration.requesting_area.upcase
     @colaboration.claimant = @colaboration.claimant.upcase
@@ -78,18 +71,18 @@ class ColaborationsController < ApplicationController
     #    @colaboration.observations = @colaboration.observations.sub(pattern) { |match|  }
     @colaboration.observations = @colaboration.observations.upcase
     @colaboration.user_id=current_user.id
-    
+
     if @colaboration.searchable==nil
       @colaboration.searchable = " "
     end
-   
+
     if @colaboration.area_id!=nil
       @colaboration.searchable=@colaboration.searchable+" "+@colaboration.area.description
     end
     if @colaboration.analyst_id != nil
       @colaboration.searchable=@colaboration.searchable+" "+@colaboration.analyst.analyst
     end
-    
+
     respond_to do |format|
       if @colaboration.save
         format.html { redirect_to @colaboration, notice: 'Colaboracion registrada exitosamente.' }
@@ -129,16 +122,16 @@ class ColaborationsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   def approve
     @colaboration = Colaboration.find(params[:id])
     @colaboration.status_id = 10007
     if @colaboration.update_attributes(params[:colaboration])
       redirect_to colaborations_path,
-        notice: 'Colabooracion aprobada con exito.'
+                  notice: 'Colabooracion aprobada con exito.'
     end
   end
-  
+
   def sendit
     @colaboration = Colaboration.find(params[:id])
     @colaboration.status_id = 10006
@@ -150,5 +143,5 @@ class ColaborationsController < ApplicationController
       end
     end
   end
-  
+
 end

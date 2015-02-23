@@ -12,6 +12,7 @@ end
  
 module Sied
   class Application < Rails::Application
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -30,7 +31,8 @@ module Sied
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # 
-    config.i18n.enforce_available_locales = true
+    config.i18n.enforce_available_locales = false
+
     config.time_zone = "Chihuahua"
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
@@ -62,6 +64,7 @@ module Sied
 
     # Enable the asset pipeline
     config.assets.enabled = true
+    # config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'

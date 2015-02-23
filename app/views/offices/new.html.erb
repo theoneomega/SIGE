@@ -1,6 +1,6 @@
 <%= render "form" %>
 
-
+algo
 <script>
   function submitformregistrar()
   {
@@ -8,7 +8,7 @@
     document.getElementById('new_office').submit();
     document.getElementById('guardar').disabled = true;
     if ($('#office_kind_r').is(':checked')) {
-      $("#estatus").val('<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion")%>');
+      $("#estatus").val('<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>');
     }
   }
 
@@ -18,7 +18,7 @@
     document.getElementById('new_office').submit();
     document.getElementById('guardar').disabled = true;
     if ($('#office_kind_r').is(':checked')) {
-      $("#estatus").val('<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion")%>');
+      $("#estatus").val('<%=Status.find_by_description_and_status_type("ENVIADO", "Colaboracion").id%>');
     }
   }
   $(document).ready(function() {
@@ -43,10 +43,5 @@
       $("#estatus").val(10006);
     }
   }
-
-
-
-
-
 
 </script>

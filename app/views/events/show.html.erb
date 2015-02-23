@@ -1,283 +1,284 @@
 <%content_for :breadcrumb do%>
-  <ul class="breadcrumb">
-    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
-    <li><%=link_to t(:Cevents), events_path%><span class="divider">/</span></li>
-    <li class="active"><%= @event.id %></li>
-  </ul>
+    <ul class="breadcrumb">
+      <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+      <li><%=link_to t(:Cevents), events_path%><span class="divider">/</span></li>
+      <li class="active"><%= @event.id %></li>
+    </ul>
 <%end%>
 
 
 <div class="row-fluid">
-  <div class="block ">
-    <a href="#client-info" class="block-heading" data-toggle="collapse">Evento <%= @event.id %></a>
-    <div id="client-info" class="block-body collapse in show-details">
+<div class="block ">
+<a href="#client-info" class="block-heading" data-toggle="collapse">Evento <%= @event.id %></a>
+<div id="client-info" class="block-body collapse in show-details">
 
-      <p>
-        <b>Prioridad:</b>
-        <%= @event.priority.description.upcase %>
-      </p>
-      <p>
-        <b>Analista:</b>
-        <%=@event.analyst.analyst%>
-      </p>
-      <p>
-        <b>Fecha de evento: </b>
-        <%=I18n.l @event.event_date, :format => "%d de %B del %Y a las %H:%M hrs" %>
-      </p>
-      <p>
-        <b>Descripcion: </b>
-        <%=  @event.description.upcase%> <br>
-      </p>
-      <p>
-        <b>Calle: </b>
-        <%if  @event.address %>
-          <%=   @event.address.upcase %>
-        <%end%>
-      </p>
+<p>
+  <b>Prioridad:</b>
+  <%= @event.priority.description.upcase %>
+</p>
+<p>
+  <b>Analista:</b>
+  <%=@event.analyst.analyst%>
+</p>
+<p>
+  <b>Fecha de evento: </b>
+  <%=I18n.l @event.event_date, :format => "%d de %B del %Y a las %H:%M hrs" %>
+</p>
+<p>
+  <b>Descripcion: </b>
+  <%=  @event.description.upcase%> <br>
+</p>
+<p>
+  <b>Calle: </b>
+  <%if  @event.address %>
+      <%=   @event.address.upcase %>
+  <%end%>
+</p>
 
-      <p>
-        <b>Colonia: </b>
-        <%if @event.suburb%>
-          <%=   @event.suburb.upcase %>
-        <%end%>
-      </p>
-      <p>
-        <b>Localidad: </b>
-        <%if @event.locality%>
-          <%= @event.locality.locality.upcase %>
-        <%end%>
-      </p>
-      <p>
-        <b>Observaciones: </b>
-        <%if @event.observations%>
-          <%=   @event.observations.upcase %>
-        <%end%>
-      </p>
-      <p>
-        <b>Archivo de respaldo: </b>
-        <%@event.backup_files.each do |file|%>
-          <%=link_to file.description, file.file.to_s, target: "_blank"%> <br>
-        <%end%>
-      </p>
-      <p>
-        <b>Fuente: </b>
-        <a href="<%=  @event.source %>" target="_blank"> <%=  @event.source %> </a>
-      </p>
-      <p>
-        <b>Area:</b>
-        <%= @event.area.description.upcase %>
-      </p>
-      <p>
-        <b>Delito: </b>
-        <%if @event.crime !=nil%>
-          <%= @event.crime.crime.upcase %>
-        <%end%>
-      </p>
+<p>
+  <b>Colonia: </b>
+  <%if @event.suburb%>
+      <%=   @event.suburb.upcase %>
+  <%end%>
+</p>
+<p>
+  <b>Localidad: </b>
+  <%if @event.locality%>
+      <%= @event.locality.locality.upcase %>
+  <%end%>
+</p>
+<p>
+  <b>Observaciones: </b>
+  <%if @event.observations%>
+      <%=   @event.observations.upcase %>
+  <%end%>
+</p>
+<p>
+  <b>Archivo de respaldo: </b>
+  <%@event.backup_files.each do |file|%>
+      <%=link_to file.description, file.file.to_s, target: "_blank"%> <br>
+  <%end%>
+</p>
+<p>
+  <b>Fuente: </b>
+  <a href="<%=  @event.source %>" target="_blank"> <%=  @event.source %> </a>
+</p>
+<p>
+  <b>Area:</b>
+  <%= @event.area.description.upcase %>
+</p>
+<p>
+  <b>Delito: </b>
+  <%if @event.crime !=nil%>
+      <%= @event.crime.crime.upcase %>
+  <%end%>
+</p>
 
-      <p>
-        <b>Municipio: </b>
-        <%if @event.township !=nil%>
-          <%= @event.township.township.upcase %>
-        <%end%>
-      </p>
+<p>
+  <b>Municipio: </b>
+  <%if @event.township !=nil%>
+      <%= @event.township.township.upcase %>
+  <%end%>
+</p>
 
-      <p>
-        <b>Lugar: </b>
-        <%if @event.place !=nil%>
-          <%= @event.place.place.upcase %>
-        <%end%>
-        <%if @event.tramo_carretero !=nil%>
-          <%=@event.tramo_carretero%>
-        <%end%>
-      </p>
+<p>
+  <b>Lugar: </b>
+  <%if @event.place !=nil%>
+      <%= @event.place.place.upcase %>
+  <%end%>
+  <%if @event.tramo_carretero !=nil%>
+      <%=@event.tramo_carretero%>
+  <%end%>
+</p>
 
-      <p>
-        <b>Estatus:</b>
-        <%if @event.status%>
-          <%= @event.status.description.upcase %>
-        <%end%>
-      </p>
-      <%if @event.phones.count  >0 %>
-        <div class="block">
-          <a href="#phones" class="block-heading" data-toggle="collapse"><%= pluralize(@event.phones.count, "Telefono") %></a>
-          <div id="phones" class="block-body collapse">
-            <div class="control-group">
-              <%@event.phones.each do |phone|%>
-                <ul class="inline">
-                  <li><i class="icon-phone"> </i> </i> <%=phone.phone_number %></li>
-                </ul>
-              <%end%>
-            </div>
-          </div>
-        </div>
-      <%end%>
-
-
-      <%if @event.person.where(:status_id=>10001).count >0 %>
-        <div class="block">
-          <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10001).count, "Victima") %></a>
-          <div id="victims" class="block-body collapse">
-            <div class="control-group">
-              <%@event.person.where(:status_id => 10001).each do |person|%>
-                <ul class="inline">
-                  <li><i class="icon-male"> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
-                  <ul>
-                    <% if person.observations?%>
-                      <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
-                    <%end%>
-                    <% if person.ci?%>
-                      <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
-                    <%end%>
-                    <% if person.alias?%>
-                      <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
-                    <%end%>
-                    <% if person.birth_date%>
-                      <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
-                    <%end%>
-                    <% if person.genre?%>
-                      <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
-                    <%end%>
-                    <% if person.status_id%>
-                      <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
-                    <%end%>
-                  </ul>
-                </ul>
-              <%end%>
-            </div>
-          </div>
-        </div>
-      <%end%>
-
-      <%if @event.person.where(:status_id=>10000).count>0%>
-        <div class="block">
-          <a href="#detained" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10000).count, "Detenido") %></a>
-          <div id="detained" class="block-body collapse">
-            <div class="control-group">
-              <%@event.person.where(:status_id => 10000).each do |person|%>
-                <ul>
-                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
-                  <%if person.observations%>
-                    <ul>
-                      <% if person.observations?%>
-                        <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
-                      <%end%>
-                      <% if person.ci?%>
-                        <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
-                      <%end%>
-                      <% if person.alias?%>
-                        <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
-                      <%end%>
-                      <% if person.birth_date%>
-                        <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
-                      <%end%>
-                      <% if person.genre?%>
-                        <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
-                      <%end%>
-                      <% if person.status_id%>
-                        <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
-                      <%end%>
-                    </ul>
-                  <%end%>
-                </ul>
-              <%end%>
-            </div>
-          </div>
-        </div>
-      <%end%>
-
-      <%if @event.person.where(:status_id=>10002).count > 0%>
-        <div class="block">
-          <a href="#suspects" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10002).count, "Sospechoso") %></a>
-          <div id="suspects" class="block-body collapse">
-            <div class="control-group">
-              <%@event.person.where(:status_id => 10002).each do |person|%>
-                <ul class="inline">
-                  <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
-                  <ul>
-                    <ul>
-                      <% if person.observations?%>
-                        <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
-                      <%end%>
-                      <% if person.ci?%>
-                        <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
-                      <%end%>
-                      <% if person.alias?%>
-                        <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
-                      <%end%>
-                      <% if person.birth_date%>
-                        <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
-                      <%end%>
-                      <% if person.genre?%>
-                        <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
-                      <%end%>
-                      <% if person.status_id%>
-                        <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
-                      <%end%>
-                    </ul>
-                  </ul>
-                <%end%>
-            </div>
-          </div>
-        </div>
-      <%end%>
-
-      <%if @event.vehicles.count > 0%>
-        <div class="block">
-          <a href="#vehicles" class="block-heading" data-toggle="collapse"><%= pluralize(@event.vehicles.count, "Vehiculo")%></a>
-          <div id="vehicles" class="block-body collapse">
-            <div class="control-group">
-              <%@event.vehicles.each do |vehicle|%>
-                <ul>
-                  <li><i class="icon-truck"> </i><%=vehicle.fulldescription %></li>
-                  <% if vehicle.details?%>
-                    <li><i class="icon-"> </i> Obervaciones: <%=  vehicle.details.upcase %></li>
-                  <%end%>
-                </ul>
-              <%end%>
-            </div>
-          </div>
-        </div>
-      <%end%>
-
-      <%if @event.weapons.count > 0%>
-        <div class="block">
-          <a href="#weapons" class="block-heading" data-toggle="collapse"><%= pluralize(@event.weapons.count, "Arma")%></a>
-          <div id="weapons" class="block-body collapse">
-            <div class="control-group">
-              <%@event.weapons.each do |weapon|%>
-                <ul>
-                  <li><i class="icon-screenshot"> </i><%=weapon.fulldescription %></li>
-                </ul>
-              <%end%>
-            </div>
-          </div>
-        </div>
-      <%end%>
-
-      <%if @event.drug.count > 0%>
-        <div class="block">
-          <a href="#drugs" class="block-heading" data-toggle="collapse"><%= pluralize(@event.drug.count, "Droga")%></a>
-          <div id="drugs" class="block-body collapse">
-            <div class="control-group">
-              <%@event.drug.each do |drugs|%>
-                <ul>
-                  <li><%drugs.kind %></li>
-                </ul>
-              <%end%>
-            </div>
-          </div>
+<p>
+  <b>Estatus:</b>
+  <%if @event.status%>
+      <%= @event.status.description.upcase %>
+  <%end%>
+</p>
+<%if @event.phones.count  >0 %>
+    <div class="block">
+      <a href="#phones" class="block-heading" data-toggle="collapse"><%= pluralize(@event.phones.count, "Telefono") %></a>
+      <div id="phones" class="block-body collapse">
+        <div class="control-group">
+          <%@event.phones.each do |phone|%>
+              <ul class="inline">
+                <li><i class="icon-phone"> </i> </i> <%=phone.phone_number %></li>
+              </ul>
+          <%end%>
         </div>
       </div>
     </div>
-  <%end%>
+<%end%>
 
-  <div style='width: 800px;'class="well">
-    <div id="map" style='width: 800px; height: 400px;'><%= gmaps({
-          "map_options" => {"auto_zoom" => false, "zoom" => 16 },
-          "markers" => {"data" => @json }
-        })
-    %></div>
-  </div>
+
+<%if @event.person.where(:status_id=>10001).count >0 %>
+    <div class="block">
+      <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10001).count, "Victima") %></a>
+      <div id="victims" class="block-body collapse">
+        <div class="control-group">
+          <%@event.person.where(:status_id => 10001).each do |person|%>
+              <ul class="inline">
+                <li><i class="icon-male"> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                <ul>
+                  <% if person.observations?%>
+                      <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                  <%end%>
+                  <% if person.ci?%>
+                      <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                  <%end%>
+                  <% if person.alias?%>
+                      <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                  <%end%>
+                  <% if person.birth_date%>
+                      <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                  <%end%>
+                  <% if person.genre?%>
+                      <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                  <%end%>
+                  <% if person.status_id%>
+                      <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                  <%end%>
+                </ul>
+              </ul>
+          <%end%>
+        </div>
+      </div>
+    </div>
+<%end%>
+
+<%if @event.person.where(:status_id=>10000).count>0%>
+    <div class="block">
+      <a href="#detained" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10000).count, "Detenido") %></a>
+      <div id="detained" class="block-body collapse">
+        <div class="control-group">
+          <%@event.person.where(:status_id => 10000).each do |person|%>
+              <ul>
+                <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+                <%if person.observations%>
+                    <ul>
+                      <% if person.observations?%>
+                          <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                      <%end%>
+                      <% if person.ci?%>
+                          <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                      <%end%>
+                      <% if person.alias?%>
+                          <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                      <%end%>
+                      <% if person.birth_date%>
+                          <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                      <%end%>
+                      <% if person.genre?%>
+                          <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                      <%end%>
+                      <% if person.status_id%>
+                          <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                      <%end%>
+                    </ul>
+                <%end%>
+              </ul>
+          <%end%>
+        </div>
+      </div>
+    </div>
+<%end%>
+
+<%if @event.person.where(:status_id=>10002).count > 0%>
+    <div class="block">
+      <a href="#suspects" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10002).count, "Sospechoso") %></a>
+      <div id="suspects" class="block-body collapse">
+        <div class="control-group">
+          <%@event.person.where(:status_id => 10002).each do |person|%>
+              <ul class="inline">
+                <li><i class="icon-male"> </i> </i> <%=person.fullname.upcase %></li><%if person.last_name2?%> <%= person.last_name2.upcase %> <%end%>
+
+                <ul>
+                  <% if person.observations?%>
+                      <li><i class="icon-"> </i> Obervaciones: <%=  person.observations.upcase %></li>
+                  <%end%>
+                  <% if person.ci?%>
+                      <li><i class="icon-"> </i> Carpeta de investigación:  <%=  person.ci.upcase %></li>
+                  <%end%>
+                  <% if person.alias?%>
+                      <li><i class="icon-"> </i> Alias:  <%=  person.alias.upcase %></li>
+                  <%end%>
+                  <% if person.birth_date%>
+                      <li><i class="icon-"> </i> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') %></li>
+                  <%end%>
+                  <% if person.genre?%>
+                      <li><i class="icon-"> </i>  Genero: <%=  person.genre.upcase %></li>
+                  <%end%>
+                  <% if person.status_id%>
+                      <li><i class="icon-"> </i> Estatus:  <%=  person.status.description.upcase %></li>
+                  <%end%>
+                </ul>
+              </ul>
+          <%end%>
+
+        </div>
+      </div>
+    </div>
+<%end%>
+
+<%if @event.vehicles.count > 0%>
+    <div class="block">
+      <a href="#vehicles" class="block-heading" data-toggle="collapse"><%= pluralize(@event.vehicles.count, "Vehiculo")%></a>
+      <div id="vehicles" class="block-body collapse">
+        <div class="control-group">
+          <%@event.vehicles.each do |vehicle|%>
+              <ul>
+                <li><i class="icon-truck"> </i><%=vehicle.fulldescription %></li>
+                <% if vehicle.details?%>
+                    <li><i class="icon-"> </i> Obervaciones: <%=  vehicle.details.upcase %></li>
+                <%end%>
+              </ul>
+          <%end%>
+        </div>
+      </div>
+    </div>
+<%end%>
+
+<%if @event.weapons.count > 0%>
+    <div class="block">
+      <a href="#weapons" class="block-heading" data-toggle="collapse"><%= pluralize(@event.weapons.count, "Arma")%></a>
+      <div id="weapons" class="block-body collapse">
+        <div class="control-group">
+          <%@event.weapons.each do |weapon|%>
+              <ul>
+                <li><i class="icon-screenshot"> </i><%=weapon.fulldescription %></li>
+              </ul>
+          <%end%>
+        </div>
+      </div>
+    </div>
+<%end%>
+
+<%if @event.drug.count > 0%>
+    <div class="block">
+      <a href="#drugs" class="block-heading" data-toggle="collapse"><%= pluralize(@event.drug.count, "Droga")%></a>
+      <div id="drugs" class="block-body collapse">
+        <div class="control-group">
+          <%@event.drug.each do |drugs|%>
+              <ul>
+                <li><%drugs.kind %></li>
+              </ul>
+          <%end%>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+<%end%>
+
+<div style='width: 800px;'class="well">
+  <div id="map" style='width: 800px; height: 400px;'><%= gmaps({
+                                                                       "map_options" => {"auto_zoom" => false, "zoom" => 16 },
+                                                                       "markers" => {"data" => @json }
+                                                               })
+  %></div>
+</div>
 
 </div>
 
@@ -286,9 +287,4 @@
   <%= link_to 'Editar', edit_event_path(@event), :class => "btn btn-primary" %> |
   <%= link_to 'Regresar', events_path,:class => "btn btn-danger" %>
 </div>
-<script>
-  $(document).ready(function() {
-    /* Activating Best In Place */
-    jQuery(".best_in_place").best_in_place();
-  });
-</script>
+

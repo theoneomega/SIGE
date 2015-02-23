@@ -25,17 +25,17 @@
       <tr>
         <td><%= role.id %></td>
         <td><%= role.role %></td>
-        <td><%= role.protected %></td>
-        <td><%= role.super_admin %></td>
-        <td><%= role.analyst %></td>
-        <td><%= role.iph %></td>
-        <td><%= role.iph_supervisor %></td>
-        <td><%= role.administrator %></td>
-        <td><%= role.supervisor %></td>
-        <td><%= role.medios %></td>
-        <td><%= role.ie_supervisor %></td>
-        <td><%= role.analysts_supervisor %></td>
-        <td><%= role.super_supervisor %></td>
+        <td><%= role.protected ? image_tag("true.png") :" "%></td>
+        <td><%= role.super_admin ? image_tag("true.png") :" "%></td>
+        <td><%= role.analyst ? image_tag("true.png") :" " %></td>
+        <td><%= role.iph ? image_tag("true.png") :" "%></td>
+        <td><%= role.iph_supervisor ? image_tag("true.png") :" "%></td>
+        <td><%= role.administrator ? image_tag("true.png") :" "%></td>
+        <td><%= role.supervisor ? image_tag("true.png") :" "%></td>
+        <td><%=role.medios ? image_tag("true.png") :" "%></td>
+        <td><%=role.ie_supervisor ? image_tag("true.png") :" "%></td>
+        <td><%=role.analysts_supervisor ? image_tag("true.png") :" " %></td>
+        <td><%=role.super_supervisor ? image_tag("true.png") :" "%></td>
         <td>
           <ul class="nav nav-pills">
             <li class="dropdown">

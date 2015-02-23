@@ -5,13 +5,13 @@ class Person < ActiveRecord::Base
   has_many :vehicles, :dependent => :destroy
   belongs_to :status
   has_many :weapons, :dependent => :destroy
-  has_many :weapons
-  has_many :vehicles
-  #nested atributes for events
   has_many :event_person, :dependent => :destroy
   has_many :office_person, :dependent => :destroy
   has_many :person_phone, :dependent => :destroy
   has_many :phones, :through => :person_phone, :dependent => :destroy
+
+
+
   
   audited
   accepts_nested_attributes_for :phones, :allow_destroy => true, :reject_if => :all_blank
@@ -21,7 +21,7 @@ class Person < ActiveRecord::Base
   validates :status_id, :presence => true#{:message => 'debes introducir un estatus para la persona'}
   
   def fullname
-    first_name.titlecase + " " + last_name1.titlecase 
+    first_name + " " + last_name1
   end
   
   self.per_page = 10

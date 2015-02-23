@@ -1,0 +1,54 @@
+<%content_for :breadcrumb do%>
+<ul class="breadcrumb">
+  <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+  <%if can? :index, Helpdesk %>
+  <li class="active"><%=link_to t(:index), helpdesks_path %><span class="divider">/</span></li>
+  <%end%>
+  <%if can? :new, Helpdesk %>
+  <li class="active"><%=link_to t(:new), new_helpdesk_path%></li>
+  <%end%>
+</ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+              <p>
+          <b><%= t'.problem' %>:</b>
+          <%= @helpdesk.problem %>
+        </p>
+              <p>
+          <b><%= t'.description' %>:</b>
+          <%= @helpdesk.description %>
+        </p>
+              <p>
+          <b><%= t'.analyst' %>:</b>
+          <%= @helpdesk.analyst_id %>
+        </p>
+              <p>
+          <b><%= t'.active' %>:</b>
+          <%= @helpdesk.active %>
+        </p>
+          </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, Helpdesk %>
+  <%= link_to t(:back, :default => t('helpers.links.back')), helpdesks_path, :class => 'btn' %>
+  <%end%>
+  <%if can? :edit, Helpdesk %>
+  <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_helpdesk_path(@helpdesk), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, Helpdesk %>
+  <%= link_to t(:destroy, :default => t("helpers.links.destroy")), helpdesk_path(@helpdesk),
+  :method => 'delete',
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :new, Helpdesk %>
+  <%= link_to t(:new, :default => t('helpers.links.edit')), new_helpdesk_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+</div>

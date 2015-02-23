@@ -1,0 +1,2 @@
+module AnbInvestigationsHelper
+end

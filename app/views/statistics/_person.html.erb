@@ -1,0 +1,187 @@
+<div class="well">
+  <table class="table table-bordered datatable" id="example">
+    <thead>
+    <tr>
+      <th>
+        Analista
+      </th>
+      <th>Zona</th>
+      <th>Nombre</th>
+      <% if params[:peventos].present? %>
+          <th>
+            Eventos
+          </th>
+      <% end %>
+
+      <% if (params[:peventos].present? && params[:ppersonas].present?) %>
+          <th>Total personas en eventos</th>
+      <% end %>
+      <% if params[:poficios].present? %>
+          <th>
+            Oficios
+          </th>
+      <% end %>
+
+      <% if (params[:poficios].present? && params[:ppersonas].present?) %>
+          <th>Total personas en oficios</th>
+      <% end %>
+      <% if params[:pcolaboraciones].present? %>
+          <th>
+            Colaboraciones
+          </th>
+      <% end %>
+
+      <% if (params[:pcolaboraciones].present? && params[:ppersonas].present?) %>
+          <th>Total personas en colaboraciones</th>
+      <% end %>
+      <% if params[:pjusticias].present? %>
+          <th>
+            Justicias
+          </th>
+      <% end %>
+      <% if (params[:pjusticias].present? && params[:ppersonas].present?) %>
+          <th>Total personas en justicias</th>
+      <% end %>
+      <% if params[:ppersonas].present? %>
+          <th>
+            Total de personas en el mes
+          </th>
+      <% end %>
+    </tr>
+    </thead>
+    <tbody>
+    <% @r.each do |record| %>
+        <% if record[:persons_total] > 0 %>
+            <tr>
+              <td>
+                <%= record[:analyst_number] %>
+              </td>
+              <td>
+                <%= record[:analyst_zone] %>
+              </td>
+              <td>
+                <%= record[:analyst_name] %>
+              </td>
+              <% if params[:peventos].present? %>
+                  <td>
+                    <%= record[:total_events] %> <!-- total de eventos -->
+                  </td>
+              <% end %>
+              <% if (params[:peventos].present? && params[:ppersonas].present?) %>
+                  <td>
+                    <%= record[:total_event_persons] %>
+                  </td>
+              <% end %>
+              <% if params[:poficios].present? %>
+                  <td>
+                    <%= record[:total_offices] %> <!-- total de eventos -->
+                  </td>
+              <% end %>
+              <% if params[:poficios].present? && params[:ppersonas].present? %>
+                  <td>
+                    <%= record[:total_office_persons] %>
+                  </td>
+              <% end %>
+              <% if params[:pcolaboraciones].present? %>
+                  <td>
+                    <%= record[:total_colaborations] %> <!-- total de eventos -->
+                  </td>
+              <% end %>
+              <% if (params[:pcolaboraciones].present? && params[:ppersonas].present?) %>
+                  <td>
+                    <%= record[:total_colaboration_person] %>
+                  </td>
+              <% end %>
+              <% if params[:pjusticias].present? %>
+                  <td>
+                    <%= record[:total_justices] %> <!-- total de eventos -->
+                  </td>
+              <% end %>
+              <% if (params[:pjusticias].present? && params[:ppersonas].present?) %>
+                  <td>
+                    <%= record[:total_person_justices] %>
+                  </td>
+              <% end %>
+              <% if params[:ppersonas].present? %>
+                  <td>
+                    <%= record[:persons_total] %>
+                  </td>
+              <% end %>
+            </tr>
+        <% end %>
+    <% end %>
+
+    </tbody>
+    <tfoot>
+    <tr>
+      <th>Total</th>
+      <th>Zona</th>
+      <th>Nombre</th>
+      <% if params[:peventos].present? %>
+          <th></th>
+      <% end %>
+      <% if params[:peventos].present? && params[:ppersonas].present? %>
+          <th></th>
+      <% end %>
+      <% if params[:poficios].present? %>
+          <th></th>
+      <% end %>
+      <% if (params[:poficios].present? && params[:ppersonas].present?) %>
+          <th></th>
+      <% end %>
+      <% if params[:pcolaboraciones].present? %>
+          <th></th>
+      <% end %>
+      <% if (params[:pcolaboraciones].present? && params[:ppersonas].present?) %>
+          <th></th>
+      <% end %>
+      <% if params[:pjusticias].present? %>
+          <th></th>
+      <% end %>
+      <% if (params[:pjusticias].present? && params[:ppersonas].present?) %>
+          <th></th>
+      <% end %>
+      <% if params[:ppersonas].present? %>
+          <th><%= @sum %> </th>
+      <% end %>
+    </tr>
+    </tfoot>
+
+  </table>
+</div>
+
+<#% if params[:button] %>
+    <#%= high_chart("chart", @chart) do |c| %>
+
+    <#% end %>
+<#% end %>
+
+<script>
+    $('#example').dataTable({
+        "language": {
+            "sUrl": "/assets/spanish.json"
+        },
+        "sDom": '<""lTf>t<"F"ip>',
+        "sScrollX": "100%",
+        "oTableTools": {
+            "aButtons": [
+                {
+                    "sExtends": "copy",
+                    "sButtonText": "Copiar"
+                },
+                "xls",
+                {
+                    "sExtends": "pdf",
+                    "sPdfOrientation": "landscape",
+                    "sPdfMessage": "Estadisticas del  <%= I18n.l params[:start_date].to_date, :format => :long if params[:start_date]  %> al <%= I18n.l params[:end_date].to_date, :format => :long if params[:end_date]  %> "
+                },
+                {
+                    "sExtends": "print",
+                    "sButtonText": "Imprimir"
+                }
+            ]
+        }
+    })
+
+</script>
+

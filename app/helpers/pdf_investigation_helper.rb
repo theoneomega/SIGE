@@ -1,0 +1,2 @@
+module PdfInvestigationHelper
+end

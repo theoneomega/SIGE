@@ -1,56 +1,29 @@
 #development:
 #  adapter: oracle_enhanced
-#  database: xe
-#  host: 192.168.1.111
-#  username: dieid
-#  password: dieid
-  
-development:
-  adapter: oracle_enhanced
-  database: orcl
-  host: 10.18.114.94
-  username: DIEIDDES
-  password: DIEID.prb13
-  port: 1521
-  encoding: utf8
-  
-  
-#development:
-#  adapter: oracle_enhanced
-#  database: xe
-#  host: 10.18.114.93
-#  username: sige_backup
-#  password: DIEID2013
-#  port: 1521
-#  encoding: utf8
-  
-  
-#development:
-#  adapter: sqlite3
-#  database: db/development.sqlite3
-#  pool: 5
-#  timeout: 5000
-
-##production:
-#  adapter: oracle_enhanced
-#  database: xe
-#  host: 192.168.1.86
-#  username: DIEID_production
-#  password: dieid
-#  port: 1521
-
-#development:
-#  adapter: oracle_enhanced
 #  database: orcl
 #  host: 10.18.114.94
-#  username: DIEIDprod
-#  password: DIEID.2013
+#  username: DIEIDdes
+#  password: DIEID.prb13
 #  port: 1521
-#  
+#  encoding: utf8
+
+
+
 production:
   adapter: oracle_enhanced
-  database: orcl
-  host: 10.18.114.94
+  database: orcl.localdomain
+  host: 10.18.116.206
+  username: DIEIDprod
+  password: DIEID.2013
+  port: 1521
+  encoding: utf8
+
+
+
+development:
+  adapter: oracle_enhanced
+  database: orcl.localdomain
+  host: 10.18.116.206
   username: DIEIDprod
   password: DIEID.2013
   port: 1521

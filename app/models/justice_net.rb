@@ -11,13 +11,15 @@ class JusticeNet < ActiveRecord::Base
   belongs_to :analyst
   belongs_to :area
   audited
-  
+  def analista
+    self.analyst.analyst if self.analyst
+  end
   
   accepts_nested_attributes_for :person, :allow_destroy => true, :reject_if => :all_blank
   accepts_nested_attributes_for :justice_net_files, :allow_destroy => true, :reject_if => :all_blank
   
   searchable do
-    text :justicia_net_folio, :observations
+    text :justicia_net_folio, :observations, :analista
 #    text :analista_asignado
     time :received_date
     

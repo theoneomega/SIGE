@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140414183704) do
+ActiveRecord::Schema.define(:version => 20150218201718) do
+
+  create_table "activities", :id => false, :force => true do |t|
+    t.decimal  "id"
+    t.decimal  "user_id",       :default => 10040.0
+    t.datetime "last_activity"
+  end
 
   create_table "analysts", :force => true do |t|
     t.string   "analyst"
@@ -23,6 +29,19 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.integer  "area_id",         :precision => 38, :scale => 0
     t.boolean  "zone_supervisor", :precision => 1,  :scale => 0
     t.string   "department"
+  end
+
+  create_table "anb_investigations", :force => true do |t|
+    t.string   "anb"
+    t.string   "anb_content_type"
+    t.integer  "anb_file_size",    :precision => 38, :scale => 0
+    t.datetime "anb_updated_at"
+    t.integer  "investigation_id", :precision => 38, :scale => 0
+    t.integer  "analyst_id",       :precision => 38, :scale => 0
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.boolean  "visible",          :precision => 1,  :scale => 0
+    t.string   "analyst_number"
   end
 
   create_table "areas", :force => true do |t|
@@ -210,39 +229,40 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
   end
 
   create_table "events", :force => true do |t|
-    t.integer  "priority_id",     :precision => 38, :scale => 0
+    t.integer  "priority_id",                   :precision => 38, :scale => 0
     t.datetime "event_date"
     t.text     "description"
     t.string   "address"
     t.string   "suburb"
     t.string   "locality"
-    t.boolean  "victims",         :precision => 1,  :scale => 0
-    t.boolean  "detained",        :precision => 1,  :scale => 0
-    t.boolean  "suspects",        :precision => 1,  :scale => 0
-    t.integer  "person_id",       :precision => 38, :scale => 0
-    t.boolean  "vehicles",        :precision => 1,  :scale => 0
-    t.integer  "vehicle_id",      :precision => 38, :scale => 0
-    t.boolean  "drugs",           :precision => 1,  :scale => 0
+    t.boolean  "victims",                       :precision => 1,  :scale => 0
+    t.boolean  "detained",                      :precision => 1,  :scale => 0
+    t.boolean  "suspects",                      :precision => 1,  :scale => 0
+    t.integer  "person_id",                     :precision => 38, :scale => 0
+    t.boolean  "vehicles",                      :precision => 1,  :scale => 0
+    t.integer  "vehicle_id",                    :precision => 38, :scale => 0
+    t.boolean  "drugs",                         :precision => 1,  :scale => 0
     t.string   "drug_id"
-    t.boolean  "weapons",         :precision => 1,  :scale => 0
-    t.integer  "weapon_id",       :precision => 38, :scale => 0
+    t.boolean  "weapons",                       :precision => 1,  :scale => 0
+    t.integer  "weapon_id",                     :precision => 38, :scale => 0
     t.text     "observations"
     t.string   "backup_file"
     t.string   "source"
-    t.integer  "area_id",         :precision => 38, :scale => 0
-    t.integer  "crime_id",        :precision => 38, :scale => 0
-    t.integer  "township_id",     :precision => 38, :scale => 0
-    t.integer  "locality_id",     :precision => 38, :scale => 0
-    t.integer  "place_id",        :precision => 38, :scale => 0
-    t.integer  "analyst_id",      :precision => 38, :scale => 0
-    t.integer  "status_id",       :precision => 38, :scale => 0
+    t.integer  "area_id",                       :precision => 38, :scale => 0
+    t.integer  "crime_id",                      :precision => 38, :scale => 0
+    t.integer  "township_id",                   :precision => 38, :scale => 0
+    t.integer  "locality_id",                   :precision => 38, :scale => 0
+    t.integer  "place_id",                      :precision => 38, :scale => 0
+    t.integer  "analyst_id",                    :precision => 38, :scale => 0
+    t.integer  "status_id",                     :precision => 38, :scale => 0
     t.decimal  "longitude"
     t.decimal  "latitude"
-    t.boolean  "gmaps",           :precision => 1,  :scale => 0
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.boolean  "gmaps",                         :precision => 1,  :scale => 0
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
     t.string   "tramo_carretero"
     t.text     "searchable"
+    t.string   "area",            :limit => 10
   end
 
   create_table "events_collections", :force => true do |t|
@@ -269,6 +289,42 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.integer  "status_id",       :precision => 38, :scale => 0
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
+  end
+
+  create_table "helpdesks", :force => true do |t|
+    t.string   "problem"
+    t.text     "description"
+    t.integer  "analyst_id",  :precision => 38, :scale => 0
+    t.boolean  "active",      :precision => 1,  :scale => 0
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  create_table "historical_archives", :force => true do |t|
+    t.string   "route"
+    t.text     "content"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "location"
+  end
+
+  create_table "investigations", :force => true do |t|
+    t.string   "folio"
+    t.string   "ci"
+    t.string   "penal_cause"
+    t.string   "title"
+    t.datetime "start_date"
+    t.boolean  "visible",     :precision => 1,  :scale => 0
+    t.text     "hide_reason"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.integer  "analyst_id",  :precision => 38, :scale => 0
+  end
+
+  create_table "iph_crimes", :force => true do |t|
+    t.string   "concept"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "iph_drugs", :force => true do |t|
@@ -369,29 +425,21 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
   end
 
   create_table "iphs", :force => true do |t|
-    t.integer  "priority_id",     :precision => 38, :scale => 0
     t.datetime "iph_date"
     t.string   "folio"
     t.string   "office_number"
     t.text     "description"
-    t.string   "address"
-    t.string   "suburb"
-    t.integer  "locality_id",     :precision => 38, :scale => 0
-    t.integer  "state_id",        :precision => 38, :scale => 0
-    t.string   "tramo_carretero"
     t.text     "observations"
     t.text     "searchable"
-    t.integer  "user_id",         :precision => 38, :scale => 0
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
-    t.integer  "latitude",        :precision => 38, :scale => 0
-    t.integer  "longitude",       :precision => 38, :scale => 0
+    t.integer  "user_id",       :precision => 38, :scale => 0
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.string   "state"
-    t.boolean  "vialidad",        :precision => 1,  :scale => 0
-    t.boolean  "investigadora",   :precision => 1,  :scale => 0
-    t.boolean  "peup",            :precision => 1,  :scale => 0
-    t.integer  "iph_crime_id",    :precision => 38, :scale => 0
-    t.integer  "crime_id",        :precision => 38, :scale => 0
+    t.boolean  "vialidad",      :precision => 1,  :scale => 0
+    t.boolean  "investigadora", :precision => 1,  :scale => 0
+    t.boolean  "peup",          :precision => 1,  :scale => 0
+    t.integer  "iph_crime_id",  :precision => 38, :scale => 0
+    t.integer  "crime_id",      :precision => 38, :scale => 0
   end
 
   create_table "justice_net_files", :force => true do |t|
@@ -430,11 +478,17 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
   end
 
   create_table "office_files", :force => true do |t|
-    t.integer  "office_id",   :precision => 38, :scale => 0
+    t.integer  "office_id",             :precision => 38, :scale => 0
     t.string   "file"
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
     t.string   "description"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.integer  "size",                  :precision => 38, :scale => 0
+    t.string   "content_type"
+    t.string   "attached_file_name"
+    t.string   "attached_content_type"
+    t.integer  "attached_file_size",    :precision => 38, :scale => 0
+    t.datetime "attached_updated_at"
   end
 
   create_table "office_people", :force => true do |t|
@@ -472,14 +526,14 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.string   "claimant"
     t.string   "subject"
     t.integer  "area_id",                :precision => 38, :scale => 0
-    t.integer  "status_id",              :precision => 38, :scale => 0
+    t.integer  "status_id",              :precision => 38, :scale => 0, :default => 10004
     t.integer  "analyst_id",             :precision => 38, :scale => 0
     t.datetime "replied_date"
     t.string   "office_number"
     t.text     "observations"
     t.integer  "user_id",                :precision => 38, :scale => 0
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
     t.string   "file"
     t.string   "received_office_number"
     t.integer  "priority_id",            :precision => 38, :scale => 0
@@ -496,6 +550,21 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.integer  "attachment_file_size",    :precision => 38, :scale => 0
     t.datetime "attachment_updated_at"
     t.integer  "office_id",               :precision => 38, :scale => 0
+    t.string   "username"
+  end
+
+  create_table "pdf_investigations", :force => true do |t|
+    t.string   "pdf"
+    t.string   "pdf_content_type"
+    t.integer  "pdf_file_size",    :precision => 38, :scale => 0
+    t.datetime "pdf_updated_at"
+    t.integer  "investigation_id", :precision => 38, :scale => 0
+    t.integer  "analyst_id",       :precision => 38, :scale => 0
+    t.boolean  "visible",          :precision => 1,  :scale => 0
+    t.string   "analyst_number"
+    t.text     "pdf_content"
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
   end
 
   create_table "people", :force => true do |t|
@@ -563,6 +632,16 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.boolean  "director_cibernetico",   :precision => 1, :scale => 0
   end
 
+  create_table "sessions", :force => true do |t|
+    t.string   "session_id", :null => false
+    t.text     "data"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
   create_table "statuses", :force => true do |t|
     t.string   "description"
     t.string   "status_type"
@@ -586,17 +665,17 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
 
   create_table "units", :force => true do |t|
     t.string   "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
     t.string   "username"
     t.integer  "analyst_id",             :precision => 38, :scale => 0
-    t.datetime "created_at",                                                            :null => false
-    t.datetime "updated_at",                                                            :null => false
-    t.string   "email",                                                 :default => "", :null => false
-    t.string   "encrypted_password",                                    :default => "", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email",                                                 :default => ""
+    t.string   "encrypted_password",                                    :default => ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -609,7 +688,7 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.boolean  "active",                 :precision => 1,  :scale => 0
+    t.datetime "last_seen"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
@@ -648,5 +727,7 @@ ActiveRecord::Schema.define(:version => 20140414183704) do
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
   end
+
+  add_foreign_key "events", "crimes", :name => "events_crimenes"
 
 end

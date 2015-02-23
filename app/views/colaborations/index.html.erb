@@ -19,6 +19,7 @@
         <th>Fecha de colaboración</th>
         <th>Recibido via</th>
         <th>Area que solicita</th>
+        <th>Zona</th>
         <th>Estatus</th>
         <th>Fecha de contestacion</th>
         <th>Se contesto via</th>
@@ -33,6 +34,7 @@
           <td><%= colaboration.colaboration_date.strftime('%d/%m/%Y') %></td>
           <td><%= colaboration.received_for %></td>
           <td><%= colaboration.requesting_area %></td>
+          <td><%= colaboration.area.description if colaboration.area %></td>
           <td><%= colaboration.status.description %></td>
           <%if colaboration.reply_date %>
             <td><%= colaboration.reply_date.strftime('%d/%m/%Y') %></td>

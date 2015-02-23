@@ -7,11 +7,11 @@
 */
 
 a, a:active, a:visited, a:default{
-    color: black;   
+    color: black;
 }
 
 a.breadcrumb{
-    color: black;    
+    color: black;
 }
 
 a.btn {
@@ -20,7 +20,7 @@ a.btn {
 
 a.dropdown-toggle{
     background: url("/assets/black-Linen.png") repeat scroll 0 0 #222222;
-}    
+}
 a.dropdown-toggle:hover{
     background-color: white;
 }
@@ -29,6 +29,7 @@ a.btn-primary {
     color: #fff;
     background-color: rgb(17, 51, 85);
 }
+
 
 a.btn-danger {
     color: #fff !important;
@@ -67,15 +68,15 @@ select.date-select {
     border: 1px solid #cccccc;
     background-color: #ffffff;
 }
-#map img { 
-  max-width: none;
+#map img {
+    max-width: none;
 }
-#map label { 
-  width: auto; display:inline; 
-} 
+#map label {
+    width: auto; display:inline;
+}
 body {
     background: #222;
-    background-image: url('../images/black-Linen.png');
+    background-image: url('/assets/black-Linen.png');
     background-position: initial initial;
     background-repeat: initial initial;
     margin: 0px;

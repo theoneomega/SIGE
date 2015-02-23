@@ -1,4 +1,5 @@
 es:
+  helpdesk: Soporte tecnico
   helpers:
     links:
       show: Mostrar
@@ -9,9 +10,7 @@ es:
       default: ! '%d/%m/%Y'
       long: ! '%A %d DE %B de %Y'
       short: ! '%d DE %B'
-      
-      
-      
+
   will_paginate:
     previous_label: "&#8592; Aneriores"
     next_label: "Siguientes &#8594;"
@@ -77,6 +76,7 @@ es:
       office: Oficios
       iph: Informe Policial Homologado
       justice_net: Solicitudes Electronica
+      helpdesk: Soporte tecnico
     
     
         
@@ -87,7 +87,11 @@ es:
   Csearches: Busqueda
   Cusers_information: Información de usuarios
   Cwelcome: Inicio
+  Cstatistics: Estadisticas
+  Chistorical_archives: Archivo
+  Chelpdesks: Soporte tecnico
   Cregistrations: Registros
+  Cinvestigations: Casos
   save: Guardar
   wstatuses: Estatus
   wjustice_net: Solicitudes Electronica
@@ -287,6 +291,7 @@ es:
       Address: Direccion
       Suspect: Sospechoso
 
+
     people_fields:
       first_name: Nombre
       last_name1: Apellido Paterno
@@ -301,7 +306,14 @@ es:
       actions: Accion
       observations: Observaciones
       status: Estatus
-      
+  investigations:
+    show:
+      folio: Folio
+      ci: Carpeta de investigación
+      penal_cause: Causa penal
+      title: Titulo
+      start_date: Fecha de inicio
+      last_update: Ultima modificación
   iphs:
     index:
       priority: Prioridad

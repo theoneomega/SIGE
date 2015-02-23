@@ -10,15 +10,15 @@ class JusticeNetsController < ApplicationController
         current_user.role.ie_supervisor==true || 
         current_user.role.super_supervisor==true
         
-      @justice_nets = JusticeNet.order('received_date DESC').paginate(:page => params[:page])
+      @justice_nets = JusticeNet.order('received_date DESC')
     elsif current_user.role.supervisor == true
       if current_user.analyst.area.description == "NORTE"
-        @justice_nets = JusticeNet.where('area_id = ?',  norte).order('received_date DESC').paginate(:page => params[:page])
+        @justice_nets = JusticeNet.where('area_id = ?',  norte).order('received_date DESC')
       else
-        @justice_nets = JusticeNet.where('area_id != ?', norte).order('received_date DESC').paginate(:page => params[:page])
+        @justice_nets = JusticeNet.where('area_id != ?', norte).order('received_date DESC')
       end
     elsif current_user.role.analyst == true
-      @justice_nets = JusticeNet.where('analyst_id = ?', current_user.analyst_id).order('received_date DESC').paginate(:page => params[:page])
+      @justice_nets = JusticeNet.where('analyst_id = ?', current_user.analyst_id).order('received_date DESC')
     end
     respond_to do |format|
       format.html # index.html.erb

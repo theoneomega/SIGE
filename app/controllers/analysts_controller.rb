@@ -4,7 +4,7 @@ class AnalystsController < ApplicationController
   # GET /analysts
   # GET /analysts.json
   def index
-    @analysts = Analyst.order('id ASC').paginate(:page => params[:page])
+    @analysts = Analyst.all
 
     respond_to do |format|
       format.html # index.html.erb

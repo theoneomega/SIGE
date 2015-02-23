@@ -1,35 +1,35 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
-  
+
   # GET /events
   # GET /events.json
   def index
-    
+
     #    @search = Event.ransack(params[:q])
     if current_user.role.super_admin==true  || current_user.role.ie_supervisor==true || current_user.role.super_supervisor==true
-      @events = Event.where('status_id BETWEEN ? AND ?', 10020,10022).order('priority_id ASC')
-      @json = Event.all.to_gmaps4rails
+      @events = Event.where('status_id BETWEEN ? AND ?', 10020,10022).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
+      @json = @events.to_gmaps4rails
     elsif current_user.role.medios==true
       if current_user.analyst.area_id == 10001
-        @events = Event.where("status_id = ?", 10020).order('priority_id ASC')
+        @events = Event.where("status_id = ?", 10020).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
       elsif current_user.analyst.area_id == 10000
-        @events = Event.where("analyst_id = ? AND status_id = ?", current_user.analyst_id,10020).order('priority_id ASC')
+        @events = Event.where("analyst_id = ? AND status_id = ?", current_user.analyst_id,10020).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
       end
     elsif  current_user.role.supervisor == true
       if current_user.analyst.area_id == 10001
-        @events = Event.where('status_id BETWEEN ? AND ? AND area_id BETWEEN ? AND ?', 10020,10022,10001,10003).order('priority_id ASC')
+        @events = Event.where('status_id BETWEEN ? AND ? AND area_id BETWEEN ? AND ?', 10020,10022,10001,10003).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
       elsif current_user.analyst.area_id == 10000
-        @events = Event.where('status_id BETWEEN ? AND ? AND area_id = ?', 10020,10022,10000).order('priority_id ASC')
+        @events = Event.where('status_id BETWEEN ? AND ? AND area_id = ?', 10020,10022,10000).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
       end
     else
-      @events = Event.where("analyst_id = ? AND status_id BETWEEN ? AND ?", current_user.analyst_id, 10020,10022).order('priority_id ASC')
-      @json = Event.where("(analyst_id = #{current_user.analyst_id})").to_gmaps4rails
+      @events = Event.where("analyst_id = ? AND status_id BETWEEN ? AND ?", current_user.analyst_id, 10020,10022).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
+      @json = @events.to_gmaps4rails
     end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @events }
-      
+
     end
   end
 
@@ -68,11 +68,15 @@ class EventsController < ApplicationController
   def create
 
     @event = Event.new(params[:event])
+    if @event.status_id.nil?
+      @event.status_id = 10020
+    end
+
     @event.description = @event.description.upcase
     @event.address = @event.address.upcase
     @event.suburb = @event.suburb.upcase
     @event.observations = @event.observations.upcase
-    
+
     #    @event.searchable = @event.searchable+ " " + @event.idstring
     if @event.searchable==nil
       @event.searchable = " "
@@ -83,7 +87,7 @@ class EventsController < ApplicationController
     if @event.description != nil
       @event.searchable = @event.searchable+ " "+@event.description
     end
-    if(@event.address!=nil)
+    if !@event.address.nil?
       @event.searchable=@event.searchable+" "+@event.address
     end
     if @event.locality_id!=nil
@@ -101,7 +105,7 @@ class EventsController < ApplicationController
     end
     respond_to do |format|
       if @event.save
-        #        UserMailer.event_registration(@event).deliver 
+        UserMailer.event_registration(@event).deliver
         format.html { redirect_to @event, notice: 'Evento registrado exitosamente.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -163,4 +167,6 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
 end

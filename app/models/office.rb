@@ -40,7 +40,9 @@ class Office < ActiveRecord::Base
    def vehicle_brand
     vehicles.map(&:brand)
   end
-  
+  def analista
+    self.analyst.analyst if self.analyst
+  end
 
 
   def vehicle_details
@@ -52,7 +54,9 @@ class Office < ActiveRecord::Base
   end
   
   searchable do
-    text :claimant, :observations, :requesting_area, :received_office_number, :subject,   :office_number, :publish_month, :vehicle_brand, :vehicle_details, :area_oficio
+    text :claimant, :observations,
+         :analista, :requesting_area, :received_office_number, :subject,
+         :office_number, :publish_month, :vehicle_brand, :vehicle_details, :area_oficio
 #    text :analista_asignado
     time :office_date
     

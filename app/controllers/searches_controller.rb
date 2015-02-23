@@ -4,73 +4,72 @@ class SearchesController < ApplicationController
   # GET /searches
   # GET /searches.json
   def index
-    
-    @search_iph = Iph.search do
-      fulltext params[:search1]
-      if params[:date].present?
-        with(:iph_date).greater_than(params[:date].to_time)
+
+      @investigations_search = Investigation.search do
+        fulltext params[:search1]
+        if params[:date].present?
+          with(:start_date).greater_than(params[:date].to_time)
+        end
+        if params[:date_end].present?
+          with(:start_date).less_than(params[:date_end].to_time+1.day)
+        end
+        paginate :page => 1, :per_page => 999
       end
-      if params[:date_end].present?
-        with(:iph_date).less_than(params[:date_end].to_time+1.day)
+      @investigation = @investigations_search.results
+
+
+      @search_nusticianet = JusticeNet.search do
+        fulltext params[:search1]
+        if params[:date].present?
+          with(:received_date).greater_than(params[:date].to_time)
+        end
+        if params[:date_end].present?
+          with(:received_date).less_than(params[:date_end].to_time+1.day)
+        end
+        paginate :page => 1, :per_page => 999
       end
-      paginate :page => 1, :per_page => 20
-    end
-    @iphs = @search_iph.results
-    
-    
-    
-    @search_nusticianet = JusticeNet.search do
-      fulltext params[:search1]
-      if params[:date].present?
-        with(:received_date).greater_than(params[:date].to_time)
+      @justicia_net = @search_nusticianet.results
+      @search_offices = Office.search do
+        fulltext params[:search1]
+        if params[:date].present?
+          with(:office_date).greater_than(params[:date].to_time)
+        end
+        if params[:date_end].present?
+          with(:office_date).less_than(params[:date_end].to_time+1.day)
+        end
+        paginate :page => 1, :per_page => 999
       end
-      if params[:date_end].present?
-        with(:received_date).less_than(params[:date_end].to_time+1.day)
+      @officessearch = @search_offices.results
+      @search_colaborations = Colaboration.search do
+        fulltext params[:search1]
+        if params[:date].present?
+          with(:colaboration_date).greater_than(params[:date].to_time)
+        end
+        if params[:date_end].present?
+          with(:colaboration_date).less_than(params[:date_end].to_time+1.day)
+        end
+        paginate :page => 1, :per_page => 999
       end
-      paginate :page => 1, :per_page => 20
-    end
-    @justicia_net = @search_nusticianet.results
-    
-    
-    @search_offices = Office.search do
-      fulltext params[:search1]
-      if params[:date].present?
-        with(:office_date).greater_than(params[:date].to_time)
+      @colaborationsearch = @search_colaborations.results
+
+
+      @search_events = Event.search do
+        fulltext params[:search1]
+        if params[:date].present?
+          with(:event_date).greater_than(params[:date].to_time)
+        end
+        if params[:date_end].present?
+          with(:event_date).less_than(params[:date_end].to_time+1.day)
+        end
+        paginate :page => params[:page], :per_page => 999
       end
-      if params[:date_end].present?
-        with(:office_date).less_than(params[:date_end].to_time+1.day)
-      end
-      paginate :page => 1, :per_page => 20
-    end
-    @officessearch = @search_offices.results
-    
-    
-    @search_colaborations = Colaboration.search do
-      fulltext params[:search1]
-      if params[:date].present?
-        with(:colaboration_date).greater_than(params[:date].to_time)
-      end
-      if params[:date_end].present?
-        with(:colaboration_date).less_than(params[:date_end].to_time+1.day)
-      end
-      paginate :page => 1, :per_page => 20
-    end
-    @colaborationsearch = @search_colaborations.results
-    
-    
-    @search_events = Event.search do 
-      fulltext params[:search1] 
-      if params[:date].present?
-        with(:event_date).greater_than(params[:date].to_time)
-      end
-      if params[:date_end].present?
-        with(:event_date).less_than(params[:date_end].to_time+1.day)
-      end
-      paginate :page => params[:page], :per_page => 20
-    end
-    @searches = @search_events.results
-    @json = @search_events.results.to_gmaps4rails
-    
+      @searches = @search_events.results
+      @json = @search_events.results.to_gmaps4rails
+
+
+
+
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @searches }

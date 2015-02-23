@@ -1,0 +1,70 @@
+<%= form_for(@investigation) do |f| %>
+    <% if @investigation.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@investigation.errors.count, "error") %> prohibited this investigation from being saved:</h2>
+
+          <ul>
+            <% @investigation.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="row-fluid">
+      <div class="block">
+        <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+        <div id="general-info" class="block-body collapse in">
+          <br />
+
+
+          <div class="field">
+            <%= f.label :ci, "Carpeta de Investigación" %><br />
+            <%= f.text_field :ci %>
+          </div>
+          <div class="field">
+            <%= f.label :penal_cause, "Causa penal" %><br />
+            <%= f.text_field :penal_cause %>
+          </div>
+          <div class="field">
+            <%= f.label :title, "Titulo" %><br />
+            <%= f.text_field :title %>
+          </div>
+
+          <%= f.hidden_field :analyst_id, :value => current_user.analyst_id %>
+          <div id="datetimepicker" class="input-append date">
+            <%= f.label :start_date, "Fecha de inicio" %><br />
+            <%= f.text_field :start_date , :id => "dp1", :readonly=> true%>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%if can? :index, Investigation %>
+          <%= link_to t(:back, :default => t('helpers.links.back')), investigations_path, :class => 'btn' %>
+      <%end%>
+    </div>
+
+<% end %>
+
+<script>
+    $(function() {
+        $('#dp1').datepicker({
+            language: 'es',
+            format: 'yyyy-mm-dd',
+            todayBtn: 'linked'
+        });
+    });
+    (function($) {
+        $.fn.datepicker.dates['es'] = {
+            days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+            daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+            daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+            months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+            today: "Hoy"
+        };
+    }(jQuery));
+</script>

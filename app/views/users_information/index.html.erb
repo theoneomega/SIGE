@@ -23,9 +23,9 @@
 
       <tbody>
         <% @bitacora.each do |bitacora|%>
-          <% @eventos = Event.where('status_id BETWEEN ? AND ? and analyst_id = ? ', 10020,10022, bitacora.user.analyst.id ) %> 
-          <% @oficios = Office.where('status_id BETWEEN ? AND ? and analyst_id = ? ', 10004,10005, bitacora.user.analyst.id ) %>
-          <% @colaboraciones = Colaboration.where('status_id BETWEEN ? AND ? and analyst_id = ? ', 10004,10005, bitacora.user.analyst.id ) %>
+          <% @eventos = Event.where('analyst_id = ? ',  bitacora.user.analyst.id ) %> 
+          <% @oficios = Office.where('analyst_id = ? ', bitacora.user.analyst.id ) %>
+          <% @colaboraciones = Colaboration.where(' analyst_id = ? ',  bitacora.user.analyst.id ) %>
           <tr>
             <td> 
               <%= bitacora.user.username  %>

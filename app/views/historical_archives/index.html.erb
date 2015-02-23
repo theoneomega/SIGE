@@ -1,0 +1,71 @@
+<% content_for :breadcrumb do%>
+    <ul class="breadcrumb">
+      <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+      <%if can? :index, HistoricalArchive %>
+          <li class="active"><%=link_to t(:index), historical_archives_path %><span class="divider">/</span></li>
+      <%end%>
+    </ul>
+<%end%>
+
+<div style="background-image: url('/assets/black-Linen.png'); box-shadow: 5px 10px 10px 5px #888888; " class="well-large inline">
+  <div class="search form-inline" style="margin: 0px auto; padding: 0px; width: 100%; "  >
+
+    <%= form_tag historical_archives_path, :id => "busquedas",  :method => :get do %>
+
+        <%= text_field_tag 'search', nil, placeholder: 'introdusca busqueda', :required => true %>
+        <input id="buscar" type="hidden" value="true" name="buscar">
+        <%= button_tag "Buscar  <i class='icon-search'></i>".html_safe,
+                       data: { disable_with: "<i class='icon-spinner icon-spin icon-large'></i>  Buscando...".html_safe },
+                       :class => "btn btn-success"
+        %>
+    <% end %>
+  </div>
+</div>
+
+<div class="well">
+  <table class="table datatable">
+    <thead>
+    <tr>
+      <th>Directorio </th>
+      <th>Tipo de archivo</th>
+      <th>Contenido</th>
+      <th>Ruta</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @historical_archives.each do |historical_archive| %>
+        <tr>
+          <td>
+            <%= link_to "<span class='label label-info'><i class='icon-file icon-large'></i>&emsp;Abrir archivo</span> ".html_safe, historical_archive.route, :target => "_blank" %>
+          </td>
+          <td>
+            <%= historical_archive.location %>
+          </td>
+          <td>
+            <%= historical_archive.content %>
+          </td>
+          <td>
+            <%= historical_archive.route %>
+          </td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+<br />
+<script>
+    $('.datatable').DataTable({
+        "scrollY": "500px",
+        "scrollX": true,
+        "language": {
+            "sUrl": "/assets/spanish.json"
+        },
+        "columnDefs": [
+            {
+                "targets": [ 2 ],
+                "visible": false,
+                "searchable": true
+            }]
+    });
+
+</script>
