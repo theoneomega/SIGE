@@ -1,0 +1,29 @@
+<div class="well">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>
+        analyst
+      </th>
+      <th>
+        events
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <% @user.each do |user| %>
+        <tr>
+          <td>
+            <%= user.username %>
+          </td>
+          <td>
+            <%= user.analyst.events %>
+          </td>
+        </tr>
+    <% end %>
+
+    </tbody>
+
+  </table>
+</div>
