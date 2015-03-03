@@ -1,45 +1,40 @@
 <%= form_for(@helpdesk) do |f| %>
-<% if @helpdesk.errors.any? %>
-<div id="error_explanation">
-  <h2><%= pluralize(@helpdesk.errors.count, "error") %> prohibited this helpdesk from being saved:</h2>
-
-  <ul>
-    <% @helpdesk.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
+    <% if @helpdesk.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@helpdesk.errors.count, "error") %> prohibited this helpdesk from being saved:</h2>
+          <ul>
+            <% @helpdesk.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
     <% end %>
-  </ul>
-</div>
-<% end %>
-<div class="row-fluid">
-  <div class="block">
-    <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
-    <div id="general-info" class="block-body collapse in">
-      <br />
-              <div class="field">
-          <%= f.label :problem %><br />
-          <%= f.text_field :problem %>
-        </div>
-              <div class="field">
-          <%= f.label :description %><br />
-          <%= f.text_area :description %>
-        </div>
-              <div class="field">
-          <%= f.label :analyst_id %><br />
-          <%= f.number_field :analyst_id %>
-        </div>
-              <div class="field">
-          <%= f.label :active %><br />
-          <%= f.check_box :active %>
-        </div>
+    <div class="row-fluid">
+      <div class="block">
+        <a href="#general-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+        <div id="general-info" class="block-body collapse in">
+          <br />
+          <div class="field">
+            <%= f.label :problem %><br />
+            <%= f.text_field :problem %>
           </div>
-  </div>
-</div>
+          <div class="field">
+            <%= f.label :description %><br />
+            <%= f.text_area :description %>
+          </div>
 
-<div class="form-actions">
-  <%= f.submit nil, :class => 'btn btn-primary' %>
-  <%if can? :index, Helpdesk %>
-  <%= link_to t(:back, :default => t('helpers.links.back')), helpdesks_path, :class => 'btn' %>
-  <%end%>
-</div>
+            <%= f.hidden_field :analyst_id, :value => current_user.analyst.id%>
+            <%= f.hidden_field :active, :value => true %>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%if can? :index, Helpdesk %>
+          <%= link_to t(:back, :default => t('helpers.links.back')), helpdesks_path, :class => 'btn' %>
+      <%end%>
+    </div>
 
 <% end %>

@@ -89,13 +89,13 @@
                     <ul class="inline">
                       <li><i class="icon-male"> </i> Nombre: <%=person.fullname.upcase if person.fullname %></li> <%= person.last_name2.upcase if person.last_name2 %>
                       <ul>
-                        <li> Obervaciones: <%=  person.observations if person.observations %></li>
+                        <li>Obervaciones: <%=  person.observations if person.observations %></li>
                         <li> Carpeta de investigación:  <%=  person.ci if person.ci %></li>
                         <li> Alias:  <%=  person.alias if person.alias %></li>
                         <li> Fecha de nacimiento:  <%=  person.birth_date.strftime('%d/%m/%Y') if person.birth_date %></li>
                         <li> Genero: <%=  person.genre if person.genre %></li>
                         <li> Estatus:  <%=  person.status.description if person.status_id%></li>
-                        <li> Originario <%= person.originative if person.originative %></li>
+                        <li>Originario <%= person.originative if person.originative %></li>
                       </ul>
                     </ul>
                 <%end%>

@@ -46,7 +46,8 @@
         <!--<button id="myBtn" class="btn btn-primary">Accept Checked</button>-->
         <%= button_tag "Buscar  <i class='icon-search'></i>".html_safe,
                        data: { disable_with: "<i class='icon-spinner icon-spin icon-large'></i>  Buscando...".html_safe },
-                       :class => "btn btn-success"
+                       :class => "btn btn-success",
+                       :onclick => "return validateform()"
         %>
     <% end %>
 
@@ -55,6 +56,7 @@
   <%= render 'person' %>
 </div>
 <script>
+
     function check(){
         if ( $("#norte").is(":checked") || $("#centro").is(":checked") || $("#sur").is(":checked") || $("#occidente").is(":checked")){
             $(".detalles").css("display","block");
@@ -96,6 +98,20 @@
         });
 
     });
+
+
+    function valthisform() {
+        var checkedAtLeastOne = false;
+
+        $('input[type="checkbox"]').each(function () {
+            if ($(this).is(":checked")) {
+                checkedAtLeastOne = true;
+            }
+        });
+        return checkedAtLeastOne;
+    }
+
+
 </script>
 
 <style>

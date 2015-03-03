@@ -67,7 +67,7 @@
               <%= f.hidden_field :area_id, :value => 10000 %>
             <% else %>
               <%= f.label "Zona" %><br />
-              <%= f.collection_select(:area_id, Area.find(:all, :conditions => ["id BETWEEN ? AND ? ", 10000,10003]), :id, :description, {:prompt => "seleccione area"}) %>
+              <%= f.collection_select(:area_id, Area.find(:all, :conditions => ["id BETWEEN ? AND ? or id = ?", 10000,10003,10020]), :id, :description, {:prompt => "seleccione area"}) %>
             <% end %>
 
           </div>

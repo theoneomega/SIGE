@@ -66,7 +66,7 @@ class SearchesController < ApplicationController
       @searches = @search_events.results
       @json = @search_events.results.to_gmaps4rails
 
-
+    
 
 
 

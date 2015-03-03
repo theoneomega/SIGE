@@ -1,0 +1,10 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home) , root_path%><span class="divider">/</span></li>
+    <%if can? :index, Helpdesk Screenshot %>
+      <li><%= link_to t(:index), helpdesk_screenshots_path %><span class="divider">/</span></li>
+    <%end%>
+    <li class="active"><%=link_to t(:show), @helpdesk_screenshot %></li>
+  </ul>
+<%end%>
+<%= render 'form' %>

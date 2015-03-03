@@ -87,7 +87,7 @@ class OfficesController < ApplicationController
   end
 
   def standby
-    terminado = Status.find_by_description_and_status_type("TERMINADO", "Colaboracion").id
+    terminado = Status.find_by_description_and_status_type("TERMINADO", "Colaboracion").id 
     norte = Area.find_by_description("NORTE").id
     if current_user.role.administrator or current_user.role.iph_supervisor
       if current_user.analyst.area.description == 'CENTRO'

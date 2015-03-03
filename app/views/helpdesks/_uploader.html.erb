@@ -1,0 +1,165 @@
+<div class="show-details">
+  <div class="container">
+    <h2><i class="icon icon-paper-clip"></i> Imagenes</h2>
+    <%= form_for [@helpdesk, @helpdesk_screenshot], :html => { :multipart => true, :id => "fileupload"  } do |f| %>
+        <div class="row">
+          <div class=" fileupload-buttonbar">
+            <div class="progressbar fileupload-progressbar nofade">
+              <div style="width:0%;">
+
+              </div>
+            </div>
+
+      <span class="btn btn-primary fileinput-button">
+        <i class="icon-plus"></i>
+        <span>Agregar impresiones de pantalla</span>
+        <%= f.file_field :screenshot, :multiple => true %>
+        <%= f.hidden_field :analyst_number, :value => current_user.analyst.analyst %>
+      </span>
+
+          </div>
+        </div>
+
+
+        <br>
+        <div class="row ">
+          <ul class="thumbnails files">
+            <% unless @helpdesk_screenshots.empty? %>
+                <% @helpdesk_screenshots.each do |pic| %>
+                    <li class="span3" id="picture_<%= pic.id %>">
+                      <div class="thumbnail">
+                        <a href="<%= pic.screenshot.url %>" rel="lightbox-pictures" >
+                          <img src="<%= pic.screenshot.thumb.url %>" alt="">
+                        </a>
+
+                      </div>
+                    </li>
+                <% end %>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    var fileUploadErrors = {
+        maxFileSize: 'File is too big',
+        minFileSize: 'File is too small',
+        acceptFileTypes: 'Filetype not allowed',
+        maxNumberOfFiles: 'Max number of files exceeded',
+        uploadedBytes: 'Uploaded bytes exceed file size',
+        emptyResult: 'Empty file upload result'
+    };
+</script>
+
+<script id="template-download" type="text/html">
+  {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
+  <tr class="template-download nofade">
+    {% if (file.error) { %}
+    <td></td>
+    <td class="name">{%=file.name%}</td>
+    <td class="size">{%=o.formatFileSize(file.size)%}</td>
+    <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
+    {% } else { %}
+    <td class="preview">{% if (file.url) { %}
+      <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery"><img src="{%=file.thubmnail_url%}"></a>
+      {% } %}</td>
+    <td class="name">
+      <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}">{%=file.name%}</a>
+    </td>
+    <td class="size">{%=o.formatFileSize(file.size)%}</td>
+    <td colspan="2"></td>
+    {% } %}
+    <td class="delete">
+      <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">Borrar</button>
+      <input type="checkbox" name="delete" value="1">
+    </td>
+  </tr>
+  {% } %}
+</script>
+
+<script>
+    $(function () {
+
+
+        'use strict';
+
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload').fileupload({
+            autoUpload: true,
+            uploadTemplate: function (o) {
+                var rows = $();
+                $.each(o.files, function (index, file) {
+                    console.log(file);
+                    var row = $('<li class="span3">' +
+                            '<div class="thumbnail">' +
+                            '<div class="preview" style="text-align: center;"></div>' +
+                            '<div class="progress progress-success progress-striped active">' +
+                            '<div class="bar" style="width:0%;"></div>' +
+                            '</div>' +
+                            '</div>');
+                    rows = rows.add(row);
+                });
+                return rows;
+            },
+
+            completed: function(e, data) {
+                console.log(data.result[0].url);
+                $('a[href^="' + data.result[0].url + '"]').slimbox();
+            },
+            downloadTemplate: function (o) {
+                var rows = $();
+                $.each(o.files, function (index, file) {
+                    var row = $('<li class="span3" id="picture_' + file.picture_id + '">' +
+                            (file.error ? '<div class="name"></div>' +
+                                    '<div class="size"></div><div class="error" ></div>' :
+                                    '<div class="thumbnail">' +
+                                    '<a href="' + file.url +'" rel="lightbox-pictures" class="picture_' + file.id + '" title="">' +
+                                    '<img src="" alt="">') +
+                            '</a>' +
+//                        '<div class="caption">' +
+//                          '<p style="text-align: center;">' +
+//                            '<a href="" class="btn btn-mini btn-show" style="margin-right: 4px;">' +
+//                              '<i class="icon-edit "></i>' +
+//                              'Edit' +
+//                            '</a>' +
+//                            '<a class="btn btn-mini btn-delete" confirm="Вы уверены?" data-remote=true data-method="delete" href="" >' +
+//                              '<i class="icon-trash"></i>' +
+//                              'Delete' +
+//                            '</a>' +
+//                          '</p>' +
+//                        '</div>' +
+                            '</div>');
+
+
+                    if (file.error) {
+                        row.find('.name').text(file.name);
+                        row.find('.error').text(
+                                        locale.fileupload.errors[file.error] || file.error
+                        );
+                    } else {
+                        if (file.thumbnail_url) {
+                            row.find('img').prop('src', file.thumbnail_url);
+                        }
+                        row.find('.btn-delete')
+                                .attr('href', '/galleries/' + $("#galleryID").val() + '/pictures/' + file.picture_id);
+                        row.find('.btn-show')
+                                .attr('href', '/galleries/' + $("#galleryID").val() + '/pictures/' + file.picture_id + '/edit');
+                    }
+                    rows = rows.add(row);
+                });
+                return rows;
+            }
+
+        });
+    });
+</script>
+
+
+
+
+<%= javascript_include_tag 'jquery.ui.widget.js' %>
+<%= javascript_include_tag 'jquery.iframe-transport.js' %>
+<%= javascript_include_tag 'jquery.fileupload.js' %>
+<%= javascript_include_tag 'jquery.fileupload-ui.js' %>

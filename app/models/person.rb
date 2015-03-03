@@ -21,7 +21,7 @@ class Person < ActiveRecord::Base
   validates :status_id, :presence => true#{:message => 'debes introducir un estatus para la persona'}
   
   def fullname
-    first_name + " " + last_name1
+    first_name.titlecase + " " + last_name1.titlecase 
   end
   
   self.per_page = 10

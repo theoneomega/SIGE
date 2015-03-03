@@ -7,44 +7,49 @@
   <!--<div class="btn-group btn-group-lg">-->
 
 
-    <%if can? :index, Event%>
-        <%=link_to(image_tag("eventos.png",:width => "120px", :alt=> "Eventos"),
-                   {:controller=>"events", :action=>"index"}, :title=>"Eventos", :class=>" btn btn-custom-darken") %>
-    <%end%>
+  <%if can? :index, Event%>
+      <%=link_to(image_tag("eventos.png",:width => "120px", :alt=> "Eventos"),
+                 {:controller=>"events", :action=>"index"}, :title=>"Eventos", :class=>" btn btn-custom-darken") %>
+  <%end%>
 
-    <% if can? :index, Office %>
-        <%=link_to(image_tag("oficios.png",:width => "120px", :alt=> "Oficios"),
-                   {:controller=>"offices", :action=>"index"}, :title=>"Oficios", :class=>" btn btn-custom-darken") %>
-    <%end%>
-    <%if can? :index, Colaboration %>
-        <%=link_to(image_tag("colaboraciones.png",:width => "120px", :alt=> "Colaboraciones"),
-                   {:controller=>"colaborations", :action=>"index"}, :title=>"Colaboraciones", :class=>" btn btn-custom-darken") %>
-    <%end%>
+  <% if can? :index, Office %>
+      <%=link_to(image_tag("oficios.png",:width => "120px", :alt=> "Oficios"),
+                 {:controller=>"offices", :action=>"index"}, :title=>"Oficios", :class=>" btn btn-custom-darken") %>
+  <%end%>
+  <%if can? :index, Colaboration %>
+      <%=link_to(image_tag("colaboraciones.png",:width => "120px", :alt=> "Colaboraciones"),
+                 {:controller=>"colaborations", :action=>"index"}, :title=>"Colaboraciones", :class=>" btn btn-custom-darken") %>
+  <%end%>
 
 
 
-    <%if can? :index, JusticeNet %>
-        <%=link_to(image_tag("justicianet.png",:width => "120px", :alt=> "Justici@.NET"),
-                   {:controller=>"justice_nets", :action=>"index"}, :title=>"Justici@.NET", :class=>" btn btn-custom-darken") %>
-    <%end%>
+  <%if can? :index, JusticeNet %>
+      <%=link_to(image_tag("justicianet.png",:width => "120px", :alt=> "Justici@.NET"),
+                 {:controller=>"justice_nets", :action=>"index"}, :title=>"Justici@.NET", :class=>" btn btn-custom-darken") %>
+  <%end%>
 
   <%if can? :index, Investigation%>
       <%=link_to(image_tag("detective.png",:width => "120px", :alt=> "Casos   "),
                  {:controller=>"investigations", :action=>"index"}, :title=>"Casos", :class=>" btn btn-custom-darken") %>
   <%end%>
 
-    <%if can? :index, Search %>
-        <%=link_to(image_tag("search.png",:width => "120px", :alt=> "Busquedas"),
-                   {:controller=>"searches", :action=>"index"}, :title=>"Busquedas", :class=>" btn btn-custom-darken") %>
-    <%end%>
+  <%if can? :index, Search %>
+      <%=link_to(image_tag("search.png",:width => "120px", :alt=> "Busquedas"),
+                 {:controller=>"searches", :action=>"index"}, :title=>"Busquedas", :class=>" btn btn-custom-darken") %>
+  <%end%>
 
   <%if can? :index, HistoricalArchive %>
       <%=link_to(image_tag("folder-search.png",:width => "120px", :alt=> "Busquedas en archivo"),
                  {:controller=>"historical_archives", :action=>"index"}, :title=>"Busquedas en archivo", :class=>" btn btn-custom-darken") %>
   <%end%>
-    <%if can? :index, Statistic %>
-        <%=link_to(image_tag("estadisticas.png",:width => "120px", :alt=> "Estadisticas"),
-                   {:controller=>"statistics", :action=>"index"}, :title=>"Estadisticas", :class => " btn btn-custom-darken") %>
-    <%end%>
-  </div>
+  <%if can? :index, Statistic %>
+      <%=link_to(image_tag("estadisticas.png",:width => "120px", :alt=> "Estadisticas"),
+                 {:controller=>"statistics", :action=>"index"}, :title=>"Estadisticas", :class => " btn btn-custom-darken") %>
+  <%end%>
+
+  <%if can? :index, Helpdesk %>
+      <%=link_to(image_tag("soporte.png",:width => "120px", :alt=> "Soporte técnico"),
+                 {:controller=>"helpdesks", :action=>"index"}, :title=>"Soporte técnico", :class => " btn btn-custom-darken") %>
+  <%end%>
+</div>
 </div>

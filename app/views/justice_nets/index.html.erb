@@ -19,7 +19,6 @@
       <th>Fecha de solicitud</th>
       <th>Asignado a</th>
       <th>Zona</th>
-      <th>No. Personas</th>
       <th>Estatus</th>
       <th>Fecha de contestación</th>
       <th><%= t(:actions) %></th>
@@ -32,7 +31,6 @@
           <td><%=I18n.l justice_net.received_date, :format => :long %></td>
           <td><%= justice_net.analyst.analyst if justice_net.analyst %></td>
           <td> <%= justice_net.analyst.area.description %> </td>
-          <td><%= justice_net.person.count %></td>
           <td><%= justice_net.status.description %></td>
           <td><%= I18n.l justice_net.replied_date, :format => :long if justice_net.replied_date %></td>
           <td>
@@ -116,9 +114,9 @@
         "columnDefs": [
             {
                 "targets": [ 2 ],
-                "visible": true,
+                "visible": false,
                 "searchable": true
-            }]
+            }],
 
     });
 

@@ -13,7 +13,7 @@
 
 
   <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag 'application' %>
   <%= stylesheet_link_tag 'gmaps4rails'%>
   <%= stylesheet_link_tag    "bootstrap-datetimepicker.min", :media => "all" %>
   <%= javascript_include_tag "bootstrap-datetimepicker.min" %>
@@ -114,7 +114,7 @@
             <li><%= link_to "<i icon class='fa fa-newspaper-o'></i> Eventos".html_safe, events_path%></li>
         <%end%>
         <% if can? :index, Office %>
-            <li><%= link_to "<i icon class='icon icon-folder-open'></i> Oficios".html_safe, events_path%></li>
+            <li><%= link_to "<i icon class='icon icon-folder-open'></i> Oficios".html_safe, offices_path%></li>
         <%end%>
         <%if can? :index, Colaboration%>
             <li><%=link_to "<i icon class='fa fa-at'></i> Colaboraciones".html_safe, colaborations_path %></li>
@@ -221,7 +221,7 @@
         <%#*</li>%>
     <%end%>
 <%#*<li ><a href="reset-password.html">Reset Password</a></li>%>
-      </ul>
+  </ul>
   <%if signed_in?%>
       <%if can? :observe, Activity%>
           <a href="#en_linea-menu" class="nav-header" data-toggle="collapse"><i class="icon-info-sign"></i>Usuarios en linea</a>
@@ -366,6 +366,7 @@
         <div class="row-fluid">
         </div>
         <%=  yield %>
+        <%= debug(params) if Rails.env.development? %>
 
         <div class="row-fluid">
 

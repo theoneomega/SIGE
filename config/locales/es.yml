@@ -1,5 +1,17 @@
 es:
-  helpdesk: Soporte tecnico
+  helpdesks:
+      index:
+        problem: Problema
+        description: Descripción
+        analyst: Analista
+        active: Estatus
+        created_at: Se reporto
+      show:
+        problem: Problema
+        description: Descripción
+        analyst: Analista
+        active: Estatus
+  helpdesk: Soporte técnico
   helpers:
     links:
       show: Mostrar
@@ -62,6 +74,9 @@ es:
           justicia_net_folio: Expediente
           received_date: Fecha de solicitud
           observations: Observaciones
+      helpdesk:
+          problem: Problema
+          description: Descripción
           
     models:
       iph_images: Imagenes IPH
@@ -76,11 +91,14 @@ es:
       office: Oficios
       iph: Informe Policial Homologado
       justice_net: Solicitudes Electronica
-      helpdesk: Soporte tecnico
+      helpdesk: Soporte técnico
+      helpdesk_action: Acción
     
     
         
   account: Cuenta
+  whelpdesk: Reporte
+  Chelpdesks: Soporte técnico
   Cusers: Usuarios
   Cjustice_nets: Solicitud Electronica
   general_information: "Información General"
@@ -89,7 +107,6 @@ es:
   Cwelcome: Inicio
   Cstatistics: Estadisticas
   Chistorical_archives: Archivo
-  Chelpdesks: Soporte tecnico
   Cregistrations: Registros
   Cinvestigations: Casos
   save: Guardar

@@ -11,10 +11,12 @@ class Investigation < ActiveRecord::Base
     self.folio = "#{self.id}-#{self.start_date.year.to_s}"
   end
 
-  searchable do
+ searchable do
     text :penal_cause, :title, :ci
-    text :pdf do
-      pdf_investigations(&:pdf_content)
+    text :pdf_contenido do
+      pdf_investigations.map(&:pdf_content)
     end
-  end
+ 
+    time :start_date
+ end
 end

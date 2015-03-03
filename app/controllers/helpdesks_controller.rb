@@ -1,8 +1,16 @@
 class HelpdesksController < ApplicationController
-  # GET /helpdesks
-  # GET /helpdesks.json
+  before_filter :authenticate_user!
+  load_and_authorize_resource
   def index
-    @helpdesks = Helpdesk.all
+    if current_user.role.analysts_supervisor || current_user.role.super_admin
+      @helpdesks = Helpdesk.all
+    elsif current_user.role.analyst
+      @helpdesks = Helpdesk.where(:analyst_id => current_user.analyst_id)
+    else
+      @helpdesks = []
+    end
+
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,7 +22,8 @@ class HelpdesksController < ApplicationController
   # GET /helpdesks/1.json
   def show
     @helpdesk = Helpdesk.find(params[:id])
-
+    @helpdesk_screenshot = @helpdesk.helpdesk_screenshots.build
+    @helpdesk_screenshots = HelpdeskScreenshot.where(:helpdesk_id => @helpdesk.id)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @helpdesk }
@@ -80,4 +89,6 @@ class HelpdesksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
 end

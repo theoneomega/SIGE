@@ -14,9 +14,8 @@
  *= require_tree .
  *= require jquery.dataTables
  *= require jquery.fileupload-ui
- *= require bootstrap-datetimepicker
+ *= require bootstrap-datetimepicker   
  *= require font-awesome
-
  
 */
 

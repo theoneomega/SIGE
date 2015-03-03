@@ -82,10 +82,4 @@ class TownshipsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def get_localities
-    p"Entro"
-    @localities = Locality.where(:township_id => params[:id]).order("locality asc")
-    render json: @localities, :callback => params[:callback]
-  end
 end

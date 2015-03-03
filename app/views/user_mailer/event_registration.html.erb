@@ -1,172 +1,180 @@
 <p>
   <b>Prioridad:</b>
-  <%= @event.priority.description if @event.priority %>
+  <%= @event.priority.description %>
 </p>
 
 <p>
   <b>Fecha de evento: </b>
-  <%= @event.event_date if @event.event_date%>
+  <%= @event.event_date %>
 </p>
 
 <p>
   <b>Descripcion: </b>
-  <%= @event.description if @event.description%>
+  <%= @event.description %>
 </p>
 
 <p>
   <b>Calle: </b>
-  <%= @event.address if @event.address%>
+  <%= @event.address %>
 </p>
 
-
+<p>
+  <b>Numero Interior: </b>
+  <%= @event.interior_number %>
+</p>
 
 <p>
   <b>Colonia: </b>
-  <%= @event.suburb if @event.suburb%>
+  <%= @event.suburb %>
 </p>
 
 <p>
   <b>Localidad: </b>
-  <%= @event.locality.locality if @event.locality %>
+  <%= @event.locality.locality %>
 </p>
 
 <p>
   <b>Observaciones: </b>
-  <%= @event.observations if @event.observations %>
+  <%= @event.observations %>
 </p>
 
 <p>
   <b>Antecedentes: </b>
-  <%= @event.backup_file if @event.backup_file %>
+  <%= @event.backup_file %>
 </p>
 
 <p>
   <b>Fuente: </b>
-  <%= @event.source if @event.source %>
+  <%= @event.source %>
 </p>
 
 <p>
   <b>Analyst:</b>
-
-  <%= @event.analyst.analyst if @event.analyst %>
-
+  <%if @event.analyst !=nil%>
+    <%= @event.analyst.analyst%>
+  <%end%>
 </p>
 
 <p>
   <b>Area:</b>
-  <%= @event.area.description if @event.area %>
+  <%= @event.area.description %>
 </p>
 
 <p>
   <b>Delito: </b>
-  <%= @event.crime.crime if @event.crime %>
-
+  <%if @event.crime !=nil%>
+    <%= @event.crime.crime %>
+  <%end%>
 </p>
 
 <p>
   <b>Municipio: </b>
-  <%= @event.township.township if @event.township %>
-
+  <%if @event.township !=nil%>
+    <%= @event.township.township %>
+  <%end%>
 </p>
 
 <p>
   <b>Lugar: </b>
-
-  <%= @event.place.place if @event.place %>
-
+  <%if @event.place !=nil%>
+    <%= @event.place.place %>
+  <%end%>
 </p>
 
 <p>
   <b>Status:</b>
-  <%= @event.status.description if @event.status %>
+  <%if @event.status%>
+    <%= @event.status.description %>
+  <%end%>
 </p>
 <%if @event.person.where(:status_id=>10001).count >0 %>
-    <div class="block">
-      <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10001).count, "Victima") %></a>
-      <div id="victims" class="block-body collapse">
-        <div class="control-group">
-          <%@event.person.where(:status_id => 10001).each do |person|%>
-              <ul class="inline">
-                <li><i class="icon-user"> </i> </i> <%=person.fullname %></li>
-              </ul>
-          <%end%>
-        </div>
+  <div class="block">
+    <a href="#victims" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10001).count, "Victima") %></a>
+    <div id="victims" class="block-body collapse">
+      <div class="control-group">
+        <%@event.person.where(:status_id => 10001).each do |person|%>
+          <ul class="inline">
+            <li><i class="icon-user"> </i> </i> <%=person.fullname %></li>
+          </ul>
+        <%end%>
       </div>
     </div>
+  </div>
 <%end%>
 
 <%if @event.person.where(:status_id=>10000).count>0%>
-    <div class="block">
-      <a href="#detained" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10000).count, "Detenido") %></a>
-      <div id="detained" class="block-body collapse">
-        <div class="control-group">
-          <%@event.person.where(:status_id => 10000).each do |person|%>
-              <ul>
-                <li><%=person.fullname %></li>
-              </ul>
-          <%end%>
-        </div>
+  <div class="block">
+    <a href="#detained" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10000).count, "Detenido") %></a>
+    <div id="detained" class="block-body collapse">
+      <div class="control-group">
+        <%@event.person.where(:status_id => 10000).each do |person|%>
+          <ul>
+            <li><%=person.fullname %></li>
+          </ul>
+        <%end%>
       </div>
     </div>
+  </div>
 <%end%>
 
 <%if @event.person.where(:status_id=>10002).count > 0%>
-    <div class="block">
-      <a href="#suspects" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10002).count, "Sospechoso") %></a>
-      <div id="suspects" class="block-body collapse">
-        <div class="control-group">
-          <%@event.person.where(:status_id => 10002).each do |person|%>
-              <ul class="inline">
-                <li><i class="icon-paper-clip"> </i><%=person.fullname %></li>
-              </ul>
-          <%end%>
-        </div>
+  <div class="block">
+    <a href="#suspects" class="block-heading" data-toggle="collapse"><%= pluralize(@event.person.where(:status_id=>10002).count, "Sospechoso") %></a>
+    <div id="suspects" class="block-body collapse">
+      <div class="control-group">
+        <%@event.person.where(:status_id => 10002).each do |person|%>
+          <ul class="inline">
+            <li><i class="icon-paper-clip"> </i><%=person.fullname %></li>
+          </ul>
+        <%end%>
       </div>
     </div>
+  </div>
 <%end%>
 
 <%if @event.vehicles.count > 0%>
-    <div class="block">
-      <a href="#vehicles" class="block-heading" data-toggle="collapse"><%= pluralize(@event.vehicles.count, "Vehiculo")%></a>
-      <div id="vehicles" class="block-body collapse">
-        <div class="control-group">
-          <%@event.vehicles.each do |vehicle|%>
-              <ul>
-                <li><%=vehicle.fulldescription %></li>
-              </ul>
-          <%end%>
-        </div>
+  <div class="block">
+    <a href="#vehicles" class="block-heading" data-toggle="collapse"><%= pluralize(@event.vehicles.count, "Vehiculo")%></a>
+    <div id="vehicles" class="block-body collapse">
+      <div class="control-group">
+        <%@event.vehicles.each do |vehicle|%>
+          <ul>
+            <li><%=vehicle.fulldescription %></li>
+          </ul>
+        <%end%>
       </div>
     </div>
+  </div>
 <%end%>
 
 <%if @event.weapons.count > 0%>
-    <div class="block">
-      <a href="#weapons" class="block-heading" data-toggle="collapse"><%= pluralize(@event.weapons.count, "Arma")%></a>
-      <div id="weapons" class="block-body collapse">
-        <div class="control-group">
-          <%@event.weapons.each do |weapon|%>
-              <ul>
-                <li><%=weapon.fulldescription %></li>
-              </ul>
-          <%end%>
-        </div>
+  <div class="block">
+    <a href="#weapons" class="block-heading" data-toggle="collapse"><%= pluralize(@event.weapons.count, "Arma")%></a>
+    <div id="weapons" class="block-body collapse">
+      <div class="control-group">
+        <%@event.weapons.each do |weapon|%>
+          <ul>
+            <li><%=weapon.fulldescription %></li>
+          </ul>
+        <%end%>
       </div>
     </div>
+  </div>
 <%end%>
 
 <%if @event.drug.count > 0%>
-    <div class="block">
-      <a href="#drugs" class="block-heading" data-toggle="collapse"><%= pluralize(@event.drug.count, "Droga")%></a>
-      <div id="drugs" class="block-body collapse">
-        <div class="control-group">
-          <%@event.drug.each do |drugs|%>
-              <ul>
-                <li><%drugs.kind %></li>
-              </ul>
-          <%end%>
-        </div>
+  <div class="block">
+    <a href="#drugs" class="block-heading" data-toggle="collapse"><%= pluralize(@event.drug.count, "Droga")%></a>
+    <div id="drugs" class="block-body collapse">
+      <div class="control-group">
+        <%@event.drug.each do |drugs|%>
+          <ul>
+            <li><%drugs.kind %></li>
+          </ul>
+        <%end%>
       </div>
     </div>
-
+  </div>
+  </div>
+  </div>
 <%end%>

@@ -7,6 +7,9 @@ class ImagesUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::MimeTypes
 
+  include Sprockets::Helpers::RailsHelper
+  include Sprockets::Helpers::IsolatedHelper
+
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog
@@ -14,7 +17,7 @@ class ImagesUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "respaldos/iph/imagenes/#{model.created_at.year}/#{model.created_at.month}/#{model.iph_id}"
+    "respaldos/helpdesk/imagenes/#{model.created_at.year}/#{model.created_at.month}/#{model.helpdesk_id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -30,8 +33,8 @@ class ImagesUploader < CarrierWave::Uploader::Base
   process :save_content_type_and_size_in_model
 
   def save_content_type_and_size_in_model
-    model.name_content_type = file.content_type if file.content_type
-    model.name_file_size = file.size
+    model.screenshot_content_type = file.content_type if file.content_type
+    model.screenshot_file_size = file.size
   end
   
 #  def save_content_type_and_size_in_model
@@ -47,9 +50,9 @@ class ImagesUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  #  version :thumb do
-  #    process :resize_to_limit => [300, 300]
-  #  end
+  version :thumb do
+     process :resize_to_limit => [300, 300]
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:

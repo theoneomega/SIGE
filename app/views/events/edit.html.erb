@@ -9,12 +9,12 @@
       </div>
     <% end %>
   <% end %>
-  <%if current_user.role.supervisor || current_user.role.super_admin || current_user.role.ie_supervisor %>
+  <%if current_user.role.supervisor==true or current_user.role.super_admin==true || current_user.role.ie_supervisor == true %>
     <div class="block">
       <a href="#asignar" class="block-heading" data-toggle="collapse">Asignar</a>
       <div id="asignar" class="block-body collapse in">
         <div class="field">
-          <%if (current_user.role.supervisor || current_user.role.ie_supervisor || current_user.role.super_admin) && current_user.analyst.area_id == 10000%>
+          <%if( current_user.role.supervisor == true || current_user.role.super_admin )&& current_user.analyst.area_id == 10000%>
             <%= f.label "Analista" %><br />
             <%= f.collection_select(:analyst_id, Analyst.find(:all, :conditions => ["area_id = ? AND analyst LIKE  ?", 10000,"A0%"]), :id, :analyst, {:prompt => @event.analyst.analyst, :value => @event.analyst.analyst}) %>
           <%elsif (current_user.role.supervisor == true || current_user.role.ie_supervisor || current_user.role.super_admin )&& current_user.analyst.area_id == 10001%>
@@ -78,7 +78,7 @@
           </div>
           <div class="field">
             <label for="event_locality_id" id="localidad2">Localidad</label>
-            <!--<%= f.collection_select(:locality_id, Locality.order('township_id ASC').all, :id, :localidad, {:prompt => "Seleccione Localidad"}, :id =>"localidad") %>-->
+            <%= f.collection_select(:locality_id, Locality.order('township_id ASC').all, :id, :localidad, {:prompt => "Seleccione Localidad"}, :id =>"localidad") %>
           </div>
           <div class="field">
             <%= f.label :Colonia , :id => "colonia2"%><br />

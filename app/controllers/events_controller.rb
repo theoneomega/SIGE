@@ -8,23 +8,23 @@ class EventsController < ApplicationController
 
     #    @search = Event.ransack(params[:q])
     if current_user.role.super_admin==true  || current_user.role.ie_supervisor==true || current_user.role.super_supervisor==true
-      @events = Event.where('status_id BETWEEN ? AND ?', 10020,10022).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
-      @json = @events.to_gmaps4rails
+      @events = Event.where('status_id BETWEEN ? AND ?', 10020,10022).order('priority_id ASC')
+      @json = Event.all.to_gmaps4rails
     elsif current_user.role.medios==true
       if current_user.analyst.area_id == 10001
-        @events = Event.where("status_id = ?", 10020).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
+        @events = Event.where("status_id = ?", 10020).order('priority_id ASC')
       elsif current_user.analyst.area_id == 10000
-        @events = Event.where("analyst_id = ? AND status_id = ?", current_user.analyst_id,10020).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
+        @events = Event.where("analyst_id = ? AND status_id = ?", current_user.analyst_id,10020).order('priority_id ASC')
       end
     elsif  current_user.role.supervisor == true
       if current_user.analyst.area_id == 10001
-        @events = Event.where('status_id BETWEEN ? AND ? AND area_id BETWEEN ? AND ?', 10020,10022,10001,10003).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
+        @events = Event.where('status_id BETWEEN ? AND ? AND area_id BETWEEN ? AND ?', 10020,10022,10001,10003).order('priority_id ASC')
       elsif current_user.analyst.area_id == 10000
-        @events = Event.where('status_id BETWEEN ? AND ? AND area_id = ?', 10020,10022,10000).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
+        @events = Event.where('status_id BETWEEN ? AND ? AND area_id = ?', 10020,10022,10000).order('priority_id ASC')
       end
     else
-      @events = Event.where("analyst_id = ? AND status_id BETWEEN ? AND ?", current_user.analyst_id, 10020,10022).order('priority_id ASC').includes(:crime).includes(:priority).includes(:status).includes(:area).includes(:analyst)
-      @json = @events.to_gmaps4rails
+      @events = Event.where("analyst_id = ? AND status_id BETWEEN ? AND ?", current_user.analyst_id, 10020,10022).order('priority_id ASC')
+      @json = Event.where("(analyst_id = #{current_user.analyst_id})").to_gmaps4rails
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -87,7 +87,7 @@ class EventsController < ApplicationController
     if @event.description != nil
       @event.searchable = @event.searchable+ " "+@event.description
     end
-    if !@event.address.nil?
+    if(@event.address!=nil)
       @event.searchable=@event.searchable+" "+@event.address
     end
     if @event.locality_id!=nil
@@ -105,7 +105,7 @@ class EventsController < ApplicationController
     end
     respond_to do |format|
       if @event.save
-        UserMailer.event_registration(@event).deliver
+        #        UserMailer.event_registration(@event).deliver 
         format.html { redirect_to @event, notice: 'Evento registrado exitosamente.' }
         format.json { render json: @event, status: :created, location: @event }
       else

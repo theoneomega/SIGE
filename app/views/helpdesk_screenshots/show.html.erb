@@ -1,0 +1,62 @@
+<%content_for :breadcrumb do%>
+<ul class="breadcrumb">
+  <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+  <%if can? :index, Helpdesk Screenshot %>
+  <li class="active"><%=link_to t(:index), helpdesk_screenshots_path %><span class="divider">/</span></li>
+  <%end%>
+  <%if can? :new, Helpdesk Screenshot %>
+  <li class="active"><%=link_to t(:new), new_helpdesk_screenshot_path%></li>
+  <%end%>
+</ul>
+<%end%>
+
+
+<div class="row-fluid">
+  <div class="block ">
+    <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
+    <div id="client-info" class="block-body collapse in show-details">
+              <p>
+          <b><%= t'.analyst' %>:</b>
+          <%= @helpdesk_screenshot.analyst_id %>
+        </p>
+              <p>
+          <b><%= t'.analyst_number' %>:</b>
+          <%= @helpdesk_screenshot.analyst_number %>
+        </p>
+              <p>
+          <b><%= t'.helpdesk' %>:</b>
+          <%= @helpdesk_screenshot.helpdesk_id %>
+        </p>
+              <p>
+          <b><%= t'.screenshot' %>:</b>
+          <%= @helpdesk_screenshot.screenshot %>
+        </p>
+              <p>
+          <b><%= t'.screenshot_content_type' %>:</b>
+          <%= @helpdesk_screenshot.screenshot_content_type %>
+        </p>
+              <p>
+          <b><%= t'.visible' %>:</b>
+          <%= @helpdesk_screenshot.visible %>
+        </p>
+          </div>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%if can? :index, Helpdesk Screenshot %>
+  <%= link_to t(:back, :default => t('helpers.links.back')), helpdesk_screenshots_path, :class => 'btn' %>
+  <%end%>
+  <%if can? :edit, Helpdesk Screenshot %>
+  <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_helpdesk_screenshot_path(@helpdesk_screenshot), :class => 'btn' %>
+  <%end%>
+  <%if can? :destroy, Helpdesk Screenshot %>
+  <%= link_to t(:destroy, :default => t("helpers.links.destroy")), helpdesk_screenshot_path(@helpdesk_screenshot),
+  :method => 'delete',
+  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+  :class => 'btn btn-danger' %>
+  <%end%>
+  <%if can? :new, Helpdesk Screenshot %>
+  <%= link_to t(:new, :default => t('helpers.links.edit')), new_helpdesk_screenshot_path, :class => 'btn btn-primary', :title => t(:new) %>
+  <%end%>
+</div>

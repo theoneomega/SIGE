@@ -1,0 +1,40 @@
+<div class="well">
+  <table class="table table-condensed table-hover responsive no-wrap "cellspacing="0" width="100%" id="example">
+    <thead>
+    <tr>
+      <th>Nombre del caso</th>
+      <th>analista</th>
+      <th>conenido </th>
+    </tr>
+    </thead >
+
+    <tbody>
+    <% @pdf_investigation.each do |pdf| %>
+        <tr>
+          <td><%= pdf.investigation.title %></td>
+          <td><%= pdf.analyst.analyst %></td>
+          <td><%= pdf.pdf_content %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<script>
+
+    $('#example').DataTable({
+        "scrollY":        "500px",
+        "scrollX": true,
+        "language": {
+            "sUrl": "/assets/spanish.json"
+        },
+        "columnDefs": [
+            {
+                "targets": [ 2 ],
+                "visible": false,
+                "searchable": true
+            }]
+    });
+
+</script>

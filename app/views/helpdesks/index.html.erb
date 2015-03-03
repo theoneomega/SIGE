@@ -18,6 +18,7 @@
       <th><%= t'.problem' %></th>
       <th><%= t'.description' %></th>
       <th><%= t'.analyst' %></th>
+      <th><%= t'.created_at' %></th>
       <th><%= t'.active' %></th>
       <th><%= t(:actions) %></th>
     </tr>
@@ -26,9 +27,10 @@
     <% @helpdesks.each do |helpdesk| %>
         <tr>
           <td><%= helpdesk.problem %></td>
-          <td><%= helpdesk.description %></td>
-          <td><%= helpdesk.analyst_id %></td>
-          <td><%= helpdesk.active %></td>
+          <td><%= truncate helpdesk.description %></td>
+          <td><%= helpdesk.analyst.analyst %></td>
+          <td>Hace <%= time_ago_in_words helpdesk.created_at %></td>
+          <td><%= helpdesk.active ? image_tag("true.png") :" "%></td>
           <td>
             <ul class="nav nav-pills">
               <li class="dropdown">
@@ -65,5 +67,5 @@
   </table>
 </div>
 <br />
-<%=link_to t(:new)+" helpdesk", new_helpdesk_path, :class => "btn btn-primary"%>
+<%=link_to "Nuevo reporte", new_helpdesk_path, :class => "btn btn-primary"%>
 

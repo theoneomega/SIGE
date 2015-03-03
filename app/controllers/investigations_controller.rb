@@ -82,6 +82,7 @@ class InvestigationsController < ApplicationController
   def destroy
     @investigation = Investigation.find(params[:id])
     @investigation.visible = false
+    @investigation.save
 
     respond_to do |format|
       format.html { redirect_to investigations_url }

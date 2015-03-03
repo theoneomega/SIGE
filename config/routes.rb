@@ -1,7 +1,17 @@
 Sied::Application.routes.draw do
 
 
-  resources :helpdesks
+  # resources :helpdesk_screenshots
+
+
+  get "helpdesk_actions/create"
+
+  get "helpdesk_actions/destroy"
+
+  resources :helpdesks do
+    resources :helpdesk_screenshots
+    resources :helpdesk_actions
+  end
 
 
   resources :historical_archives, :only => [:index, :show]
@@ -32,7 +42,6 @@ Sied::Application.routes.draw do
   get "searchs/colaboraciones"
 
   match 'users_information/index' => 'users_information#index', :as => :user_info
-
 
   match 'offices/refuse/:id' => 'offices#refuse', :as => :refuse
   match 'offices/assign/:id' => 'offices#assign', :as => :assign
@@ -109,7 +118,8 @@ Sied::Application.routes.draw do
 
   resources :backup_files
 
-  match 'events/assign/:id' => 'events#assign', :as => :assign_event
+
+  resources :events_collections
   resources :events do
     collection do
       get :person
@@ -173,7 +183,6 @@ Sied::Application.routes.draw do
   resources :areas
 
 
-
   resources :drugs
 
 
@@ -191,7 +200,6 @@ Sied::Application.routes.draw do
 
   resources :places
 
-  get 'townships/get_localities'
 
   resources :townships
 

@@ -1,13 +1,13 @@
 <%content_for :breadcrumb do%>
-<ul class="breadcrumb">
-  <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
-  <%if can? :index, Helpdesk %>
-  <li class="active"><%=link_to t(:index), helpdesks_path %><span class="divider">/</span></li>
-  <%end%>
-  <%if can? :new, Helpdesk %>
-  <li class="active"><%=link_to t(:new), new_helpdesk_path%></li>
-  <%end%>
-</ul>
+    <ul class="breadcrumb">
+      <li><%=link_to t(:home), root_path%><span class="divider">/</span></li>
+      <%if can? :index, Helpdesk %>
+          <li class="active"><%=link_to t(:index), helpdesks_path %><span class="divider">/</span></li>
+      <%end%>
+      <%if can? :new, Helpdesk %>
+          <li class="active"><%=link_to t(:new), new_helpdesk_path%></li>
+      <%end%>
+    </ul>
 <%end%>
 
 
@@ -15,40 +15,67 @@
   <div class="block ">
     <a href="#client-info" class="block-heading" data-toggle="collapse"><%= t(:general_information) %></a>
     <div id="client-info" class="block-body collapse in show-details">
-              <p>
-          <b><%= t'.problem' %>:</b>
-          <%= @helpdesk.problem %>
-        </p>
-              <p>
-          <b><%= t'.description' %>:</b>
-          <%= @helpdesk.description %>
-        </p>
-              <p>
-          <b><%= t'.analyst' %>:</b>
-          <%= @helpdesk.analyst_id %>
-        </p>
-              <p>
-          <b><%= t'.active' %>:</b>
-          <%= @helpdesk.active %>
-        </p>
-          </div>
+      <p>
+        <b><%= t'.problem' %>:</b>
+        <%= @helpdesk.problem %>
+      </p>
+      <p>
+        <b><%= t'.description' %>:</b>
+        <%= @helpdesk.description %>
+      </p>
+      <p>
+        <b><%= t'.analyst' %>:</b>
+        <%= @helpdesk.analyst.analyst %>
+      </p>
+      <p>
+        <b><%= t'.active' %>:</b>
+        <%= @helpdesk.active ? "Activo" :"Terminado"%>
+      </p>
+
+      <%= render 'uploader' %>
+
+      <%#= render 'helpdesk_screenshots_fields' %>
+
+      <div class="block ">
+        <a href="#support-info" class="block-heading" data-toggle="collapse">Acciones realizadas</a>
+        <div id="support-info" class="block-body collapse in ">
+          <% @helpdesk.helpdesk_actions.each do |helpdesk_action| %>
+              <div class="show-details">
+              <p> <%= helpdesk_action.description %></p>
+              <p> <i>Hace <%= time_ago_in_words helpdesk_action.created_at %> por
+              <%= helpdesk_action.user.analyst.analyst %></i>
+              </p></div>
+          <% end %>
+
+          <p><%= form_for [@helpdesk, @helpdesk.helpdesk_actions.build] do |f| %>
+                <%= f.label :description %>
+                <%= f.text_area :description, :size => "40x40" %>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+                <%= f.submit nil, class: "btn btn-success" %>
+            <% end %>
+          </p>
+
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
 
 <div class="form-actions">
   <%if can? :index, Helpdesk %>
-  <%= link_to t(:back, :default => t('helpers.links.back')), helpdesks_path, :class => 'btn' %>
+      <%= link_to t(:back, :default => t('helpers.links.back')), helpdesks_path, :class => 'btn' %>
   <%end%>
   <%if can? :edit, Helpdesk %>
-  <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_helpdesk_path(@helpdesk), :class => 'btn' %>
+      <%= link_to t(:edit, :default => t('helpers.links.edit')), edit_helpdesk_path(@helpdesk), :class => 'btn' %>
   <%end%>
   <%if can? :destroy, Helpdesk %>
-  <%= link_to t(:destroy, :default => t("helpers.links.destroy")), helpdesk_path(@helpdesk),
-  :method => 'delete',
-  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-  :class => 'btn btn-danger' %>
+      <%= link_to t(:destroy, :default => t("helpers.links.destroy")), helpdesk_path(@helpdesk),
+                  :method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                  :class => 'btn btn-danger' %>
   <%end%>
   <%if can? :new, Helpdesk %>
-  <%= link_to t(:new, :default => t('helpers.links.edit')), new_helpdesk_path, :class => 'btn btn-primary', :title => t(:new) %>
+      <%= link_to t(:new, :default => t('helpers.links.edit')), new_helpdesk_path, :class => 'btn btn-primary', :title => t(:new) %>
   <%end%>
 </div>

@@ -1,27 +1,27 @@
 <%content_for :breadcrumb do%>
-    <ul class="breadcrumb">
-      <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
-      <li><%=link_to "Analistas", analysts_path%><span class="divider">/</span></li>
-      <li class="active"><%=t(:index)%></li>
-    </ul>
+  <ul class="breadcrumb">
+    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+    <li><%=link_to t(:wevents), events_path%><span class="divider">/</span></li>
+    <li class="active"><%=t(:index)%></li>
+  </ul>
 <%end%>
 <div class="well">
-  <table class="table table-condensed " id="tabla">
+  <table class="table table-condensed">
     <thead>
-    <tr>
-      <th>Analista</th>
-      <th>Nombre</th>
-      <th>Zona</th>
-      <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @analysts.each do |analyst| %>
+      <tr>
+        <th>Analista</th>
+        <th>Nombre</th>
+        <th>Zona</th>
+        <th>Acciones</th>
+      </tr>
 
+      <% @analysts.each do |analyst| %>
         <tr>
           <td><%= analyst.analyst %></td>
-          <td><%= analyst.fullname %></td>
-          <td><%= analyst.area.description if analyst.area%></td>
+          <td><%= analyst.first_name %> <%= analyst.last_name1 %> <%= analyst.last_name2 %></td>
+          <td> <%if analyst.area %>
+              <%= analyst.area.description %>
+            <%end%></td>
           <td>
             <ul class="nav nav-pills">
               <li class="dropdown">
@@ -35,29 +35,13 @@
             </ul>
           </td>
         </tr>
-    <% end %>
-    </tbody>
+      <% end %>
   </table>
+  <div class="pagination">
+    <%= will_paginate @analysts, :renderer => BootstrapPagination::Rails, :class => "pagination" %>
+  </div>
 </div>
 
 <br />
 
-<%= link_to 'Nuevo analista', new_analyst_path, :class => "btn btn-primary" %>
-
-<script>
-    $('#tabla').DataTable({
-//        "scrollY": "500px",
-//        "scrollX": true,
-        "language": {
-            "sUrl": "/assets/spanish.json"
-        },
-        "columnDefs": [
-            {
-                "targets": [ 2 ],
-                "visible": true,
-                "searchable": true
-            }]
-
-    });
-
-</script>
+<%= link_to 'New Analyst', new_analyst_path %>

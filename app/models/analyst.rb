@@ -8,6 +8,9 @@ class Analyst < ActiveRecord::Base
   has_many :offices
   has_many :justice_nets
   has_many :investigations
+  has_many :helpdesks
+  has_many :helpdesk_actions
+  has_many :helpdesk_screenshots
   self.per_page = 10
   def fullname
     first_name + " " + last_name1 + " " + last_name2

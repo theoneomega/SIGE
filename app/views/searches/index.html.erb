@@ -137,11 +137,7 @@
       </form>
     </div>
 <%end%>
-<%if can? :index, Investigation%>
-
-<%= debug(@investigation) %>
-
-    <%= debug(@investigations_search) %>
+<%if can? :index, Event%>
     <div class="tab-pane active in" id="investigaciones">
       <form id="tab5">
         <table class="table  table-hover">
