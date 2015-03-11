@@ -3,9 +3,9 @@ class HelpdesksController < ApplicationController
   load_and_authorize_resource
   def index
     if current_user.role.analysts_supervisor || current_user.role.super_admin
-      @helpdesks = Helpdesk.all
+      @helpdesks = Helpdesk.where(:active => true)
     elsif current_user.role.analyst
-      @helpdesks = Helpdesk.where(:analyst_id => current_user.analyst_id)
+      @helpdesks = Helpdesk.where(:analyst_id => current_user.analyst_id, :active => true)
     else
       @helpdesks = []
     end

@@ -41,10 +41,10 @@
         <div id="support-info" class="block-body collapse in ">
           <% @helpdesk.helpdesk_actions.each do |helpdesk_action| %>
               <div class="show-details">
-              <p> <%= helpdesk_action.description %></p>
-              <p> <i>Hace <%= time_ago_in_words helpdesk_action.created_at %> por
-              <%= helpdesk_action.user.analyst.analyst %></i>
-              </p></div>
+                <p> <%= helpdesk_action.description %></p>
+                <p> <i>Hace <%= time_ago_in_words helpdesk_action.created_at %> por
+                  <%= helpdesk_action.user.analyst.analyst %></i>
+                </p></div>
           <% end %>
 
           <p><%= form_for [@helpdesk, @helpdesk.helpdesk_actions.build] do |f| %>
@@ -55,9 +55,17 @@
             <% end %>
           </p>
 
-        </div>
-      </div>
 
+
+        </div>
+
+      </div>
+      <% if can? :finish_report, Helpdesk %>
+          <%= form_for @helpdesk do |f| %>
+              <%= f.hidden_field :active, :value => false %>
+              <%= f.submit "Terminar reporte", :class => "btn btn-primary" %>
+          <% end %>
+      <% end %>
     </div>
   </div>
 </div>

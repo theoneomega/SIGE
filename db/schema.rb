@@ -150,48 +150,6 @@ ActiveRecord::Schema.define(:version => 20150302173157) do
     t.boolean  "dieid",                 :precision => 1,  :scale => 0
   end
 
-  create_table "commontator_comments", :force => true do |t|
-    t.string   "creator_type"
-    t.integer  "creator_id",        :precision => 38, :scale => 0
-    t.string   "editor_type"
-    t.integer  "editor_id",         :precision => 38, :scale => 0
-    t.integer  "thread_id",         :precision => 38, :scale => 0,                :null => false
-    t.text     "body",                                                            :null => false
-    t.datetime "deleted_at"
-    t.integer  "cached_votes_up",   :precision => 38, :scale => 0, :default => 0
-    t.integer  "cached_votes_down", :precision => 38, :scale => 0, :default => 0
-    t.datetime "created_at",                                                      :null => false
-    t.datetime "updated_at",                                                      :null => false
-  end
-
-  add_index "commontator_comments", ["cached_votes_down"], :name => "i_com_com_cac_vot_dow"
-  add_index "commontator_comments", ["cached_votes_up"], :name => "i_com_com_cac_vot_up"
-  add_index "commontator_comments", ["creator_id", "creator_type", "thread_id"], :name => "c_id_and_c_type_and_t_id"
-  add_index "commontator_comments", ["thread_id", "created_at"], :name => "i_com_com_thr_id_cre_at"
-
-  create_table "commontator_subscriptions", :force => true do |t|
-    t.string   "subscriber_type",                                :null => false
-    t.integer  "subscriber_id",   :precision => 38, :scale => 0, :null => false
-    t.integer  "thread_id",       :precision => 38, :scale => 0, :null => false
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
-  end
-
-  add_index "commontator_subscriptions", ["subscriber_id", "subscriber_type", "thread_id"], :name => "s_id_and_s_type_and_t_id", :unique => true
-  add_index "commontator_subscriptions", ["thread_id"], :name => "i_com_sub_thr_id"
-
-  create_table "commontator_threads", :force => true do |t|
-    t.string   "commontable_type"
-    t.integer  "commontable_id",   :precision => 38, :scale => 0
-    t.datetime "closed_at"
-    t.string   "closer_type"
-    t.integer  "closer_id",        :precision => 38, :scale => 0
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
-  end
-
-  add_index "commontator_threads", ["commontable_id", "commontable_type"], :name => "c_id_and_c_type", :unique => true
-
   create_table "crimes", :force => true do |t|
     t.string   "crime"
     t.datetime "created_at", :null => false
@@ -306,7 +264,6 @@ ActiveRecord::Schema.define(:version => 20150302173157) do
     t.datetime "updated_at",                                     :null => false
     t.string   "tramo_carretero"
     t.text     "searchable"
-    t.string   "area"
   end
 
   create_table "events_collections", :force => true do |t|
@@ -748,7 +705,6 @@ ActiveRecord::Schema.define(:version => 20150302173157) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.boolean  "active",                 :precision => 1,  :scale => 0
-    t.datetime "last_seen"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

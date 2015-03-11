@@ -179,6 +179,7 @@ GEM
       builder (>= 2.1.2)
     ruby-oci8 (2.1.7)
     ruby-oci8 (2.1.7-x86-mingw32)
+    ruby-plsql (0.5.2)
     sass (3.3.3)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -190,6 +191,7 @@ GEM
     simple_form (2.1.2)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
+    simple_search (0.1.1)
     slop (3.6.0)
     sprockets (2.2.2)
       hike (~> 1.2)
@@ -276,10 +278,12 @@ DEPENDENCIES
   rake (~> 10.1.0)
   rolify
   ruby-oci8
+  ruby-plsql
   sass
   sass-rails
   seed_dump
   simple_form
+  simple_search
   sunspot_rails (~> 2.0.0)
   sunspot_solr (~> 2.0.0)
   therubyracer (>= 0.8.2)

@@ -31,6 +31,8 @@ class Event < ActiveRecord::Base
   belongs_to :township
   belongs_to :place
   belongs_to :locality
+
+
   
   validates :priority_id, :presence => true# { :message => "Debes seleccionar una prioridad"} 
   validates :description, :presence =>  true#{ :message => "Debes agregar una descripcion" }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2857905144">
+    <data-source source="LOCAL" name="Oracle - xe@10.18.114.89" uuid="ed233e39-a66c-443f-830b-fbda1458be48">
+      <driver-ref>oracle</driver-ref>
+      <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
+      <jdbc-url>jdbc:oracle:thin:@//10.18.114.89:1521/xe</jdbc-url>
+      <user-name>DIEIDbackup</user-name>
+      <user-password>dfeedfe3dfefdfe3dfeedf84df98df9adf9bdf9e</user-password>
+      <schema-pattern>*.DIEIDBACKUP</schema-pattern>
+      <default-schemas>*.DIEIDBACKUP</default-schemas>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

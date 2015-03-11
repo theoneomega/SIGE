@@ -15,12 +15,15 @@ class Ability
 
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
 
       elsif @user.role.analysts_supervisor and @user.role.analyst
         can [:index, :create, :new, :update, :edit, :show], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
 
@@ -46,15 +49,17 @@ class Ability
         can [:show, :create, :modify, :finish], JusticeNet
         can [:index, :edit, :read, :update], JusticeNet, :analyst_id => @user.analyst_id
         can [:index, :show, :edit, :create, :update, :read,:modify, :finish,  :nofinish, :send, :waiting, :replied], Office
-        can :show, Colaboration
+        can [:show, :nofinish, :finish, :modify], Colaboration
         can [:read, :show], Search
         can [:index, :show, :create], Event
         can [:edit, :read, :update], Event, :analyst_id => @user.analyst_id
+
         can [:index, :edit, :read, :update], Colaboration, :analyst_id => @user.analyst_id
         can [:index, :edit, :read, :update], Office, :analyst_id => @user.analyst_id
 
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
@@ -75,6 +80,7 @@ class Ability
 
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
@@ -93,6 +99,7 @@ class Ability
 
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
@@ -114,6 +121,7 @@ class Ability
 
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
@@ -125,6 +133,7 @@ class Ability
         can [:read, :show], EventsCollection
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot
@@ -134,17 +143,21 @@ class Ability
         can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
         can [:show, :create, :modify, :finish], JusticeNet
         can [:index, :edit, :read, :update], JusticeNet, :analyst_id => @user.analyst_id
-        can [:finish,  :nofinish, :modify], Office
+
+        can [:finish,  :nofinish, :modify, :show], Office
+        can [:index, :edit, :read, :update], Office, :analyst_id => @user.analyst_id
+
         can [:show, :nofinish, :finish, :modify], Colaboration
         can [:read, :show], Search
         can [:show, :create], Event
         can [:index, :edit, :read, :update], Event, :analyst_id => @user.analyst_id
         can [:index, :edit, :read, :update], Colaboration, :analyst_id => @user.analyst_id
-        can [:index, :edit, :read, :update], Office, :analyst_id => @user.analyst_id
+
         can [:update], OfficeFile, :user_id => @user.id
         can [:read, :show], EventsCollection
 
         can [:index, :create, :new, :edit, :update], Helpdesk
+        can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id
         can [:show], Helpdesk, :analyst_id => @user.analyst_id
         can [:create, :new], HelpdeskAction
         can [:create, :new], HelpdeskScreenshot

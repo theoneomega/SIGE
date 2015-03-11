@@ -45,6 +45,8 @@
 
         <!--<button id="myBtn" class="btn btn-primary">Accept Checked</button>-->
         <%= button_tag "Buscar  <i class='icon-search'></i>".html_safe,
+                       :name => "mi boton",
+
                        data: { disable_with: "<i class='icon-spinner icon-spin icon-large'></i>  Buscando...".html_safe },
                        :class => "btn btn-success",
                        :onclick => "return validateform()"
