@@ -18,31 +18,31 @@ class StatisticsController < ApplicationController
 
 
       @users.where('area_id = ? or area_id = ? or area_id = ? or area_id = ?', norte,sur,centro,occidente).each do |users|
-        total_eventos=users.events.where('event_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date).count
-        total_colaboraciones=users.colaborations.where('colaboration_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date).count
-        total_oficios=users.offices.where('office_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date).count
-        total_justicias=users.justice_nets.where('received_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date).count
+        total_eventos=users.events.where('created_at between ? and  ?', params[:start_date].to_date, params[:end_date].to_date+1.day).count
+        total_colaboraciones=users.colaborations.where('created_at between ? and  ?', params[:start_date].to_date, params[:end_date].to_date+1.day).count
+        total_oficios=users.offices.where('created_at between ? and  ?', params[:start_date].to_date, params[:end_date].to_date+1.day).count
+        total_justicias=users.justice_nets.where('created_at between ? and  ?', params[:start_date].to_date, params[:end_date].to_date+1.day).count
         total_personas_eventos=0
         total_personas_colaboraciones=0
         total_personas_oficios=0
         total_personas_justicias=0
         total = 0
-        users.events.where('event_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date).each do |event|
+        users.events.where('event_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date+1.day).each do |event|
 
           total_personas_eventos+= event.person.count
           total += event.person.count
         end
-        users.colaborations.where('colaboration_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date).each do |colaboration|
+        users.colaborations.where('colaboration_date between ? and  ?', params[:start_date].to_date, params[:end_date].to_date+1.day).each do |colaboration|
           # total_colaboraciones=colaboration.count
           total_personas_colaboraciones+= colaboration.person.count
           total+=colaboration.person.count
         end
-        users.offices.where('office_date between ? and ?', params[:start_date].to_date, params[:end_date].to_date).each do |office|
+        users.offices.where('office_date between ? and ?', params[:start_date].to_date, params[:end_date].to_date+1.day).each do |office|
           # total_oficios=office.count
           total_personas_oficios+=office.person.count
           total+=office.person.count
         end
-        users.justice_nets.where('received_date between ? and ?', params[:start_date].to_date, params[:end_date].to_date).each do |justice|
+        users.justice_nets.where('received_date between ? and ?', params[:start_date].to_date, params[:end_date].to_date+1.day).each do |justice|
           # total_justicias=justice.count
           total_personas_justicias+=justice.person.count
           total+=justice.person.count

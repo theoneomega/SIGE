@@ -16,6 +16,7 @@ Sied::Application.routes.draw do
 
   resources :historical_archives, :only => [:index, :show]
 
+  resources :error_reports
 
   get "statistics/index", :as => :statistics
 

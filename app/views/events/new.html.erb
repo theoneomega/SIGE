@@ -21,12 +21,12 @@
         <%= f.collection_select(:priority_id, Priority.all, :id, :description, {:prompt => "seleccione prioridad"}) %>
       </div>
 
-      <%if current_user.role.supervisor==true || current_user.role.super_admin==true%>
+      <%if current_user.role.supervisor|| current_user.role.super_admin%>
         <div class="field">
           <%= f.label "Estatus" %><br />
           <%= f.collection_select(:status_id, Status.where(:status_type => "evento"), :id, :description, {:prompt => "seleccione el estatus"}) %>
         </div>
-      <%elsif current_user.role.medios == true%>
+      <%elsif current_user.role.medios%>
         <%= f.label "Estatus" %><br />
         <%= f.select :status_id, [["PRELIMINAR",10020],["HEMEROTECA",10024]] %>
       <%end%>
@@ -59,7 +59,7 @@
         </div>
         <div class="field">
           <label for="event_locality_id" id="localidad2">Localidad</label>
-          <%= f.collection_select(:locality_id, Locality.order('township_id ASC').all, :id, :localidad, {:prompt => "Seleccione Localidad"}, :id =>"localidad") %>
+          <%= f.collection_select(:locality_id, Locality.order('township_id ASC').all, :id, :locality, {:prompt => "Seleccione Localidad"}, :id =>"localidad") %>
         </div>
         <div class="field">
           <%= f.label :Colonia , :id => "colonia2"%><br />
@@ -260,8 +260,5 @@
     format: 'dd/MM/yyyy hh:mm:ss',
     language: 'es'
   });
-  $(document).ready(function() {
-    /* Activating Best In Place */
-    jQuery("#new_file").fileupload();
-  });
 </script>
+

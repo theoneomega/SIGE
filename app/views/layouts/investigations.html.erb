@@ -141,6 +141,10 @@
         <% if can? :index, Statistic %>
             <li><%= link_to "<i class='fa fa-bar-chart'></i> Estadisticas".html_safe, statistics_path %></li>
         <% end %>
+
+        <% if can? :index, ErrorReport %>
+            <li><%= link_to "<i class='fa fa-ambulance'></i> Reporte de errores".html_safe, error_reports_path %></li>
+        <% end %>
     <% end %>
     <%if signed_in? and current_user.role.super_admin==true%>
         <a href="#catalogos-administrador-menu" class="nav-header" data-toggle="collapse"><i class="icon-warning-sign"></i>Catalogos</a>

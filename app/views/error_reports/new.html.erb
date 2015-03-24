@@ -1,0 +1,11 @@
+<%content_for :breadcrumb do%>
+  <ul class="breadcrumb">
+    <%if can? :index, ErrorReport%>
+      <li><%=link_to t(:index), error_reports_path%><span class="divider">/</span></li>
+    <%end%>
+    <li class="active"><%=t(:new) + " " + t(:werror_report)%></li>
+  </ul>
+<%end%>
+<%= render 'form' %>
+
+

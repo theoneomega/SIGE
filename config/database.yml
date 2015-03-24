@@ -2,7 +2,16 @@ development:
   adapter: oracle_enhanced
   database: xe
   host: 10.18.114.89
-  username: DIEIDbackup
+  username: sigebackup
+  password: DIEID.2014
+  port: 1521
+  encoding: utf8
+
+production:
+  adapter: oracle_enhanced
+  database: xe
+  host: 10.18.114.89
+  username: sigebackup
   password: DIEID.2014
   port: 1521
   encoding: utf8

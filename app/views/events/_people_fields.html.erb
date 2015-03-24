@@ -21,14 +21,17 @@
           <%= f.text_field :last_name2 %>
         </div>
         <div class="field">
-          <%= f.label :Alias %><br />
+          <%= f.label :alias %><br />
           <%= f.text_field :alias %>
         </div>
 
-        <div class="field">
-          <%= f.label :Fecha_Nacimiento %><br />
-          <%= f.text_field :birth_date, :id => "dp1", :placeholder => "AAAA-MM-DD"%> <i class="icon-th"></i>
+
+        <div class="field input-append date">
+          <%= f.label :birth_date, "Fecha de nacimiento" %><br />
+          <%= f.text_field :birth_date, :placeholder => "DD/MM/AAAA", :class => "datepicker"%>
+          <span class="add-on"><i class="icon-calendar"></i></span>
         </div>
+
 
         <div class="field">
           <%= f.label :Originario %><br />
@@ -61,3 +64,6 @@
     </div>
   </div>
 </div>
+
+
+

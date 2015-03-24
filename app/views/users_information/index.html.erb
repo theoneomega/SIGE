@@ -14,7 +14,8 @@
           <th>Analista</th>
           <th>Eventos asignados</th>
           <th>Oficios asignados</th>
-          <th>Colaboraciones asignados</th>
+          <th>Colaboraciones asignadas</th>
+          <th>Solicitudes electronicas asignadas</th>
           <th>Ultima actividad</th>
           <th>Conectado</th>
           <th>Ultima sesión</th>
@@ -23,9 +24,10 @@
 
       <tbody>
         <% @bitacora.each do |bitacora|%>
-          <% @eventos = Event.where('analyst_id = ? ',  bitacora.user.analyst.id ) %> 
-          <% @oficios = Office.where('analyst_id = ? ', bitacora.user.analyst.id ) %>
-          <% @colaboraciones = Colaboration.where(' analyst_id = ? ',  bitacora.user.analyst.id ) %>
+          <% @eventos = Event.where('analyst_id = ? and status_id != ?',  bitacora.user.analyst.id, 10023 ) %>
+          <% @oficios = Office.where('analyst_id = ? and status_id = ? ', bitacora.user.analyst.id, 10005 ) %>
+          <% @colaboraciones = Colaboration.where(' analyst_id = ? and status_id = ? ',  bitacora.user.analyst.id, 10005 ) %>
+          <% @justicias = JusticeNet.where(' analyst_id = ? and status_id != ? ',  bitacora.user.analyst.id, 10082 ) %>
           <tr>
             <td> 
               <%= bitacora.user.username  %>
@@ -48,6 +50,11 @@
           <%=@colaboraciones.count%>
         </center>
         </td>
+            <td>
+              <center>
+                <%=@justicias.count%>
+              </center>
+            </td>
         <td>
           <%if bitacora.user.activity%>
             <%= I18n.l bitacora.last_activity,:format => "%A, %d %b %Y %H:%M:%S %p" %>
@@ -63,7 +70,7 @@
         <%end%>
         </td>
         <td>
-          <%if !bitacora.user.current_sign_in_at.nil?%>
+          <%if !bitacora.user.current_sign_in_at.nil? %>
             <%= I18n.l bitacora.user.current_sign_in_at, :format => "%A, %d %b %Y %H:%M:%S %p" %>
           <%end%>
         </td>
@@ -75,5 +82,9 @@
   </div>
 
   <br>
+
+
+
+
 
 

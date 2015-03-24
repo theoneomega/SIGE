@@ -77,6 +77,11 @@ es:
       helpdesk:
           problem: Problema
           description: Descripción
+      error_report:
+          user: Usuario
+          line_number: Linea
+          refer_url: Referencia url
+          description: Descripción
           
     models:
       iph_images: Imagenes IPH
@@ -93,11 +98,13 @@ es:
       justice_net: Solicitudes Electronica
       helpdesk: Soporte técnico
       helpdesk_action: Acción
+      error_report: Reporte de error
     
     
         
   account: Cuenta
   whelpdesk: Reporte
+  werror_report: Reporte de errores
   Chelpdesks: Soporte técnico
   Cusers: Usuarios
   Cjustice_nets: Solicitud Electronica
@@ -215,6 +222,7 @@ es:
       messages: &error_messages
   
   Cevents: Eventos
+  Cerror_reports: Reporte de errores
   Ciphs: Informe Policial Homologado
   wiph: Informe Policial Homologado
   Ccolaboration_collection: Colaboraciones
@@ -307,6 +315,13 @@ es:
       Place: Lugar
       Address: Direccion
       Suspect: Sospechoso
+  error_reports:
+    index:
+      id: ID
+      user: Usuario
+      line_number: Linea
+      referer_url: URL referencia
+      description: Descripción
 
 
     people_fields:

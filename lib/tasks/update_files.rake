@@ -1,12 +1,13 @@
 namespace :files do
-  desc "leer archivos pdf del archivo historico en directorio /public"
+  desc "actualizar archivos pdfs"
   task :read_historical => :environment do
-    total = Dir.glob("#{Rails.root}/public/archivo/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/*.pdf",File::FNM_CASEFOLD).count
-    puts "hay #{total} archivos historicos por registrar a la fecha: #{Time.now} \n"
-    row = HistoricalArchive.where(:location => "ARCHIVO MUERTO")
+
+    row = HistoricalArchive.all
     row.each do |r|
       r.destroy
     end
+    total = Dir.glob("#{Rails.root}/public/archivo/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/*.pdf",File::FNM_CASEFOLD).count
+    puts "hay #{total} archivos historicos por registrar a la fecha: #{Time.now} \n"
     Dir.glob("#{Rails.root}/public/archivo/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/**/*.pdf",File::FNM_CASEFOLD) do |filepath|
       `pdftotext #{filepath.gsub(' ','\ ').gsub('(','\(').gsub(')','\)').gsub('&'){'\&'}}`
       if File.read(filepath.gsub('.pdf','.txt')).valid_encoding?

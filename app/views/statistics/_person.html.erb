@@ -13,7 +13,7 @@
           </th>
       <% end %>
 
-      <% if (params[:peventos].present? && params[:ppersonas].present?) %>
+      <% if params[:peventos].present? && params[:ppersonas].present? %>
           <th>Total personas en eventos</th>
       <% end %>
       <% if params[:poficios].present? %>
@@ -150,11 +150,11 @@
   </table>
 </div>
 
-<#% if params[:button] %>
-    <#%= high_chart("chart", @chart) do |c| %>
+<%# if params[:button] %>
+    <%#= high_chart("chart", @chart) do |c| %>
 
-    <#% end %>
-<#% end %>
+    <%# end %>
+<%# end %>
 
 <script>
     $('#example').dataTable({

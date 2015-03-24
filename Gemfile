@@ -1,8 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'simple_search'
-gem 'ruby-plsql'
-
+gem 'whenever'
 gem 'rails', '3.2.18'
 gem 'simple_form'
 gem 'railroady'

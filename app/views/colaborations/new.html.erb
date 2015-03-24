@@ -95,7 +95,7 @@
 
       <div id="datetimepicker" class="input-append date">
         <%= f.label "Fecha de contestacion" %><br />
-        <%= f.text_field :reply_date , :id => "dp2"%>
+        <%= f.text_field :reply_date , :class => "datepicker"%>
         <span class="add-on"><i class="icon-calendar"></i></span>
       </div>
       <div class="field">
@@ -114,7 +114,7 @@
         <%end%>
       </p>
       <div class="form-actions">
-        <%= button_tag( :class => "btn btn-primary", :id=>"guardar") do %>
+        <%= button_tag( :class => "btn btn-primary", :id=>"guardar", :data => {disable_with: "Procesando..." }) do %>
           <i class="icon-save icon-white"> </i> <%=t(:save)+" Colaboracion"%> 
         <% end %>
       </div>
@@ -200,12 +200,27 @@
       $('#dp6').find('.active').removeClass('active');
     });
   });
-
-  $(document).ready(function() {
-    if (true) {
-
-    }
+  $(function() {
+      $('.datepicker').each(function() {
+          $(this).datepicker({
+              language: 'es',
+              format: 'dd/mm/yyyy',
+              todayBtn: 'linked'
+          });
+      });
   });
+
+
+  (function($) {
+      $.fn.datepicker.dates['es'] = {
+          days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+          daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+          daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+          months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+          monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+          today: "Hoy"
+      };
+  }(jQuery));
 </script>
 
 

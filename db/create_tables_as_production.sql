@@ -3,6 +3,7 @@ create table analysts as select * from analysts@dblink_sige_c4 where 1=0;
 create table anb_investigations as select * from anb_investigations@dblink_sige_c4 where 1=0;
 create table areas as select * from areas@dblink_sige_c4 where 1=0;
 create table audits as select * from audits@dblink_sige_c4 where 1=0;
+create table drugs as select * from drugs@dblink_sige_c4 where 1=0;
 create table backup_files as select * from backup_files@dblink_sige_c4 where 1=0;
 create table colaboration_files as select * from colaboration_files@dblink_sige_c4 where 1=0;
 create table colaboration_people as select * from colaboration_people@dblink_sige_c4 where 1=0;
