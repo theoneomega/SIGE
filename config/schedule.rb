@@ -9,8 +9,8 @@ set :environment, "development"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 #
 #
-every :day, :at => "5: pm" do
-  # rake "files:read_colaborations"            # leer archivos pdf de colaboraciones en el directorio /public
+every :day, :at => "2:30 pm" do
+  rake "files:update_files"            # leer archivos pdf de colaboraciones en el directorio /public
   # rake "files:read_events"                   # leer archivos pdf de eventos en el directorio /public
   # rake "files:read_historical"               # leer archivos pdf del archivo historico en directorio /public / read pdf files from public directory
   # rake "files:read_investigations"           # leer archivos pdf de casos en el directorio /public

@@ -4,6 +4,9 @@ capybara-*.html
 /log
 /tmp
 /db/*.sqlite3
+/db/seeds/*
+/db/seeds.rb
+/db/*.sql
 /coverage/
 /nbproject
 /solr
@@ -16,6 +19,7 @@ pickle-email-*.html
 config/initializers/secret_token.rb
 config/secrets.yml
 /solr/
+
 
 ## Environment normalisation:
 /.bundle
