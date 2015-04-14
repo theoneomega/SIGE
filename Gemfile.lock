@@ -14,6 +14,8 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
+    active_median (0.1.2)
+      activerecord
     activemodel (3.2.18)
       activesupport (= 3.2.18)
       builder (~> 3.0.0)
@@ -94,6 +96,8 @@ GEM
     font-awesome-rails (4.3.0.0)
       railties (>= 3.2, < 5.0)
     gmaps4rails (1.5.6)
+    groupdate (2.3.0)
+      activesupport (>= 3)
     highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.9)
@@ -247,6 +251,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  active_median
   activerecord-oracle_enhanced-adapter (~> 1.4.0)
   audited-activerecord
   awesome_nested_fields
@@ -264,6 +269,7 @@ DEPENDENCIES
   devise
   font-awesome-rails
   gmaps4rails (= 1.5.6)
+  groupdate
   i18n-tasks (~> 0.7.8)
   jquery-datatables-rails
   jquery-fileupload-rails

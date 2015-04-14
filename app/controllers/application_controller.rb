@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   def local_request?
     false
   end
-  if Rails.env == "production" or Rails.env == "development" or Rails.env == "local"
+  if Rails.env == "production" or Rails.env == "local"
     rescue_from Exception do |exception|#WORKS
       line_number = exception.backtrace.to_s.split(":in").first.gsub("[\"", "")
       flash[:error] = "Ha ocurrido un error mientras se procesaba su solicitud.  Para mayor infomacion contacte a su administrador de sistema."

@@ -130,15 +130,17 @@
 
           <%#= will_paginate @searches, :container => false, :params => { :search_text => params[:search_text] } %>
         </div>
-        <%= gmaps({
+
+        <%= gmaps(:markers => {:data => @json, options: {clusterer_gridSize: 80, do_clustering: true, clusterer_maxZoom: 80, "rich_marker" => true}}) %>
+        <%#= gmaps({
                           "map_options" => {"auto_zoom" => true},
                           "markers" => {"data" => @json , "options" => {"rich_marker" => true }}
                   })%>
       </form>
     </div>
 <%end%>
-<%if can? :index, Event%>
-    <div class="tab-pane active in" id="investigaciones">
+<%if can? :index, Investigation%>
+    <div class="tab-pane fade in" id="investigaciones">
       <form id="tab5">
         <table class="table  table-hover">
           <thead>
@@ -197,6 +199,7 @@
             <th>Fecha de colaboración</th>
             <th>Recibido via</th>
             <th>Area que solicita</th>
+            <th>Zona</th>
             <th>Estatus</th>
             <th>Fecha de contestacion</th>
             <th>Se contesto via</th>
@@ -210,6 +213,7 @@
                 <td><%= link_to (I18n.l colaboration.colaboration_date, :format => "%d de %B del %Y"), colaboration%></td>
                 <td><%= colaboration.received_for %></td>
                 <td><%= colaboration.requesting_area %></td>
+                <td><%= colaboration.area_description    %></td>
                 <td><%= colaboration.status.description %></td>
                 <%if colaboration.reply_date %>
                     <td><%= I18n.l colaboration.reply_date, :format => " %d/%m/%Y" %></td>
@@ -375,6 +379,7 @@
 </div>
 </div>
 </div>
+</div>
 <script>
     $(function() {
 
@@ -457,3 +462,5 @@
         //alert("Documento cargado");
     });
 </script>
+
+

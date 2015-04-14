@@ -5,18 +5,18 @@
 
 # Example:
 #
-set :environment, "development"
+set :environment, "production"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 #
 #
-every :day, :at => "2:30 pm" do
-  rake "files:update_files"            # leer archivos pdf de colaboraciones en el directorio /public
+# every :day, :at => "5:00 pm" do
+  # rake "files:update_files"            # leer archivos pdf de colaboraciones en el directorio /public
   # rake "files:read_events"                   # leer archivos pdf de eventos en el directorio /public
   # rake "files:read_historical"               # leer archivos pdf del archivo historico en directorio /public / read pdf files from public directory
   # rake "files:read_investigations"           # leer archivos pdf de casos en el directorio /public
   # rake "files:read_justices"                 # leer archivos pdf de justicias en el directorio /public
   # rake "files:read_offices"                  # leer archivos pdf de oficios en el directorio /public
-end
+# end
 
 
 

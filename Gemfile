@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'whenever'
+gem 'chartkick'
+gem 'active_median'
 gem 'rails', '3.2.18'
 gem 'simple_form'
 gem 'railroady'
@@ -56,6 +58,7 @@ gem 'sunspot_solr', '~> 2.0.0'
 gem 'carrierwave'
 gem 'paperclip'
 gem "chartkick"
+gem 'groupdate'
 gem 'i18n-tasks', '~> 0.7.8'
 gem 'jquery-datatables-rails'
 

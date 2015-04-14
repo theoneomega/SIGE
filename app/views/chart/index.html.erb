@@ -1,0 +1,46 @@
+<%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+
+<div class="panel panel-default">
+  <a href="#page-stats" class="panel-heading" data-toggle="collapse">Latest Stats</a>
+  <div id="page-stats" class="panel-collapse panel-body collapse in">
+
+    <%= form_tag '', :id => "charts",  :method => :get do %>
+
+
+        <div class="input-daterange" id="datepicker" >
+          <%= text_field_tag 'inicio', nil, placeholder: 'Fecha de inicio a consultar' , :required => true%>
+          <!--<input type="text" class="input-small" name="start" />-->
+          hasta
+          <%= text_field_tag 'fin', nil, placeholder: 'Fecha final a consultar' , :required => true%>
+          <!--<input type="text" class="input-small" name="end" />-->
+        </div>
+        <%= hidden_field :meses, true %>
+        <%= submit_tag nil, :class => "btn btn-success" %>
+
+    <% end %>
+
+  </div>
+</div>
+<%= debug(@a) %>
+
+
+<% if params[:commit].present? %>
+    <%= pie_chart @a, :discrete => true %>
+
+
+
+    <%#= line_chart @b  %>
+
+<% end %>
+<script>
+    // When the document is ready
+    $(document).ready(function () {
+
+        $('.input-daterange').datepicker({
+            todayBtn: "linked",
+            format: 'dd/mm/yyyy'
+        });
+
+    });
+
+</script>

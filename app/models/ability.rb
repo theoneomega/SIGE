@@ -91,12 +91,13 @@ class Ability
         can [:edit, :update], Investigation, :analyst_id => @user.analyst_id
         can [:read, :show], Search
         can [:read, :update, :index, :show, :create], Event
-        can [:read, :create, :update, :index], Office
+        can [:index, :show, :edit, :create, :update, :read, :modify, :not_assigned, :working, :standby, :waiting, :replied], Office
         can [:read, :show], EventsCollection
         can :observe, Activity
         can [:read, :create, :update, :index], Iph
         can [:machin, :read, :show, :update], Colaboration
 
+        can [:index, :show], JusticeNet
 
         can [:index, :create, :new, :edit, :update], Helpdesk
         can [:finish_report], Helpdesk, :analyst_id => @user.analyst_id

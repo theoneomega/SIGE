@@ -3,11 +3,15 @@ class Event < ActiveRecord::Base
   attr_accessible :locality, :locality_id, :observations, :person_id, :place_id, :priority_id, :source, :status_id, :address
   attr_accessible :suburb, :suspects, :township_id, :vehicle_id, :vehicles, :victims, :weapon_id, :weapons
   attr_accessible :person_attributes,:weapons_attributes, :backup_files_attributes, :vehicles_attributes, :phones_attributes
-  attr_accessible :latitude, :longitude, :gmaps, :tramo_carretero, :searchable, :created_at, :person_count
+  attr_accessible :latitude, :longitude, :gmaps, :tramo_carretero, :searchable, :created_at
   acts_as_gmappable :process_geocoding => false
   
   def gmaps4rails_address
     "#{self.address}, chihuahua"
+  end
+
+  def crime_description
+    self.crime.crime
   end
 
   audited

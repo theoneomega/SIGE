@@ -60,16 +60,6 @@ class StatisticsController < ApplicationController
                total_justices: total_justicias,
                total_person_justices: total_personas_justicias
         }
-        @a = []
-      end
-      @r.each do |s|
-        @a << s[:persons_total]
-      end
-
-      @sum= 0
-
-      if !@a.nil?
-        @a.each { |e| @sum += e }
       end
 
     end

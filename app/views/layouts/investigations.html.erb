@@ -82,11 +82,7 @@
               <i class="icon-caret-down"></i>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to @current_user do%>
-                    <i class="icon-user"></i><%= " "+current_user.analyst.analyst%>
-                <%end%>
-              </li>
-              <li class="divider"></li>
+
               <li><%= link_to destroy_user_session_path,  :method => :delete do%>
                     <i class="icon-signout"></i><%= " Cerrar Sesión "  + current_user.analyst.analyst%>
                 <%end%>

@@ -1,41 +1,41 @@
 <%content_for :breadcrumb do%>
-  <ul class="breadcrumb">
-    <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
-    <li><%=link_to "Oficios", offices_path%><span class="divider">/</span></li>
-    <li class="active"><%=t(:index)%></li>
-  </ul>
+    <ul class="breadcrumb">
+      <li><%=link_to t(:home), root_path %><span class="divider">/</span> </li>
+      <li><%=link_to "Oficios", offices_path%><span class="divider">/</span></li>
+      <li class="active"><%=t(:index)%></li>
+    </ul>
 <%end%>
 <div class="show-details">
   <table class="table table-condensed table-hover">
     <thead>
-      <tr>
-        <th>Prioridad</th>
-        <th>Fecha de oficio</th>
-        <th>Fecha en que se recibio</th>
-        <th>Unidad o area</th>
-        <th>Numero de oficio</th>
-        <th>Asunto</th>
-        <th>Zona</th>
-        <th>Estatus</th>
-        <th>Asignado a</th>
-        <th>Fecha de contestación</th>
-        <th>Numero de oficio <br> <i>(interno)</i></th>
-        <th>Acciones</th>
-      </tr>
-
-      <% @offices.each do |office| %>
+    <tr>
+      <th>Prioridad</th>
+      <th>Fecha de oficio</th>
+      <th>Fecha en que se recibio</th>
+      <th>Unidad o area</th>
+      <th>Numero de oficio</th>
+      <th>Asunto</th>
+      <th>Zona</th>
+      <th>Estatus</th>
+      <th>Asignado a</th>
+      <th>Fecha de contestación</th>
+      <th>Numero de oficio <br> <i>(interno)</i></th>
+      <th></th>
+    </tr>
+    <tbody>
+    <% @offices.each do |office| %>
         <tr>
           <%if office.priority_id==10000%>
-            <td><span class="label label-important"><%= link_to office.priority.description, office %></span></td>
+              <td><span class="label label-important"><%= link_to office.priority.description, office %></span></td>
           <%elsif office.priority_id==10001%>
-            <td><span class="label label-warning"><%= link_to office.priority.description, office %></span></td>
+              <td><span class="label label-warning"><%= link_to office.priority.description, office %></span></td>
           <%else%>
-            <td><span class="label label-inverse"><%= link_to office.priority.description, office %></span></td>
+              <td><span class="label label-inverse"><%= link_to office.priority.description, office %></span></td>
           <%end%>
           <%if office.office_date%>
-            <td><%= I18n.l office.office_date, :format => " %d/%m/%Y"  %></td>
+              <td><%= I18n.l office.office_date, :format => " %d/%m/%Y"  %></td>
           <%else%>
-            <td></td>
+              <td></td>
           <%end%>
           <td><%= I18n.l office.received_date, :format => " %d/%m/%Y" %></td>
           <td><%= office.requesting_area %></td>
@@ -44,14 +44,14 @@
           <td><%= office.area.description %></td>
           <td><%= office.status.description %></td>
           <%if office.analyst%>
-            <td><%= office.analyst.analyst %></td>
+              <td><%= office.analyst.analyst %></td>
           <%else%>
-            <td>Sin asignar</td>
+              <td>Sin asignar</td>
           <%end%>
           <%if office.replied_date%>
-            <td><%= I18n.l office.replied_date, :format => " %d/%m/%Y"  %></td>
+              <td><%= I18n.l office.replied_date, :format => " %d/%m/%Y"  %></td>
           <%else%>
-            <td> Sin responder</td>
+              <td> Sin responder</td>
           <%end%>
           <td><%= office.office_number %></td>
           <td>
@@ -60,30 +60,47 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" title='<%=t(:actions)%>'><i class="icon-cog"></i>&nbsp;<i class="icon-caret-down"></i></a>
                 <ul class="dropdown-menu">
                   <%if can? :assign, Office %>
-                    <%if office.status_id == 10005 or office.status_id == 10003 %>
-                      <li><%= link_to 'Reasignar', assign_path(office) %></li>
-                    <%else %>
-                      <li><%= link_to 'Asignar', assign_path(office) %></li>
-                    <%end%>
+                      <%if office.status_id == 10005 or office.status_id == 10003 %>
+                          <li><%= link_to 'Reasignar', assign_path(office) %></li>
+                      <%else %>
+                          <li><%= link_to 'Asignar', assign_path(office) %></li>
+                      <%end%>
                   <%end%>
                   <%if can? :show, Office%>
-                    <li><%= link_to 'Mostrar', office %></li>
+                      <li><%= link_to 'Mostrar', office %></li>
                   <%end%>
                   <%if can? :modify, Office%>
-                    <li><%= link_to 'Editar', edit_office_path(office) %></li>
+                      <li><%= link_to 'Editar', edit_office_path(office) %></li>
                   <%end%>
                   <%if can? :destroy, Office%>
-                    <li><%= link_to 'Eliminar', office, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+                      <li><%= link_to 'Eliminar', office, method: :delete, data: { confirm: 'Are you sure?' } %></li>
                   <%end%>
                 </ul>
               </li>
             </ul>
           </td>
         </tr>
-      <% end %>
+    <% end %>
+    </tbody>
   </table>
 </div>
 <br />
 <%if can? :create, Office%>
-  <%= link_to 'Registrar Oficio', new_office_path, :class => "btn btn-primary" %>
+    <%= link_to 'Registrar Oficio', new_office_path, :class => "btn btn-primary" %>
 <%end%>
+
+<script>
+    $('.table').DataTable({
+        "language": {
+            "sUrl": "/assets/spanish.json"
+        },
+        "columnDefs": [
+            {
+                "targets": [ 2 ],
+                "visible": true,
+                "searchable": true
+            }]
+
+    });
+
+</script>

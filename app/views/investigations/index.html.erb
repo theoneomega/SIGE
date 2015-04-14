@@ -68,3 +68,22 @@
 </div>
 <br />
 <%=link_to t(:new)+" Caso", new_investigation_path, :class => "btn btn-primary"%>
+
+
+<script>
+    $('.table').DataTable({
+        "scrollY": "500px",
+        "scrollX": true,
+        "language": {
+            "sUrl": "/assets/spanish.json"
+        },
+        "columnDefs": [
+            {
+                "targets": [ 2 ],
+                "visible": false,
+                "searchable": true
+            }]
+
+    });
+
+</script>

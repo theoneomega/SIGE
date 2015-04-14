@@ -163,7 +163,7 @@
         <% if @colaboration.status_id == 10007 %>
             <%if can? :send, Colaboration%>
                 <%= link_to  send_colaboration_path(@colaboration), :class => "btn btn-success" do  %>
-                    <i class="icon-envelope-alt"></i> Enivar
+                    <i class="icon-envelope-alt"></i> Enviar
                 <%end%> |
             <%end%>
         <% end %>

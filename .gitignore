@@ -1,4 +1,7 @@
+.idea/*
+.sass-cache/*
 *.rbc
+*.sql
 capybara-*.html
 .rspec
 /log
@@ -8,7 +11,7 @@ capybara-*.html
 /db/seeds.rb
 /db/*.sql
 /coverage/
-/nbproject
+/nbproject      
 /solr
 /public
 /spec/tmp

@@ -35,9 +35,9 @@
               <td><%= label error_report.id, error_report.id, :class => 'btn btn-mini', :title => "mostrar" %></td>
           <%end%>
           <td><%= error_report.user %></td>
-          <td><%= error_report.line_number %></td>
-          <td><%= error_report.referrer_url %></td>
-          <td><%= error_report.description %></td>
+          <td><%= error_report.line_number.truncate(100) %></td>
+          <td><%= error_report.referrer_url.truncate(50) if error_report.referrer_url %></td>
+          <td><%= error_report.description.truncate(100) %></td>
           <td>
             <ul class="nav nav-pills">
               <li class="dropdown">

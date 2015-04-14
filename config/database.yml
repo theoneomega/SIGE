@@ -1,20 +1,20 @@
-development:
-  adapter: oracle_enhanced
-  database: xe
-  host: 10.18.114.89
-  username: sigebackup
-  password: DIEID.2014
-  port: 1521
-  encoding: utf8
+#development:
+#  adapter: oracle_enhanced
+#  database: xe
+#  host: 10.18.114.89
+#  username: sigebackup
+#  password: DIEID.2014
+#  port: 1521
+#  encoding: utf8
 
-production:
-  adapter: oracle_enhanced
-  database: xe
-  host: 10.18.114.89
-  username: sigebackup
-  password: DIEID.2014
-  port: 1521
-  encoding: utf8
+#development:
+#  adapter: oracle_enhanced
+#  database: xe
+#  host: 10.18.114.89
+#  username: sigebackup
+#  password: DIEID.2014
+#  port: 1521
+#  encoding: utf8
 
 #development:
 #  adapter: oracle_enhanced
@@ -24,8 +24,8 @@ production:
 #  password: dieid.2014
 #  port: 1521
 #  encoding: utf8
-#
-#
+
+
 #production:
 #  adapter: oracle_enhanced
 #  database: xe
@@ -35,15 +35,14 @@ production:
 #  port: 1521
 #  encoding: utf8
 
-
-#production:
-#  adapter: oracle_enhanced
-#  database: orcl.localdomain
-  #  host: 10.18.116.206
-#  username: DIEIDprod
-#  password: DIEID.2013
-#  port: 1521
-#  encoding: utf8
+development:
+  adapter: oracle_enhanced
+  database: orcl.localdomain
+  host: 10.18.116.206
+  username: DIEIDprod
+  password: DIEID.2013
+  port: 1521
+  encoding: utf8
 
 #backup:
 #  adapter: oracle_enhanced
@@ -62,5 +61,3 @@ production:
 #  password: DIEID.2013
 #  port: 1521
 #  encoding: utf8
-
-
